@@ -4,16 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class LoginView extends JFrame {
+public class RegisterView extends JFrame {
     private JPanelBackground jpBackground;
     private JButton jbLogin;
     private JButton jbRegister;
-
     private JTextField jtUsername;
     private JPasswordField jpPassword;
 
-    public LoginView(){
-        setTitle("Login");
+
+    public RegisterView(){
+        setTitle("Register");
         setSize(500, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -21,17 +21,18 @@ public class LoginView extends JFrame {
 
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
-        jpBackground.setBackground("F:\\Documentos\\auniversidad\\3\\DPOO\\2nSemestre\\Proyecto2\\SmartPiano\\SmartPiano_client\\images\\loginForm.png");
-
-        jbLogin = new JButton();
-        setButtonInvisible(jbLogin);
-        jbLogin.setBounds(100, 275, 285, 45);
-        jpBackground.add(jbLogin);
+        jpBackground.setBackground("F:\\Documentos\\auniversidad\\3\\DPOO\\2nSemestre\\Proyecto2\\SmartPiano\\SmartPiano_client\\images\\registerForm.png");
 
         jbRegister = new JButton();
         setButtonInvisible(jbRegister);
-        jbRegister.setBounds(266, 396, 77, 16);
+        jbRegister.setBounds(100, 275, 285, 45);
         jpBackground.add(jbRegister);
+
+        jbLogin = new JButton();
+        setButtonInvisible(jbLogin);
+        jbLogin.setBounds(266, 396, 77, 16);
+        jpBackground.add(jbLogin);
+
 
         jtUsername = new JTextField();
         jtUsername.setBounds(154, 156, 233, 45);
@@ -44,8 +45,6 @@ public class LoginView extends JFrame {
         jpPassword.setOpaque(false);
         jpPassword.setBorder(null);
         jpBackground.add(jpPassword);
-
-
 
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
@@ -60,8 +59,5 @@ public class LoginView extends JFrame {
     public void registerController(ActionListener a){
         jbLogin.addActionListener(a);
         jbLogin.setActionCommand("LOGIN/login");
-
-        jbRegister.addActionListener(a);
-        jbRegister.setActionCommand("LOGIN/register");
     }
 }
