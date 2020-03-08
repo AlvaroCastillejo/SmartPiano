@@ -3,6 +3,8 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
 
 public class RegisterView extends JFrame {
     private JPanelBackground jpBackground;
@@ -21,7 +23,8 @@ public class RegisterView extends JFrame {
 
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
-        jpBackground.setBackground("F:\\Documentos\\auniversidad\\3\\DPOO\\2nSemestre\\Proyecto2\\SmartPiano\\SmartPiano_client\\images\\registerForm.png");
+        String f = new File("").getAbsolutePath();
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\registerForm.png"));
 
         jbRegister = new JButton();
         setButtonInvisible(jbRegister);

@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class LoginView extends JFrame {
     private JPanelBackground jpBackground;
@@ -21,7 +22,8 @@ public class LoginView extends JFrame {
 
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
-        jpBackground.setBackground("F:\\Documentos\\auniversidad\\3\\DPOO\\2nSemestre\\Proyecto2\\SmartPiano\\SmartPiano_client\\images\\loginForm.png");
+        String f = new File("").getAbsolutePath();
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\loginForm.png"));
 
         jbLogin = new JButton();
         setButtonInvisible(jbLogin);
