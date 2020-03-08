@@ -58,6 +58,9 @@ public class RegisterView extends JFrame {
 
     public void registerController(ActionListener a){
         jbLogin.addActionListener(a);
-        jbLogin.setActionCommand("LOGIN/login");
+        jbLogin.setActionCommand("REGISTER/login");
+
+        jbRegister.addActionListener(a);
+        jbRegister.setActionCommand("REGISTER/register");
     }
 }

@@ -19,10 +19,10 @@ public class RegisterController implements ActionListener {
         String command = actionEvent.getActionCommand();
 
         switch(command){
-            case "LOGIN/register":
+            case "REGISTER/register":
                 System.out.println("REGISTER");
                 break;
-            case "LOGIN/login":
+            case "REGISTER/login":
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
                     LoginView v = new LoginView();
