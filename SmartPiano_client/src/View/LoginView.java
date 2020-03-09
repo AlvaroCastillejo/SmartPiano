@@ -47,8 +47,6 @@ public class LoginView extends JFrame {
         jpPassword.setBorder(null);
         jpBackground.add(jpPassword);
 
-
-
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
