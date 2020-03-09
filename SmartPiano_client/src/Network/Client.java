@@ -38,9 +38,27 @@ public class Client extends Thread {
             while (isRunning){
                 String action = dis.readUTF();
                 String[] elements = action.split("/");
-
-                switch (elements[0]){
-
+                String command = elements[0];
+                action = elements[1];
+                switch (command){
+                    case "SEND_INFO":
+                        switch (action){
+                            case "getLoggingUserCredentials":
+                                dos.writeUTF(this.controller.getUserCredentials());
+                                break;
+                        }
+                        break;
+                    case "LOGIN":
+                        switch (action){
+                            case "logged":
+                                System.out.println("LOGGED!!!!!!!");
+                                controller.logged(true);
+                                break;
+                            case "failed":
+                                System.out.println("NOOOOOO");
+                                controller.logged(false);
+                                break;
+                        }
                 }
             }
         } catch (IOException e) {

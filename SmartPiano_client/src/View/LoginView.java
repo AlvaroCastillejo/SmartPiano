@@ -64,4 +64,12 @@ public class LoginView extends JFrame {
         jbRegister.addActionListener(a);
         jbRegister.setActionCommand("LOGIN/register");
     }
+
+    public String getUsername() {
+        return jtUsername.getText();
+    }
+
+    public String getPassword() {
+        return String.valueOf(jpPassword.getPassword());
+    }
 }

@@ -1,5 +1,8 @@
 package Network;
 
+import Model.LoginManager;
+import Model.User;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -34,9 +37,21 @@ public class DedicatedServer extends Thread {
                 String[] elements = action.split("/");
                 action = elements[1];
                 String command = elements[0];
-
+                //LOGIN/tryLogin
                 switch (command){
-
+                    case "LOGIN":
+                        switch (action){
+                            case "tryLogin":
+                                sendAction("SEND_INFO/getLoggingUserCredentials");
+                                String info = dis.readUTF();
+                                if(LoginManager.checkLoging(new User(info.split("/")[0], info.split("/")[1]))){
+                                    sendAction("LOGIN/logged");
+                                } else {
+                                    sendAction("LOGIN/failed");
+                                }
+                                break;
+                        }
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -46,8 +61,7 @@ public class DedicatedServer extends Thread {
 
     public void sendAction(String action){
         try{
-            String toSend = "action/".concat(action);
-            dos.writeUTF(toSend);
+            dos.writeUTF(action);
         } catch (IOException e) {
             e.printStackTrace();
         }

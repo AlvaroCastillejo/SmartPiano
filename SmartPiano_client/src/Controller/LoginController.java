@@ -47,4 +47,25 @@ public class LoginController implements ActionListener {
 
 
     }
+
+    public String getUserCredentials() {
+        return v.getUsername().concat("/").concat(v.getPassword());
+    }
+
+    public void logged(boolean logged) {
+        if(logged){
+            v.setVisible(false);
+            SwingUtilities.invokeLater(() -> {
+                //Show MainMenu View
+            });
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                v.setVisible(false);
+                RegisterView v = new RegisterView();
+                RegisterController c = new RegisterController(v);
+                v.registerController(c);
+                v.setVisible(true);
+            });
+        }
+    }
 }
