@@ -1,5 +1,6 @@
 package Controller;
 
+import Network.Client;
 import View.LoginView;
 import View.RegisterView;
 
@@ -9,9 +10,12 @@ import java.awt.event.ActionListener;
 
 public class RegisterController implements ActionListener {
     private RegisterView v;
+    private Client client;
 
-    public RegisterController(RegisterView v){
+    public RegisterController(RegisterView v, Client client){
         this.v = v;
+        this.client = client;
+        client.assignRegisterController(this);
     }
 
     @Override
@@ -35,5 +39,11 @@ public class RegisterController implements ActionListener {
 
 
 
+    }
+
+    public void registered(boolean b) {
+        if (b){
+            v.setVisible(false);
+        }
     }
 }

@@ -33,7 +33,7 @@ public class LoginController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
                     RegisterView v = new RegisterView();
-                    RegisterController c = new RegisterController(v);
+                    RegisterController c = new RegisterController(v, client);
                     v.registerController(c);
                     v.setVisible(true);
                 });
@@ -62,7 +62,7 @@ public class LoginController implements ActionListener {
             SwingUtilities.invokeLater(() -> {
                 v.setVisible(false);
                 RegisterView v = new RegisterView();
-                RegisterController c = new RegisterController(v);
+                RegisterController c = new RegisterController(v, client);
                 v.registerController(c);
                 v.setVisible(true);
             });

@@ -1,6 +1,7 @@
 package Network;
 
 import Controller.LoginController;
+import Controller.RegisterController;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,18 +15,23 @@ public class Client extends Thread {
     private boolean isRunning;
     private int id;
 
-    private LoginController controller;
+    private LoginController loginController;
+    private RegisterController registerController;
 
     private DataOutputStream dos;
     private DataInputStream dis;
 
 
-    public Client(LoginController controller) throws IOException {
-        this.controller = controller;
+    public Client(LoginController loginController) throws IOException {
+        this.loginController = loginController;
         Socket socket = new Socket(IP, PORT);
         dos = new DataOutputStream(socket.getOutputStream());
         dis = new DataInputStream(socket.getInputStream());
         id = -1;
+    }
+
+    public void assignRegisterController(RegisterController registerController){
+        this.registerController = registerController;
     }
 
     public void startServerConnection(){
@@ -45,7 +51,7 @@ public class Client extends Thread {
                     case "SEND_INFO":
                         switch (action){
                             case "getLoggingUserCredentials":
-                                dos.writeUTF(this.controller.getUserCredentials());
+                                dos.writeUTF(this.loginController.getUserCredentials());
                                 break;
                         }
                         break;
@@ -53,13 +59,27 @@ public class Client extends Thread {
                         switch (action){
                             case "logged":
                                 System.out.println("LOGGED!!!!!!!");
-                                controller.logged(true);
+                                loginController.logged(true);
                                 break;
                             case "failed":
                                 System.out.println("NOOOOOO");
-                                controller.logged(false);
+                                loginController.logged(false);
                                 break;
                         }
+                        break;
+
+                    case "REGISTER":
+                        switch (action){
+                            case "registered":
+                                System.out.println("You are now one of us!");
+                                registerController.registered(true);
+                                break;
+                            case "failed":
+                                System.out.println("This user already exists");
+                                registerController.registered(false);
+                                break;
+                        }
+
                 }
             }
         } catch (IOException e) {
@@ -78,4 +98,6 @@ public class Client extends Thread {
             e.printStackTrace();
         }
     }
+
+
 }
