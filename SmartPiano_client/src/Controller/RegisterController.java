@@ -24,6 +24,7 @@ public class RegisterController implements ActionListener {
 
         switch(command){
             case "REGISTER/register":
+                client.sendAction("REGISTER/tryRegister");
                 System.out.println("REGISTER");
                 break;
             case "REGISTER/login":
@@ -45,5 +46,9 @@ public class RegisterController implements ActionListener {
         if (b){
             v.setVisible(false);
         }
+    }
+
+    public String getRegisterCredentials() {
+        return v.getUsername().concat("/" + (v.getMail().concat("/" + v.getPassword())));
     }
 }

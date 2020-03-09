@@ -1,6 +1,7 @@
 package Network;
 
 import Model.LoginManager;
+import Model.RegisterManager;
 import Model.User;
 
 import java.io.DataInputStream;
@@ -37,7 +38,7 @@ public class DedicatedServer extends Thread {
                 String[] elements = action.split("/");
                 action = elements[1];
                 String command = elements[0];
-                //LOGIN/tryLogin
+                //REGISTER/tryRegister
                 switch (command){
                     case "LOGIN":
                         switch (action){
@@ -48,6 +49,21 @@ public class DedicatedServer extends Thread {
                                     sendAction("LOGIN/logged");
                                 } else {
                                     sendAction("LOGIN/failed");
+                                }
+                                break;
+                        }
+                        break;
+                    case "REGISTER":
+                        switch (action){
+                            case "tryRegister":
+                                sendAction("SEND_INFO/getRegisterUserCredentials");
+                                String info = dis.readUTF();
+                                String[] credentials = info.split("/");
+                                User r = new User(credentials[0], credentials[1], credentials[2]);
+                                if(RegisterManager.userAlreadyRegistered(r) == 0){
+                                    sendAction("REGISTER/registered");
+                                } else {
+                                    sendAction("REGISTER/failed=".concat(String.valueOf(RegisterManager.userAlreadyRegistered(r))));
                                 }
                                 break;
                         }

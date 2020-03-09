@@ -53,6 +53,9 @@ public class Client extends Thread {
                             case "getLoggingUserCredentials":
                                 dos.writeUTF(this.loginController.getUserCredentials());
                                 break;
+                            case "getRegisterUserCredentials":
+                                dos.writeUTF(this.registerController.getRegisterCredentials());
+                                break;
                         }
                         break;
                     case "LOGIN":
@@ -74,8 +77,12 @@ public class Client extends Thread {
                                 System.out.println("You are now one of us!");
                                 registerController.registered(true);
                                 break;
-                            case "failed":
+                            case "failed=1":
                                 System.out.println("This user already exists");
+                                registerController.registered(false);
+                                break;
+                            case "failed=2":
+                                System.out.println("This mail already exists");
                                 registerController.registered(false);
                                 break;
                         }

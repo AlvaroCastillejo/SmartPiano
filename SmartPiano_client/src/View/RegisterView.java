@@ -74,4 +74,16 @@ public class RegisterView extends JFrame {
         jbRegister.addActionListener(a);
         jbRegister.setActionCommand("REGISTER/register");
     }
+
+    public String getUsername(){
+        return jtUsername.getText();
+    }
+
+    public String getMail(){
+        return jtMail.getText();
+    }
+
+    public String getPassword(){
+        return String.valueOf(jpPassword.getPassword());
+    }
 }

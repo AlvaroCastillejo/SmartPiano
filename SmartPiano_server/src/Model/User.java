@@ -2,10 +2,17 @@ package Model;
 
 public class User {
     private String username;
+    private String mail;
     private String password;
 
     public User(String username, String password) {
         this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String mail, String password){
+        this.username = username;
+        this.mail = mail;
         this.password = password;
     }
 
@@ -21,7 +28,15 @@ public class User {
         return password;
     }
 
-    public void setPassword(char[] password) {
-        this.password = String.valueOf(password);
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
