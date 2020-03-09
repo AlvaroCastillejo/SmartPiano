@@ -13,7 +13,7 @@ public class RegisterView extends JFrame {
     private JTextField jtUsername;
     private JTextField jtMail;
     private JPasswordField jpPassword;
-
+    private JLabel jlError;
 
 
     public RegisterView(){
@@ -38,7 +38,6 @@ public class RegisterView extends JFrame {
         jbLogin.setBounds(266, 396, 77, 16);
         jpBackground.add(jbLogin);
 
-
         jtUsername = new JTextField();
         jtUsername.setBounds(154, 130, 233, 45);
         jtUsername.setOpaque(false);
@@ -56,6 +55,11 @@ public class RegisterView extends JFrame {
         jpPassword.setOpaque(false);
         jpPassword.setBorder(null);
         jpBackground.add(jpPassword);
+
+        jlError = new JLabel();
+        //JButton jbTest = new JButton();
+        jlError.setBounds(120, 420, 233, 40);
+        jpBackground.add(jlError);
 
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
@@ -85,5 +89,9 @@ public class RegisterView extends JFrame {
 
     public String getPassword(){
         return String.valueOf(jpPassword.getPassword());
+    }
+
+    public void showError(String error) {
+        jlError.setText(error);
     }
 }

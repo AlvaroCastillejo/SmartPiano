@@ -51,4 +51,8 @@ public class RegisterController implements ActionListener {
     public String getRegisterCredentials() {
         return v.getUsername().concat("/" + (v.getMail().concat("/" + v.getPassword())));
     }
+
+    public void showError(String error) {
+        v.showError(error);
+    }
 }

@@ -80,10 +80,12 @@ public class Client extends Thread {
                                 break;
                             case "failed=1":
                                 System.out.println("This user already exists");
+                                registerController.showError("This user already exists");
                                 registerController.registered(false);
                                 break;
                             case "failed=2":
                                 System.out.println("This mail already exists");
+                                registerController.showError("This mail already exists");
                                 registerController.registered(false);
                                 break;
                         }
