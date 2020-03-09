@@ -20,19 +20,23 @@ public class LoginManager {
             line = bufferedReader.readLine();
             userAmount = Integer.parseInt(line);
 
-            for(int i = 0; i < userAmount; i++){
-                line = bufferedReader.readLine();
-                if(line.equals(user.getUsername())){
+            for(int i = 0; true; i++){
+                try{
                     line = bufferedReader.readLine();
-                    if(line.equals(user.getPassword())) {
-                        correct = true;
-                        break;
+                    if(line.equals(user.getUsername())){
+                        line = bufferedReader.readLine();
+                        line = bufferedReader.readLine();
+                        if(line.equals(user.getPassword())) {
+                            correct = true;
+                            break;
+                        }
+                    } else {
+                        line = bufferedReader.readLine();
                     }
-                } else {
-                    line = bufferedReader.readLine();
+                } catch (IOException | NullPointerException e){
+                    break;
                 }
             }
-
             bufferedReader.close();
         }
         catch(FileNotFoundException ex){

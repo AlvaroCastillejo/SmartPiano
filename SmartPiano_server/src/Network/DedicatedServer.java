@@ -59,11 +59,12 @@ public class DedicatedServer extends Thread {
                                 sendAction("SEND_INFO/getRegisterUserCredentials");
                                 String info = dis.readUTF();
                                 String[] credentials = info.split("/");
-                                User r = new User(credentials[0], credentials[1], credentials[2]);
-                                if(RegisterManager.userAlreadyRegistered(r) == 0){
+                                User user = new User(credentials[0], credentials[1], credentials[2]);
+                                if(RegisterManager.userAlreadyRegistered(user) == 0){
+                                    RegisterManager.registerUser(user);
                                     sendAction("REGISTER/registered");
                                 } else {
-                                    sendAction("REGISTER/failed=".concat(String.valueOf(RegisterManager.userAlreadyRegistered(r))));
+                                    sendAction("REGISTER/failed=".concat(String.valueOf(RegisterManager.userAlreadyRegistered(user))));
                                 }
                                 break;
                         }
