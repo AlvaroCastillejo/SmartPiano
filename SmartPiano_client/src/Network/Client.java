@@ -15,6 +15,7 @@ public class Client extends Thread {
     private int id;
 
     private LoginController controller;
+
     private DataOutputStream dos;
     private DataInputStream dis;
 
