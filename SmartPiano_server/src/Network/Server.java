@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server {
+public class Server extends Thread {
     private static final int PORT = 12345;
     private ServerSocket serverSocket;
 
@@ -17,7 +17,8 @@ public class Server {
         serverSocket = null;
     }
 
-    public void startServer(){
+    @Override
+    public void run(){
         try {
             serverSocket = new ServerSocket(PORT);
             isRunning = true;
