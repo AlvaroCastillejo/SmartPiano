@@ -8,7 +8,7 @@ public class Main_server {
         Server server = new Server();
         server.start();
 
-        SQLOperations  sqlOperations = new SQLOperations();
+        SQLOperations sqlOperations = new SQLOperations();
         try{
             sqlOperations.ImportaUsuari("admin", "admin", "admin");
         } catch (SQLException e) {

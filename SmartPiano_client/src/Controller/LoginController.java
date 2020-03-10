@@ -2,6 +2,7 @@ package Controller;
 
 import Network.Client;
 import View.LoginView;
+import View.MainMenuView;
 import View.RegisterView;
 
 import javax.swing.*;
@@ -56,7 +57,8 @@ public class LoginController implements ActionListener {
         if(logged){
             v.setVisible(false);
             SwingUtilities.invokeLater(() -> {
-                //Show MainMenu View
+                MainMenuView v = new MainMenuView();
+                v.setVisible(true);
             });
         } else {
             SwingUtilities.invokeLater(() -> {

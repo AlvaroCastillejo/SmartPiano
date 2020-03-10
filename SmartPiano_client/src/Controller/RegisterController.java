@@ -37,9 +37,6 @@ public class RegisterController implements ActionListener {
                 });
                 break;
         }
-
-
-
     }
 
     public void registered(boolean b) {
