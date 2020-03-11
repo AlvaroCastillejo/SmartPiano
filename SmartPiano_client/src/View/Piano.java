@@ -1,11 +1,17 @@
 package View;
 
+import Controller.PianoController;
+
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class Piano extends JFrame {
 
-    public Piano() {
+    public Piano(ActionListener a) {
         setSize(856, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -19,11 +25,11 @@ public class Piano extends JFrame {
         int j = 0;
         //las teclas normals
         for (int i = 0; i < 21; i++) {
-            key[j] = generateKey(i);
+            key[j] = generateKey(i, a);
             keyBoard.add(key[j], 0, -1);
             j += 1;
             if (i % 7 != 2 && i % 7 != 6) {
-                key[j] = generateSustKey(i);
+                key[j] = generateSustKey(i, a);
                 keyBoard.add(key[j], 1, -1);
                 j += 1;
             }
@@ -102,7 +108,7 @@ public class Piano extends JFrame {
         getContentPane().setBackground(Color.LIGHT_GRAY);
     }
 
-    private JButton generateKey(int i)
+    private JButton generateKey(int i, ActionListener a)
     {
         JButton key = new JButton();
         key.setBackground(Color.WHITE);
@@ -110,10 +116,14 @@ public class Piano extends JFrame {
         key.setOpaque(true);
         key.setLocation(i*40,0);
         key.setSize(40, 200);
+
+        key.addActionListener(a);
+        key.setActionCommand("w/".concat(String.valueOf(i)));
+
         return key;
     }
 
-    private JButton generateSustKey(int i)
+    private JButton generateSustKey(int i, ActionListener a)
     {
         JButton sustKey = new JButton();
         sustKey.setBackground(Color.BLACK);
@@ -122,16 +132,21 @@ public class Piano extends JFrame {
         sustKey.setLocation(25 + i*40,0);
         sustKey.setSize(30, 125);
 
+        sustKey.addActionListener(a);
+        sustKey.setActionCommand("b/".concat(String.valueOf(i)));
+
         return sustKey;
     }
 
     public static void main(String[] args) {
 
-        Piano piano = new Piano();
+        PianoController c = new PianoController();
+        Piano piano = new Piano(c);
+        c.setView(piano);
         piano.setVisible(true);
 
-
     }
+
 
 }
 
