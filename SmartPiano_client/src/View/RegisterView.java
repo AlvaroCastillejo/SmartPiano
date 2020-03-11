@@ -16,6 +16,7 @@ public class RegisterView extends JFrame {
     private JPasswordField jpPassword;
     private JLabel jlError;
 
+    private int offset;
 
     public RegisterView(){
         setTitle("Register");
@@ -24,6 +25,12 @@ public class RegisterView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
+        if(System.getProperty("os.name").equals("mac")){
+            offset = 10;
+        } else {
+            offset = 0;
+        }
+
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
         String f = new File("").getAbsolutePath();
@@ -31,35 +38,35 @@ public class RegisterView extends JFrame {
 
         jbRegister = new JButton();
         setButtonInvisible(jbRegister);
-        jbRegister.setBounds(100, 310, 285, 45);
+        jbRegister.setBounds(100, 310+offset, 285, 45);
         jpBackground.add(jbRegister);
 
         jbLogin = new JButton();
         setButtonInvisible(jbLogin);
-        jbLogin.setBounds(266, 396, 77, 16);
+        jbLogin.setBounds(266, 396+offset, 77, 16);
         jpBackground.add(jbLogin);
 
         jtUsername = new JTextField();
-        jtUsername.setBounds(154, 130, 233, 45);
+        jtUsername.setBounds(154, 130+offset, 233, 45);
         jtUsername.setOpaque(false);
         jtUsername.setBorder(null);
         jpBackground.add(jtUsername);
 
         jtMail = new JTextField();
-        jtMail.setBounds(154, 190, 233, 45);
+        jtMail.setBounds(154, 190+offset, 233, 45);
         jtMail.setOpaque(false);
         jtMail.setBorder(null);
         jpBackground.add(jtMail);
 
         jpPassword = new JPasswordField();
-        jpPassword.setBounds(154, 250, 233, 45);
+        jpPassword.setBounds(154, 250+offset, 233, 45);
         jpPassword.setOpaque(false);
         jpPassword.setBorder(null);
         jpBackground.add(jpPassword);
 
         jlError = new JLabel();
         //JButton jbTest = new JButton();
-        jlError.setBounds(120, 420, 233, 40);
+        jlError.setBounds(120, 420+offset, 233, 40);
         jpBackground.add(jlError);
 
         getContentPane().add(jpBackground, BorderLayout.CENTER);

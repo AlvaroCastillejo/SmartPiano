@@ -11,7 +11,6 @@ public class Main_client {
             LoginController c = new LoginController(v);
             v.registerController(c);
             v.setVisible(true);
-        }
-        );
+        });
     }
 }

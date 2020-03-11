@@ -9,9 +9,10 @@ public class Piano extends JFrame {
         setSize(856, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //no funciona el JPanel..
-        JLayeredPane keyBoard = new JLayeredPane();
         getContentPane().setLayout(null);
+        setResizable(false);
+
+        JLayeredPane keyBoard = new JLayeredPane();
 
         // total de tecles
         JButton[] key = new JButton[36];
