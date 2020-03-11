@@ -10,8 +10,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Piano extends JFrame {
+    private PianoController pianoController;
+    private JButton[] keys;
 
-    public Piano(ActionListener a) {
+
+    public Piano(PianoController a) {
+        this.pianoController = a;
+
         setSize(856, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -21,16 +26,16 @@ public class Piano extends JFrame {
         JLayeredPane keyBoard = new JLayeredPane();
 
         // total de tecles
-        JButton[] key = new JButton[36];
+        keys = new JButton[36];
         int j = 0;
         //las teclas normals
         for (int i = 0; i < 21; i++) {
-            key[j] = generateKey(i, a);
-            keyBoard.add(key[j], 0, -1);
+            keys[j] = generateKey(i);
+            keyBoard.add(keys[j], 0, -1);
             j += 1;
             if (i % 7 != 2 && i % 7 != 6) {
-                key[j] = generateSustKey(i, a);
-                keyBoard.add(key[j], 1, -1);
+                keys[j] = generateSustKey(i);
+                keyBoard.add(keys[j], 1, -1);
                 j += 1;
             }
         }
@@ -106,10 +111,11 @@ public class Piano extends JFrame {
         getContentPane().add(verticalDivider6);
         getContentPane().add(verticalDivider7);
         getContentPane().setBackground(Color.LIGHT_GRAY);
+
+        assignControllers();
     }
 
-    private JButton generateKey(int i, ActionListener a)
-    {
+    private JButton generateKey(int i){
         JButton key = new JButton();
         key.setBackground(Color.WHITE);
         //key.setBorderPainted(true);
@@ -117,14 +123,17 @@ public class Piano extends JFrame {
         key.setLocation(i*40,0);
         key.setSize(40, 200);
 
-        key.addActionListener(a);
-        key.setActionCommand("w/".concat(String.valueOf(i)));
+        /*try{
+            key.addActionListener(pianoController.getActionListener(i));
+            key.setActionCommand("w/".concat(String.valueOf(i)));
+        } catch (NullPointerException e){
+            System.out.println("ignoring key: " + i);
+        }*/
 
         return key;
     }
 
-    private JButton generateSustKey(int i, ActionListener a)
-    {
+    private JButton generateSustKey(int i){
         JButton sustKey = new JButton();
         sustKey.setBackground(Color.BLACK);
         //sustKey.setBorderPainted(false);
@@ -132,11 +141,23 @@ public class Piano extends JFrame {
         sustKey.setLocation(25 + i*40,0);
         sustKey.setSize(30, 125);
 
-        sustKey.addActionListener(a);
-        sustKey.setActionCommand("b/".concat(String.valueOf(i)));
+        /*try{
+            sustKey.addActionListener(pianoController.getActionListener(i));
+            sustKey.setActionCommand("b/".concat(String.valueOf(i)));
+        } catch (NullPointerException e){
+            System.out.println("ignoring sust key: " + i);
+        }*/
 
         return sustKey;
     }
+
+    public void assignControllers(){
+        for (int i = 0; i < keys.length; i++) {
+            keys[i].addActionListener(pianoController.getActionListener(i));
+            keys[i].setActionCommand(pianoController.getActionListener(i).getClass().getName().split("\\.")[3]);
+        }
+    }
+
 
     public static void main(String[] args) {
 
