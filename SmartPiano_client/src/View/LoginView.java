@@ -1,5 +1,7 @@
 package View;
 
+import View.CustomComponents.JPanelBackground;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

@@ -1,10 +1,11 @@
 package View;
 
+import View.CustomComponents.JPanelBackground;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileReader;
 
 public class RegisterView extends JFrame {
     private JPanelBackground jpBackground;

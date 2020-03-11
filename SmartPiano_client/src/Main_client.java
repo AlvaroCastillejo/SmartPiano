@@ -1,5 +1,6 @@
 import Controller.LoginController;
 import View.LoginView;
+import View.MainMenuView;
 
 import javax.swing.*;
 
