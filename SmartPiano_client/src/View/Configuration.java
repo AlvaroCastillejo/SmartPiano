@@ -1,4 +1,4 @@
-package View.CustomComponents;
+package View;
 
 public class Configuration {
 }

@@ -58,9 +58,9 @@ public class LoginController implements ActionListener {
         if(logged){
             v.setVisible(false);
             SwingUtilities.invokeLater(() -> {
-                PianoController c = new PianoController();
-                Piano v = new Piano(c);
-                c.setView(v);
+                MainMenuView v = new MainMenuView();
+                MenuController c = new MenuController(v);
+                v.registerController(c);
                 v.setVisible(true);
             });
         } else {
