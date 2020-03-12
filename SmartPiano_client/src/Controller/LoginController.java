@@ -45,9 +45,6 @@ public class LoginController implements ActionListener {
                 System.out.println("LOGIN");
                 break;
         }
-
-
-
     }
 
     public String getUserCredentials() {
