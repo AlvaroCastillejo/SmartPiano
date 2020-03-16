@@ -112,7 +112,7 @@ public class Piano extends JFrame {
         getContentPane().add(verticalDivider7);
         getContentPane().setBackground(Color.LIGHT_GRAY);
 
-        assignControllers();
+        //assignControllers();
     }
 
     private JButton generateKey(int i){
@@ -129,6 +129,9 @@ public class Piano extends JFrame {
         } catch (NullPointerException e){
             System.out.println("ignoring key: " + i);
         }*/
+
+        key.addActionListener(pianoController);
+        key.setActionCommand("w/".concat(String.valueOf(i)));
 
         return key;
     }
@@ -148,14 +151,17 @@ public class Piano extends JFrame {
             System.out.println("ignoring sust key: " + i);
         }*/
 
+        sustKey.addActionListener(pianoController);
+        sustKey.setActionCommand("b/".concat(String.valueOf(i)));
+
         return sustKey;
     }
 
     public void assignControllers(){
-        for (int i = 0; i < keys.length; i++) {
+        /*for (int i = 0; i < keys.length; i++) {
             keys[i].addActionListener(pianoController.getActionListener(i));
             keys[i].setActionCommand(pianoController.getActionListener(i).getClass().getName().split("\\.")[3]);
-        }
+        }*/
     }
 
 
