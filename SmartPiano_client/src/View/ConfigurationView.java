@@ -5,14 +5,18 @@ import View.CustomComponents.JPanelBackground;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class ConfigurationView extends JFrame {
     private JPanelBackground jpBackground;
-    private JButton jbKeyboardConfiguration;
+    private JButton jbBack;
+    private JButton jbLogOff;
+    private JButton jbeditKeys;
+    private JButton jbDeleteAccount;
     private int offset;
 
     public ConfigurationView () {
-        setTitle("Configuration");
+        setTitle("User Configuration");
         setSize(500, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,22 +28,37 @@ public class ConfigurationView extends JFrame {
             offset = 0;
         }
 
+
         jpBackground = new JPanelBackground();
-        jpBackground.setLayout(new GridLayout(1, 1));
-        //String f = new File("").getAbsolutePath();
-        //jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\menu.png"));
+        jpBackground.setLayout(null);
+        String f = new File("").getAbsolutePath();
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\Configuration.png"));
 
-        jbKeyboardConfiguration = new JButton("Keyboard Configuration");
-        //jbKeyboardConfiguration.setBounds(100, 160+offset, 285, 45);
-        jpBackground.add(jbKeyboardConfiguration);
+        jbBack = new JButton("<-");
+        jbBack.setBounds(40, 45+offset, 75, 45);
+        jpBackground.add(jbBack);
 
-        getContentPane().add(jpBackground);
+        jbLogOff = new JButton("Log Off"); //LogOff button
+        jbLogOff.setBounds(100, 160+offset, 285, 45);
+        jpBackground.add(jbLogOff);
+
+        jbeditKeys = new JButton("Edit Keys"); //Edit Keys button
+        jbeditKeys.setBounds(100, 240+offset, 285, 45);
+        jpBackground.add(jbeditKeys);
+
+        jbDeleteAccount = new JButton("Delete account"); //Delete account button
+        jbDeleteAccount.setBounds(100, 320+offset, 285, 45);
+        jpBackground.add(jbDeleteAccount);
+
+
+        getContentPane().add(jpBackground, BorderLayout.CENTER);
+
 
     }
 
     public void registerController (ActionListener al) {
-        jbKeyboardConfiguration.addActionListener(al);
-        jbKeyboardConfiguration.setActionCommand("KeyboardConfiguration");
+        jbBack.addActionListener(al);
+        jbBack.setActionCommand("KeyboardConfiguration");
     }
 
 }

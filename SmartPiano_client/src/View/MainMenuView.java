@@ -43,7 +43,7 @@ public class MainMenuView extends JFrame {
 
         //CREATE BUTTONS
         jbPlayPiano = new JButton(); //Play piano button
-        //setButtonInvisible(jbPlayPiano);
+        setButtonInvisible(jbPlayPiano);
         jbPlayPiano.setBounds(100, 160+offset, 285, 45);
         jpBackground.add(jbPlayPiano);
 
@@ -62,7 +62,8 @@ public class MainMenuView extends JFrame {
         jbFriends.setBounds(100, 340+offset, 285, 45);
         jpBackground.add(jbFriends);
 
-        jbConfiguration = new JButton("config"); //Configuration button
+        jbConfiguration = new JButton(); //Configuration button
+        setButtonInvisible(jbConfiguration);
         jpBackground.add(jbConfiguration);
         jbConfiguration.setBounds(360, 25+offset, 75, 45);
 
