@@ -8,14 +8,17 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Piano extends JFrame {
     private PianoController pianoController;
     private JButton[] keys;
-
+    private Map<String, JButton> keyboardMap;
 
     public Piano(PianoController a) {
         this.pianoController = a;
+        keyboardMap = new HashMap<>();
 
         setSize(856, 800);
         setLocationRelativeTo(null);
@@ -111,8 +114,6 @@ public class Piano extends JFrame {
         getContentPane().add(verticalDivider6);
         getContentPane().add(verticalDivider7);
         getContentPane().setBackground(Color.LIGHT_GRAY);
-
-        //assignControllers();
     }
 
     private JButton generateKey(int i){
@@ -123,15 +124,11 @@ public class Piano extends JFrame {
         key.setLocation(i*40,0);
         key.setSize(40, 200);
 
-        /*try{
-            key.addActionListener(pianoController.getActionListener(i));
-            key.setActionCommand("w/".concat(String.valueOf(i)));
-        } catch (NullPointerException e){
-            System.out.println("ignoring key: " + i);
-        }*/
-
         key.addActionListener(pianoController);
         key.setActionCommand("w/".concat(String.valueOf(i)));
+        key.addKeyListener(pianoController);
+
+        keyboardMap.put("w/".concat(String.valueOf(i)), key);
 
         return key;
     }
@@ -144,37 +141,28 @@ public class Piano extends JFrame {
         sustKey.setLocation(25 + i*40,0);
         sustKey.setSize(30, 125);
 
-        /*try{
-            sustKey.addActionListener(pianoController.getActionListener(i));
-            sustKey.setActionCommand("b/".concat(String.valueOf(i)));
-        } catch (NullPointerException e){
-            System.out.println("ignoring sust key: " + i);
-        }*/
-
         sustKey.addActionListener(pianoController);
         sustKey.setActionCommand("b/".concat(String.valueOf(i)));
+        sustKey.addKeyListener(pianoController);
+
+        keyboardMap.put("b/".concat(String.valueOf(i)), sustKey);
 
         return sustKey;
     }
 
-    public void assignControllers(){
-        /*for (int i = 0; i < keys.length; i++) {
-            keys[i].addActionListener(pianoController.getActionListener(i));
-            keys[i].setActionCommand(pianoController.getActionListener(i).getClass().getName().split("\\.")[3]);
-        }*/
+    public void pressButton(String a){
+        try{
+            if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.DARK_GRAY);
+            else ((JButton) keyboardMap.get(a)).setBackground(Color.LIGHT_GRAY);
+        } catch (NullPointerException ignore){}
     }
 
-
-    public static void main(String[] args) {
-
-        PianoController c = new PianoController();
-        Piano piano = new Piano(c);
-        c.setView(piano);
-        piano.setVisible(true);
-
+    public void releaseButton(String a){
+        try{
+            if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.BLACK);
+            else ((JButton) keyboardMap.get(a)).setBackground(Color.WHITE);
+        } catch (NullPointerException ignore){}
     }
-
-
 }
 
 

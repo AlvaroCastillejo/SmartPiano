@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Model.AudioPlayer;
 import View.MainMenuView;
 import View.Piano;
 import com.sun.tools.javac.Main;
@@ -12,13 +13,14 @@ import java.awt.event.ActionListener;
 
 public class MenuController implements ActionListener {
     private MainMenuView v;
+    private AudioPlayer introSong;
+
     public MenuController(MainMenuView v){
         this.v=v;
+        introSong = new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav");
+        introSong.start();
     }
 
-    public MenuController() {
-
-    }
     @Override
     public void actionPerformed(ActionEvent actionEvent){
         String command = actionEvent.getActionCommand();
@@ -26,6 +28,7 @@ public class MenuController implements ActionListener {
         switch (command){
             case "PlayPiano":
                 v.setVisible(false);
+                introSong.stopTheCurrent();
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     Piano m = new Piano(c);
