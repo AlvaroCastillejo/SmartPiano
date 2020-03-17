@@ -43,10 +43,7 @@ public class MenuController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     ConfigurationView m = new ConfigurationView();
                     ConfigurationController c = new ConfigurationController(m);
-
-
-
-
+                    m.setVisible(true);
                 });
                 break;
 
