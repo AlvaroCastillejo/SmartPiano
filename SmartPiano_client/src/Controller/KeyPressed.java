@@ -42,6 +42,7 @@ public class KeyPressed extends Thread{
             } while (play.isRunning());
 
             shiftVolume(this, volume, volume.getValue(), volume.getMinimum(), 2);
+
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException ex) {
             ex.printStackTrace();
         } catch (NullPointerException ignore){
