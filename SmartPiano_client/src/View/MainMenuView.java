@@ -17,6 +17,7 @@ public class MainMenuView extends JFrame {
     private JButton jbRecordSong;
     private JButton jbPlaySong;
     private JButton jbFriends;
+    private JButton jbConfiguration;
 
 
     private int offset;
@@ -61,6 +62,10 @@ public class MainMenuView extends JFrame {
         jbFriends.setBounds(100, 340+offset, 285, 45);
         jpBackground.add(jbFriends);
 
+        jbConfiguration = new JButton("config"); //Configuration button
+        jpBackground.add(jbConfiguration);
+        jbConfiguration.setBounds(360, 25+offset, 75, 45);
+
         getContentPane().add(jpBackground, BorderLayout.CENTER);
 
     }
@@ -68,6 +73,9 @@ public class MainMenuView extends JFrame {
     public void registerController(ActionListener al){
         jbPlayPiano.addActionListener(al);
         jbPlayPiano.setActionCommand("PlayPiano");
+
+        jbConfiguration.addActionListener(al);
+        jbConfiguration.setActionCommand("Configuration");
 
     }
 
@@ -77,4 +85,7 @@ public class MainMenuView extends JFrame {
         button.setBorderPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
+
+
+
 }

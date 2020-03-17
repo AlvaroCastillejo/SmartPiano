@@ -9,6 +9,7 @@ public class ConfigurationManager {
     private boolean introMusic;
     private int volume;
 
+
     public ConfigurationManager() {
         this.teclado = new HashMap<>();
     }
@@ -24,7 +25,6 @@ public class ConfigurationManager {
 
     public void turnOffIntro () { this.introMusic = false; }
     public void trunOnIntr0 () { this.introMusic = true; }
-
 
 
 }

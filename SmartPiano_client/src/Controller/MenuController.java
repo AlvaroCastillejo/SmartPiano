@@ -2,6 +2,7 @@ package Controller;
 
 
 import Model.AudioPlayer;
+import View.ConfigurationView;
 import View.MainMenuView;
 import View.Piano;
 import com.sun.tools.javac.Main;
@@ -35,6 +36,19 @@ public class MenuController implements ActionListener {
                     c.setView(m);
                     m.setVisible(true);
                 });
+                break;
+            case "Configuration":
+                v.setVisible(false);
+                introSong.stopTheCurrent();
+                SwingUtilities.invokeLater(() -> {
+                    ConfigurationView m = new ConfigurationView();
+                    ConfigurationController c = new ConfigurationController(m);
+
+
+
+
+                });
+                break;
 
 
         }
