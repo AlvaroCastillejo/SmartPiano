@@ -57,7 +57,7 @@ public class LoginController implements ActionListener {
             v.setVisible(false);
             SwingUtilities.invokeLater(() -> {
                 MainMenuView v = new MainMenuView();
-                MenuController c = new MenuController(v);
+                MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
                 v.registerController(c);
                 v.setVisible(true);
             });

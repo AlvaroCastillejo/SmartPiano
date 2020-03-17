@@ -16,10 +16,12 @@ public class MenuController implements ActionListener {
     private MainMenuView v;
     private AudioPlayer introSong;
 
-    public MenuController(MainMenuView v){
+    public MenuController(MainMenuView v, AudioPlayer audioPlayer){
         this.v=v;
-        introSong = new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav");
-        introSong.start();
+        introSong = audioPlayer;                                                   //new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav");
+        try {
+            introSong.start();
+        } catch (IllegalThreadStateException ignore){}
     }
 
     @Override
@@ -39,15 +41,14 @@ public class MenuController implements ActionListener {
                 break;
             case "Configuration":
                 v.setVisible(false);
-                introSong.stopTheCurrent();
+                //introSong.stopTheCurrent();
                 SwingUtilities.invokeLater(() -> {
-                    ConfigurationView m = new ConfigurationView();
-                    ConfigurationController c = new ConfigurationController(m);
-                    m.setVisible(true);
+                    ConfigurationView v = new ConfigurationView();
+                    ConfigurationController c = new ConfigurationController(v, introSong);
+                    v.registerController(c);
+                    v.setVisible(true);
                 });
                 break;
-
-
         }
     }
 

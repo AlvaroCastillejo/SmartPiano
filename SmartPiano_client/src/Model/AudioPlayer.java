@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class AudioPlayer extends Thread {
     private String fileName;
+    private FloatControl volume;
 
     public AudioPlayer(String fileName){
         this.fileName = fileName;
@@ -25,7 +26,7 @@ public class AudioPlayer extends Thread {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(in);
             play = AudioSystem.getClip();
             play.open(audioInputStream);
-            FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.MASTER_GAIN);
+            volume = (FloatControl) play.getControl(FloatControl.Type.MASTER_GAIN);
             volume.setValue(1.0f); // Reduce volume by 10 decibels.
             play.start();
 
@@ -46,5 +47,9 @@ public class AudioPlayer extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setVolume(int db){
+        volume.setValue(db);
     }
 }

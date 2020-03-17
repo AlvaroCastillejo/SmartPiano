@@ -57,8 +57,11 @@ public class ConfigurationView extends JFrame {
     }
 
     public void registerController (ActionListener al) {
+        jbeditKeys.addActionListener(al);
+        jbeditKeys.setActionCommand("KeyboardConfiguration");
+
         jbBack.addActionListener(al);
-        jbBack.setActionCommand("KeyboardConfiguration");
+        jbBack.setActionCommand("Back");
     }
 
 }
