@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Configuration;
+import Model.Note;
 import View.Piano;
 
 import java.awt.event.ActionEvent;
@@ -57,5 +58,9 @@ public class PianoController implements ActionListener, KeyListener {
         sustainingKeys.get(keyCode).setSustaining(false);
         sustainingKeys.remove(keyCode);
         v.releaseButton(keyCode);
+    }
+
+    public void drop(Note note) {
+        //v.drop(note);
     }
 }

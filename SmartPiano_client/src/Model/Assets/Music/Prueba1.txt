@@ -1,0 +1,21 @@
+keyCodes:
+0- ms
+1- KeyDown
+2- KeyUp
+/- start
+\- end
+/Prueba1
+0-5000
+1-C3
+0-2
+1-E3
+0-5
+1-G3
+0-2000
+2-C3
+0-3000
+2-E3
+0-5
+2-G3
+\
+

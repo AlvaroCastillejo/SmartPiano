@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PianoController;
+import Model.Song;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -15,10 +16,12 @@ public class Piano extends JFrame {
     private PianoController pianoController;
     private JButton[] keys;
     private Map<String, JButton> keyboardMap;
+    private boolean isRunning;
 
-    public Piano(PianoController a) {
+    public Piano(PianoController a, Song toPlay) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
+        isRunning = false;
 
         setSize(856, 800);
         setLocationRelativeTo(null);
@@ -114,6 +117,37 @@ public class Piano extends JFrame {
         getContentPane().add(verticalDivider6);
         getContentPane().add(verticalDivider7);
         getContentPane().setBackground(Color.LIGHT_GRAY);
+
+        toPlay.registerView(this);
+        toPlay.start();
+
+        Thread playing = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isRunning = true;
+
+                int i = 7;
+                while (isRunning){
+                    try {
+                        //Thread.sleep(10);
+                        JPanel note = new JPanel();
+                        note.setSize(40,80);
+                        note.setLocation(120,i-80);
+                        note.setBackground(new Color(140, 0, 25));
+                        getContentPane().add(note);
+                        System.out.println("repainting note at y: " + note.getLocation().getY());
+                        getContentPane().repaint();
+                        Thread.sleep(10);
+                        getContentPane().remove(note);
+                        i++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        playing.start();
     }
 
     private JButton generateKey(int i){
@@ -163,6 +197,45 @@ public class Piano extends JFrame {
             else ((JButton) keyboardMap.get(a)).setBackground(Color.WHITE);
         } catch (NullPointerException ignore){}
     }
+
+    public void doAction(String action){    }
+
+    public void drop(String keyCode) {
+        Thread playing = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isRunning = true;
+
+                int i = 7;
+                while (isRunning){
+                    try {
+                        //Thread.sleep(10);
+                        JPanel note = new JPanel();
+                        note.setSize(840,10);
+                        note.setLocation(0,i);
+                        note.setBackground(new Color(140, 0, 25));
+                        getContentPane().add(note);
+                        System.out.println("repainting note at y: " + note.getLocation().getY());
+                        getContentPane().repaint();
+                        Thread.sleep(10);
+                        getContentPane().remove(note);
+                        i++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        playing.start();
+    }
+
+
+
+    public void stop(){
+        isRunning = false;
+    }
+
 }
 
 

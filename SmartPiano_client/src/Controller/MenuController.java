@@ -2,6 +2,7 @@ package Controller;
 
 
 import Model.AudioPlayer;
+import Model.Song;
 import View.ConfigurationView;
 import View.MainMenuView;
 import View.Piano;
@@ -34,7 +35,8 @@ public class MenuController implements ActionListener {
                 introSong.stopTheCurrent();
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
-                    Piano m = new Piano(c);
+                    Song toPlay = new Song("Prueba1.txt", c);
+                    Piano m = new Piano(c, toPlay);
                     c.setView(m);
                     m.setVisible(true);
                 });
