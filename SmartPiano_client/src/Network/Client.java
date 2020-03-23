@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+//A class that represents the client connected to the server.
 public class Client extends Thread {
     private static final String IP = "127.0.0.1";
     private static final int PORT = 12345;
@@ -21,7 +22,11 @@ public class Client extends Thread {
     private DataOutputStream dos;
     private DataInputStream dis;
 
-
+    /**
+     * Class constructor. Initializes the communication with the server.
+     * @param loginController The LoginController to inform whether the user can login or not.
+     * @throws IOException Because of the socket.
+     */
     public Client(LoginController loginController) throws IOException {
         this.loginController = loginController;
         Socket socket = new Socket(IP, PORT);
@@ -30,19 +35,30 @@ public class Client extends Thread {
         id = -1;
     }
 
+    /**
+     * Assign the Register controller.
+     * @param registerController The RegisterController to inform whether the user can register or not.
+     */
     public void assignRegisterController(RegisterController registerController){
         this.registerController = registerController;
     }
 
+    /**
+     * Start the communication with the server.
+     */
     public void startServerConnection(){
         isRunning = true;
         start();
     }
 
+    /**
+     * Perpetual communication method. Working as the application is running.
+     */
     @Override
     public void run(){
         try{
             while (isRunning){
+                //Waits for the server to send information.
                 String action = dis.readUTF();
                 String[] elements = action.split("/");
                 String command = elements[0];
@@ -61,11 +77,9 @@ public class Client extends Thread {
                     case "LOGIN":
                         switch (action){
                             case "logged":
-                                System.out.println("LOGGED!!!!!!!");
                                 loginController.logged(true);
                                 break;
                             case "failed":
-                                System.out.println("NOOOOOO");
                                 loginController.logged(false);
                                 break;
                         }
@@ -75,16 +89,13 @@ public class Client extends Thread {
                     case "REGISTER":
                         switch (action){
                             case "registered":
-                                System.out.println("You are now one of us!");
                                 registerController.registered(true);
                                 break;
                             case "failed=1":
-                                System.out.println("This user already exists");
                                 registerController.showError("This user already exists");
                                 registerController.registered(false);
                                 break;
                             case "failed=2":
-                                System.out.println("This mail already exists");
                                 registerController.showError("This mail already exists");
                                 registerController.registered(false);
                                 break;
@@ -101,6 +112,10 @@ public class Client extends Thread {
         isRunning = false;
     }
 
+    /**
+     * Sends something to the server.
+     * @param action The thing to be sent.
+     */
     public void sendAction(String action){
         try{
             dos.writeUTF(action);
@@ -108,6 +123,4 @@ public class Client extends Thread {
             e.printStackTrace();
         }
     }
-
-
 }

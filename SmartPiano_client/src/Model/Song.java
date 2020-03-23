@@ -8,12 +8,18 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+//A class that represents a song to be played in the piano.
 public class Song extends Thread {
     Map<String, Note> currentNotes;
     LinkedList<String> instructionBuffer;
     Piano piano;
     PianoController pianoController;
 
+    /**
+     * The class constructor. Plays the song by dropping the notes. Yet to be fully implemented.
+     * @param fileName Name of the song.
+     * @param c The controller of the piano.
+     */
     public Song(String fileName, PianoController c){
         currentNotes = new HashMap<>();
         instructionBuffer = new LinkedList<>();

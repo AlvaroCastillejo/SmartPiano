@@ -121,6 +121,7 @@ public class Piano extends JFrame {
         toPlay.registerView(this);
         toPlay.start();
 
+        //The method that drops notes. In a future it will not be here.
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {

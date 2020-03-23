@@ -1,6 +1,13 @@
 package Model;
 
+//A class containind some utils for the piano.
 public class PianoManager {
+
+    /**
+     * Gets the name of the key given the code.
+     * @param key keyCode of the desired key.
+     * @return The name of the key.
+     */
     public static String getKeyName(String key) {
         String k = "";
         try{
@@ -119,6 +126,11 @@ public class PianoManager {
         return null;
     }
 
+    /**
+     * Gets the code of the key given the name.
+     * @param key Name of the key.
+     * @return The code.
+     */
     public static String getKeyCode(String key){
         String k = "";
         try{

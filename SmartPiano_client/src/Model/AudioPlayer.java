@@ -4,18 +4,29 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+//A class to reproduce songs.
 public class AudioPlayer extends Thread {
     private String fileName;
     private FloatControl volume;
 
+    /**
+     * The class constructor.
+     * @param fileName The name of the file to reproduce.
+     */
     public AudioPlayer(String fileName){
         this.fileName = fileName;
     }
 
+    /**
+     * Stop the song.
+     */
     public void stopTheCurrent(){
         this.interrupt();
     }
 
+    /**
+     * The method that will reproduce the song.
+     */
     @Override
     public void run(){
         Clip play = null;

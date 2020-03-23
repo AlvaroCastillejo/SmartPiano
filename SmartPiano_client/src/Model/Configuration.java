@@ -3,6 +3,7 @@ package Model;
 import java.util.HashMap;
 import java.util.Map;
 
+//A class that will storage all the user configuration. Yet to implement.
 public class Configuration {
     private static final Map<String, String> keyBoardKeyConfiguration = new HashMap<>();
     private static final Map<String, String> keyCode_keyName = new HashMap<>();

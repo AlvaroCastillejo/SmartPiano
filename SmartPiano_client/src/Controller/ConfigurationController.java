@@ -9,16 +9,26 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//Controller for the ConfigurationView.
 public class ConfigurationController implements ActionListener {
 
     private AudioPlayer introSong;
     private ConfigurationView v;
 
+    /**
+     * Constructor for the controller. It initializes the controller.
+     * @param v The view to control.
+     * @param introSong The background song that was playing in the MainMenu.
+     */
     public ConfigurationController(ConfigurationView v, AudioPlayer introSong) {
         this.v = v;
         this.introSong = introSong;
     }
 
+    /**
+     * Registers all the actions performed in the configurationView.
+     * @param actionEvent The event occurred.
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String command = actionEvent.getActionCommand();
