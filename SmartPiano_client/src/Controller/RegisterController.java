@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.LoginManager;
+import Model.RegisterManager;
 import Network.Client;
 import View.LoginView;
 import View.RegisterView;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 public class RegisterController implements ActionListener {
     private RegisterView v;
     private Client client;
+    private RegisterManager registerManager;
 
     /**
      * Contructor for the class.
@@ -21,7 +24,7 @@ public class RegisterController implements ActionListener {
     public RegisterController(RegisterView v, Client client){
         this.v = v;
         this.client = client;
-        client.assignRegisterController(this);
+        client.assignRegisterController(registerManager);
     }
 
     /**
@@ -44,6 +47,8 @@ public class RegisterController implements ActionListener {
                     v.setVisible(false);
                     LoginView v = new LoginView();
                     LoginController c = new LoginController(v);
+                    LoginManager m = new LoginManager(c);
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });

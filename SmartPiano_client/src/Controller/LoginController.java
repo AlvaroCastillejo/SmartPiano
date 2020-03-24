@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.AudioPlayer;
+import Model.LoginManager;
 import Network.Client;
 import View.LoginView;
 import View.MainMenuView;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class LoginController implements ActionListener {
     private LoginView v;
     private Client client;
+    private LoginManager loginManager;
 
     /**
      * Constructor for the class. Initializes the client.
@@ -23,12 +25,7 @@ public class LoginController implements ActionListener {
      */
     public LoginController(LoginView v){
         this.v = v;
-        try {
-            client = new Client(this);
-            client.startServerConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     /**
@@ -88,6 +85,19 @@ public class LoginController implements ActionListener {
                 v.registerController(c);
                 v.setVisible(true);
             });
+        }
+    }
+
+    public void registerManager (LoginManager loginManager) {
+        this.loginManager = loginManager;
+    }
+
+    public void startClient () {
+        try {
+            client = new Client(loginManager);
+            client.startServerConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

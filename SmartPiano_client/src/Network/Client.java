@@ -2,6 +2,8 @@ package Network;
 
 import Controller.LoginController;
 import Controller.RegisterController;
+import Model.LoginManager;
+import Model.RegisterManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,19 +18,19 @@ public class Client extends Thread {
     private boolean isRunning;
     private int id;
 
-    private LoginController loginController;
-    private RegisterController registerController;
+    private LoginManager loginManager;
+    private RegisterManager registerManager;
 
     private DataOutputStream dos;
     private DataInputStream dis;
 
     /**
      * Class constructor. Initializes the communication with the server.
-     * @param loginController The LoginController to inform whether the user can login or not.
+     * @param loginManager The LoginController to inform whether the user can login or not.
      * @throws IOException Because of the socket.
      */
-    public Client(LoginController loginController) throws IOException {
-        this.loginController = loginController;
+    public Client(LoginManager loginManager) throws IOException {
+        this.loginManager = loginManager;
         Socket socket = new Socket(IP, PORT);
         dos = new DataOutputStream(socket.getOutputStream());
         dis = new DataInputStream(socket.getInputStream());
@@ -37,10 +39,10 @@ public class Client extends Thread {
 
     /**
      * Assign the Register controller.
-     * @param registerController The RegisterController to inform whether the user can register or not.
+     * @param registerManager The RegisterController to inform whether the user can register or not.
      */
-    public void assignRegisterController(RegisterController registerController){
-        this.registerController = registerController;
+    public void assignRegisterController(RegisterManager registerManager){
+        this.registerManager = registerManager;
     }
 
     /**
@@ -67,20 +69,20 @@ public class Client extends Thread {
                     case "SEND_INFO":
                         switch (action){
                             case "getLoggingUserCredentials":
-                                dos.writeUTF(this.loginController.getUserCredentials());
+                                dos.writeUTF(this.loginManager.getUserCredentials());
                                 break;
                             case "getRegisterUserCredentials":
-                                dos.writeUTF(this.registerController.getRegisterCredentials());
+                                dos.writeUTF(this.registerManager.getRegisterCredentials());
                                 break;
                         }
                         break;
                     case "LOGIN":
                         switch (action){
                             case "logged":
-                                loginController.logged(true);
+                                loginManager.logged(true);
                                 break;
                             case "failed":
-                                loginController.logged(false);
+                                loginManager.logged(false);
                                 break;
                         }
                         break;
@@ -89,15 +91,15 @@ public class Client extends Thread {
                     case "REGISTER":
                         switch (action){
                             case "registered":
-                                registerController.registered(true);
+                                registerManager.registered(true);
                                 break;
                             case "failed=1":
-                                registerController.showError("This user already exists");
-                                registerController.registered(false);
+                                registerManager.showError("This user already exists");
+                                registerManager.registered(false);
                                 break;
                             case "failed=2":
-                                registerController.showError("This mail already exists");
-                                registerController.registered(false);
+                                registerManager.showError("This mail already exists");
+                                registerManager.registered(false);
                                 break;
                         }
 
