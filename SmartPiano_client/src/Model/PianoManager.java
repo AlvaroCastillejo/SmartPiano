@@ -132,120 +132,238 @@ public class PianoManager {
      * @return The code.
      */
     public static String getKeyCode(String key){
-        String k = "";
+        String toReturn = "";
         try{
             switch (key){
                 case "C2":
-                    k = "w/0";
+                    toReturn = "w/0";
                     break;
                 case "Db2":
-                    k = "b/0";
+                    toReturn = "b/0";
                     break;
                 case "D2":
-                    k = "w/1";
+                    toReturn = "w/1";
                     break;
                 case "Eb2":
-                    k = "b/1";
+                    toReturn = "b/1";
                     break;
                 case "E2":
-                    k = "w/2";
+                    toReturn = "w/2";
                     break;
                 case "F2":
-                    k = "w/3";
+                    toReturn = "w/3";
                     break;
                 case "Gb2":
-                    k = "b/3";
+                    toReturn = "b/3";
                     break;
                 case "G2":
-                    k = "w/4";
+                    toReturn = "w/4";
                     break;
                 case "Ab2":
-                    k = "b/4";
+                    toReturn = "b/4";
                     break;
                 case "A2":
-                    k = "w/5";
+                    toReturn = "w/5";
                     break;
                 case "Bb2":
-                    k = "b/5";
+                    toReturn = "b/5";
                     break;
                 case "B2":
-                    k = "w/6";
+                    toReturn = "w/6";
                     break;
                 case "C3":
-                    k = "w/7";
+                    toReturn = "w/7";
                     break;
                 case "Db3":
-                    k = "b/7";
+                    toReturn = "b/7";
                     break;
                 case "D3":
-                    k = "w/8";
+                    toReturn = "w/8";
                     break;
                 case "Eb3":
-                    k = "b/8";
+                    toReturn = "b/8";
                     break;
                 case "E3":
-                    k = "w/9";
+                    toReturn = "w/9";
                     break;
                 case "F3":
-                    k = "w/10";
+                    toReturn = "w/10";
                     break;
                 case "Gb3":
-                    k = "b/10";
+                    toReturn = "b/10";
                     break;
                 case "G3":
-                    k = "w/11";
+                    toReturn = "w/11";
                     break;
                 case "Ab3":
-                    k = "b/11";
+                    toReturn = "b/11";
                     break;
                 case "A3":
-                    k = "w/12";
+                    toReturn = "w/12";
                     break;
                 case "Bb3":
-                    k = "b/12";
+                    toReturn = "b/12";
                     break;
                 case "B3":
-                    k = "w/13";
+                    toReturn = "w/13";
                     break;
                 case "C4":
-                    k = "w/14";
+                    toReturn = "w/14";
                     break;
                 case "Db4":
-                    k = "b/14";
+                    toReturn = "b/14";
                     break;
                 case "D4":
-                    k = "w/15";
+                    toReturn = "w/15";
                     break;
                 case "Eb4":
-                    k = "b/15";
+                    toReturn = "b/15";
                     break;
                 case "E4":
-                    k = "w/16";
+                    toReturn = "w/16";
                     break;
                 case "F4":
-                    k = "w/17";
+                    toReturn = "w/17";
                     break;
                 case "Gb4":
-                    k = "b/17";
+                    toReturn = "b/17";
                     break;
                 case "G4":
-                    k = "w/18";
+                    toReturn = "w/18";
                     break;
                 case "Ab4":
-                    k = "b/18";
+                    toReturn = "b/18";
                     break;
                 case "A4":
-                    k = "w/19";
+                    toReturn = "w/19";
                     break;
                 case "Bb4":
-                    k = "b/19";
+                    toReturn = "b/19";
                     break;
                 case "B4":
-                    k = "w/20";
+                    toReturn = "w/20";
                     break;
             }
-            return k;
+            return toReturn;
         } catch (NullPointerException ignore){}
         return null;
+    }
+
+    public int getHexaCode(String keyCode){
+        int toReturn = -1;
+        if(getKeyName(keyCode) == null){
+            return toReturn;
+        }
+        switch (getKeyName(keyCode)){
+            case "C2":
+                toReturn = 0x30;
+                break;
+            case "Db2":
+                toReturn = 0x31;
+                break;
+            case "D2":
+                toReturn = 0x32;
+                break;
+            case "Eb2":
+                toReturn = 0x33;
+                break;
+            case "E2":
+                toReturn = 0x34;
+                break;
+            case "F2":
+                toReturn = 0x35;
+                break;
+            case "Gb2":
+                toReturn = 0x36;
+                break;
+            case "G2":
+                toReturn = 0x37;
+                break;
+            case "Ab2":
+                toReturn = 0x38;
+                break;
+            case "A2":
+                toReturn = 0x39;
+                break;
+            case "Bb2":
+                toReturn = 0x3A;
+                break;
+            case "B2":
+                toReturn = 0x3B;
+                break;
+            case "C3":
+                toReturn = 0x3C;
+                break;
+            case "Db3":
+                toReturn = 0x3D;
+                break;
+            case "D3":
+                toReturn = 0x3F;
+                break;
+            case "Eb3":
+                toReturn = 0x40;
+                break;
+            case "E3":
+                toReturn = 0x41;
+                break;
+            case "F3":
+                toReturn = 0x42;
+                break;
+            case "Gb3":
+                toReturn = 0x43;
+                break;
+            case "G3":
+                toReturn = 0x44;
+                break;
+            case "Ab3":
+                toReturn = 0x45;
+                break;
+            case "A3":
+                toReturn = 0x46;
+                break;
+            case "Bb3":
+                toReturn = 0x47;
+                break;
+            case "B3":
+                toReturn = 0x48;
+                break;
+            case "C4":
+                toReturn = 0x49;
+                break;
+            case "Db4":
+                toReturn = 0x4A;
+                break;
+            case "D4":
+                toReturn = 0x4B;
+                break;
+            case "Eb4":
+                toReturn = 0x4C;
+                break;
+            case "E4":
+                toReturn = 0x4D;
+                break;
+            case "F4":
+                toReturn = 0x4E;
+                break;
+            case "Gb4":
+                toReturn = 0x4F;
+                break;
+            case "G4":
+                toReturn = 0x50;
+                break;
+            case "Ab4":
+                toReturn = 0x51;
+                break;
+            case "A4":
+                toReturn = 0x52;
+                break;
+            case "Bb4":
+                toReturn = 0x53;
+                break;
+            case "B4":
+                toReturn = 0x54;
+                break;
+        }
+        return toReturn;
     }
 }

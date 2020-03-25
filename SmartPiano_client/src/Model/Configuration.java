@@ -5,7 +5,7 @@ import java.util.Map;
 
 //A class that will storage all the user configuration. Yet to implement.
 public class Configuration {
-    private static final Map<String, String> keyBoardKeyConfiguration = new HashMap<>();
+    private static final Map<Integer, String> keyBoardKeyConfiguration = new HashMap<>();
     private static final Map<String, String> keyCode_keyName = new HashMap<>();
 
     public Configuration(){
@@ -14,7 +14,43 @@ public class Configuration {
     }
 
     private void initializeKeyBoardKeyConfiguration() {
-        keyBoardKeyConfiguration.put("q", "w/0");
+        keyBoardKeyConfiguration.put(0, "w/0");
+        keyBoardKeyConfiguration.put(49, "b/0");
+        keyBoardKeyConfiguration.put(81, "w/1");
+        keyBoardKeyConfiguration.put(50, "b/1");
+        keyBoardKeyConfiguration.put(87, "w/2");
+        keyBoardKeyConfiguration.put(69, "w/3");
+        keyBoardKeyConfiguration.put(52, "b/3");
+        keyBoardKeyConfiguration.put(82, "w/4");
+        keyBoardKeyConfiguration.put(53, "b/4");
+        keyBoardKeyConfiguration.put(84, "w/5");
+        keyBoardKeyConfiguration.put(54, "b/5");
+        keyBoardKeyConfiguration.put(89, "w/6");
+        keyBoardKeyConfiguration.put(16, "w/7");
+        keyBoardKeyConfiguration.put(20, "b/7");
+        keyBoardKeyConfiguration.put(153, "w/8");
+        keyBoardKeyConfiguration.put(65, "b/8");
+        keyBoardKeyConfiguration.put(90, "w/9");
+        keyBoardKeyConfiguration.put(88, "w/10");
+        keyBoardKeyConfiguration.put(68, "b/10");
+        keyBoardKeyConfiguration.put(67, "w/11");
+        keyBoardKeyConfiguration.put(70, "b/11");
+        keyBoardKeyConfiguration.put(86, "w/12");
+        keyBoardKeyConfiguration.put(71, "b/12");
+        keyBoardKeyConfiguration.put(32, "w/13");
+        keyBoardKeyConfiguration.put(66, "w/14");
+        keyBoardKeyConfiguration.put(72, "b/14");
+        keyBoardKeyConfiguration.put(78, "w/15");
+        keyBoardKeyConfiguration.put(74, "b/15");
+        keyBoardKeyConfiguration.put(77, "w/16");
+        keyBoardKeyConfiguration.put(44, "w/17");
+        keyBoardKeyConfiguration.put(76, "b/17");
+        keyBoardKeyConfiguration.put(46, "w/18");
+        keyBoardKeyConfiguration.put(80, "b/18");
+        keyBoardKeyConfiguration.put(45, "w/19");
+        keyBoardKeyConfiguration.put(129, "b/19");
+        keyBoardKeyConfiguration.put(525, "w/20");
+        /*keyBoardKeyConfiguration.put("q", "w/0");
         keyBoardKeyConfiguration.put("2", "b/0");
         keyBoardKeyConfiguration.put("w", "w/1");
         keyBoardKeyConfiguration.put("3", "b/1");
@@ -49,7 +85,7 @@ public class Configuration {
         keyBoardKeyConfiguration.put("l", "b/18");
         keyBoardKeyConfiguration.put(".", "w/19");
         keyBoardKeyConfiguration.put("ñ", "b/19");
-        keyBoardKeyConfiguration.put("-", "w/20");
+        keyBoardKeyConfiguration.put("-", "w/20");*/
     }
 
     private void initializeKeyCode_keyName(){
@@ -91,7 +127,7 @@ public class Configuration {
         keyCode_keyName.put("w/20", "");
     }
 
-    public static String getKeyBinding(String keyChar) {
-        return keyBoardKeyConfiguration.get(keyChar);
+    public static String getKeyBinding(int keyCodeFromKeyEvent) {
+        return keyBoardKeyConfiguration.get(keyCodeFromKeyEvent);
     }
 }

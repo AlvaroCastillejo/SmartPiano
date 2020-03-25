@@ -13,20 +13,12 @@ public class KeyPressed extends Thread{
     private String key;
     private boolean sustaining;
 
-    /**
-     * Constructor for the class. Automatically makes the note to be sustaining.
-     * @param v Piano view where the key will be pressed.
-     * @param key The keyCode of the key that has been pressed. (w/0)
-     */
     public KeyPressed(Piano v, String key) {
         this.v = v;
         this.key = key;
         this.sustaining = true;
     }
 
-    /**
-     * Method that plays the sound and only ends when the sound is ended.
-     */
     @Override
     public void run() {
 
@@ -70,24 +62,13 @@ public class KeyPressed extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
-    /**
-     * Updates the sustaining state.
-     * @param sustaining sustaining state to be updated to.
-     */
     public void setSustaining(boolean sustaining) {
         this.sustaining = sustaining;
     }
 
-    /**
-     * Shifts the volume from one value to another.
-     * @param thread The thread controlling the clip.
-     * @param volume The FloatControl that controls the clip volume.
-     * @param from Original volume.
-     * @param to Final volume.
-     * @param milliseconds Transition time.
-     */
     public void shiftVolume(Thread thread, FloatControl volume, double from, double to, int milliseconds) {
         for(int i = 0; from > to; from--){
             volume.setValue(volume.getValue()-1);

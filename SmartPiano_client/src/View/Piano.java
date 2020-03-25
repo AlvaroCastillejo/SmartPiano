@@ -120,35 +120,6 @@ public class Piano extends JFrame {
 
         toPlay.registerView(this);
         toPlay.start();
-
-        //The method that drops notes. In a future it will not be here.
-        Thread playing = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                isRunning = true;
-
-                int i = 7;
-                while (isRunning){
-                    try {
-                        //Thread.sleep(10);
-                        JPanel note = new JPanel();
-                        note.setSize(40,80);
-                        note.setLocation(120,i-80);
-                        note.setBackground(new Color(140, 0, 25));
-                        getContentPane().add(note);
-                        System.out.println("repainting note at y: " + note.getLocation().getY());
-                        getContentPane().repaint();
-                        Thread.sleep(10);
-                        getContentPane().remove(note);
-                        i++;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        playing.start();
     }
 
     private JButton generateKey(int i){
@@ -159,6 +130,7 @@ public class Piano extends JFrame {
         key.setLocation(i*40,0);
         key.setSize(40, 200);
 
+        key.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "none");
         key.addActionListener(pianoController);
         key.setActionCommand("w/".concat(String.valueOf(i)));
         key.addKeyListener(pianoController);
@@ -176,6 +148,7 @@ public class Piano extends JFrame {
         sustKey.setLocation(25 + i*40,0);
         sustKey.setSize(30, 125);
 
+        sustKey.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "none");
         sustKey.addActionListener(pianoController);
         sustKey.setActionCommand("b/".concat(String.valueOf(i)));
         sustKey.addKeyListener(pianoController);

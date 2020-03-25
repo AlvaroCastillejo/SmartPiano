@@ -39,9 +39,9 @@ public class PianoController implements ActionListener, KeyListener {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        String command = actionEvent.getActionCommand();
+        //String command = actionEvent.getActionCommand();
         //Play the corresponding sound.
-        new KeyPressed(v, command).start();
+        //new KeyPressed(v, command).start();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PianoController implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         //Obtain the keyCode (w/0) from the keybinding configuration.
-        String keyCode = Configuration.getKeyBinding(String.valueOf(keyEvent.getKeyChar()));
+        String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
         //If it wasn't sustaining...
         if(sustainingKeys.get(keyCode) == null){
             //Add the note to the current sustaining notes.
@@ -73,7 +73,7 @@ public class PianoController implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         //Obtain the keyCode (w/0) from the keybinding configuration.
-        String keyCode = Configuration.getKeyBinding(String.valueOf(keyEvent.getKeyChar()));
+        String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
         //Cut off the sustaining.
         sustainingKeys.get(keyCode).setSustaining(false);
         //Remove it from the current sustaining notes.
