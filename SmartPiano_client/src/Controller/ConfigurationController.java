@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.AudioPlayer;
+import Model.LoginManager;
 import View.ConfigurationView;
 import View.KeyboardConfigurationView;
+import View.LoginView;
 import View.MainMenuView;
 
 import javax.swing.*;
@@ -48,6 +50,18 @@ public class ConfigurationController implements ActionListener {
                 SwingUtilities.invokeLater( () -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);
+                    v.registerController(c);
+                    v.setVisible(true);
+                });
+                break;
+
+            case "LogOff":
+                SwingUtilities.invokeLater(() -> {
+                    v.setVisible(false);
+                    LoginView v = new LoginView();
+                    LoginController c = new LoginController(v);
+                    LoginManager m = new LoginManager(c);
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });

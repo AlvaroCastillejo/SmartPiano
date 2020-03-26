@@ -33,11 +33,13 @@ public class ConfigurationView extends JFrame {
         String f = new File("").getAbsolutePath();
         jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\Configuration.png"));
 
-        jbBack = new JButton("<-");
+        jbBack = new JButton();
+        setButtonInvisible(jbBack);
         jbBack.setBounds(40, 45+offset, 75, 45);
         jpBackground.add(jbBack);
 
-        jbLogOff = new JButton("Log Off"); //LogOff button
+        jbLogOff = new JButton(); //LogOff button
+        setButtonInvisible(jbLogOff);
         jbLogOff.setBounds(100, 160+offset, 285, 45);
         jpBackground.add(jbLogOff);
 
@@ -61,6 +63,15 @@ public class ConfigurationView extends JFrame {
 
         jbBack.addActionListener(al);
         jbBack.setActionCommand("Back");
+
+        jbLogOff.addActionListener(al);
+        jbLogOff.setActionCommand("LogOff");
+    }
+    private void setButtonInvisible(JButton button) {
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
 }
