@@ -48,17 +48,17 @@ public class MainMenuView extends JFrame {
         jpBackground.add(jbPlayPiano);
 
         jbRecordSong = new JButton(); //Record a song button
-        //setButtonInvisible(jbRecordSong);
+        setButtonInvisible(jbRecordSong);
         jbRecordSong.setBounds(100, 220+offset, 285, 45);
         jpBackground.add(jbRecordSong);
 
         jbPlaySong = new JButton(); //Play song button
-        //setButtonInvisible(jbLogin);
+        setButtonInvisible(jbPlaySong);
         jbPlaySong.setBounds(100, 280+offset, 285, 45);
         jpBackground.add(jbPlaySong);
 
         jbFriends = new JButton(); //Friends button
-        //setButtonInvisible(jbLogin);
+        setButtonInvisible(jbFriends);
         jbFriends.setBounds(100, 340+offset, 285, 45);
         jpBackground.add(jbFriends);
 
@@ -77,6 +77,9 @@ public class MainMenuView extends JFrame {
 
         jbConfiguration.addActionListener(al);
         jbConfiguration.setActionCommand("Configuration");
+
+        jbRecordSong.addActionListener(al);
+        jbRecordSong.setActionCommand("RecordPiano");
 
     }
 

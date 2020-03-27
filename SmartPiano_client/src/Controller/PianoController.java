@@ -1,9 +1,12 @@
 package Controller;
 
+import Model.AudioPlayer;
 import Model.Configuration;
 import Model.Note;
+import View.MainMenuView;
 import View.Piano;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -42,6 +45,7 @@ public class PianoController implements ActionListener, KeyListener {
         //String command = actionEvent.getActionCommand();
         //Play the corresponding sound.
         //new KeyPressed(v, command).start();
+        System.out.println("hola");
     }
 
     @Override
@@ -57,13 +61,28 @@ public class PianoController implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         //Obtain the keyCode (w/0) from the keybinding configuration.
         String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
-        //If it wasn't sustaining...
-        if(sustainingKeys.get(keyCode) == null){
-            //Add the note to the current sustaining notes.
-            sustainingKeys.put(keyCode, new KeyPressed(v, keyCode));
-            sustainingKeys.get(keyCode).start();
-            v.pressButton(keyCode);
+
+        switch (keyCode){
+            case "rec":
+                if(v.isRecording() == null || !v.isRecording()){
+                    v.startRecording();
+                } else {
+                    v.stopRecording();
+                }
+                break;
+            case "goBack":
+                break;
+            default:
+                //If it wasn't sustaining...
+                if(sustainingKeys.get(keyCode) == null){
+                    //Add the note to the current sustaining notes.
+                    sustainingKeys.put(keyCode, new KeyPressed(v, keyCode));
+                    sustainingKeys.get(keyCode).start();
+                    v.pressButton(keyCode);
+                }
         }
+
+
     }
 
     /**
@@ -74,14 +93,37 @@ public class PianoController implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         //Obtain the keyCode (w/0) from the keybinding configuration.
         String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
-        //Cut off the sustaining.
-        sustainingKeys.get(keyCode).setSustaining(false);
-        //Remove it from the current sustaining notes.
-        sustainingKeys.remove(keyCode);
-        v.releaseButton(keyCode);
+
+        switch (keyCode) {
+            case "rec":
+                break;
+            case "goBack":
+                v.setVisible(false);
+                SwingUtilities.invokeLater(() -> {
+                    MainMenuView v = new MainMenuView();
+                    MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
+                    v.registerController(c);
+                    v.setVisible(true);
+                });
+                break;
+            default:
+                //Cut off the sustaining.
+                sustainingKeys.get(keyCode).setSustaining(false);
+                //Remove it from the current sustaining notes.
+                sustainingKeys.remove(keyCode);
+                v.releaseButton(keyCode);
+        }
     }
 
     public void drop(Note note) {
         //v.drop(note);
+    }
+
+    public String getRecordingKey() {
+        return Configuration.getRecKeyName();
+    }
+
+    public String getReturnKey() {
+        return  Configuration.getGoBackKeyName();
     }
 }

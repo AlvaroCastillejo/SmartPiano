@@ -63,6 +63,20 @@ public class MenuController implements ActionListener {
                     v.setVisible(true);
                 });
                 break;
+            case "RecordPiano":
+                v.setVisible(false);
+                //Stop the background song.
+                introSong.stopTheCurrent();
+                //Shows the Piano view.
+                SwingUtilities.invokeLater(() -> {
+                    PianoController c = new PianoController();
+                    Song toPlay = new Song("Prueba1.txt", c);
+                    Piano m = new Piano(c, toPlay);
+                    m.isRecordingPiano();
+                    c.setView(m);
+                    m.setVisible(true);
+                });
+                break;
         }
     }
 }

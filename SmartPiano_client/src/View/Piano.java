@@ -2,21 +2,25 @@ package View;
 
 import Controller.PianoController;
 import Model.Song;
+import View.CustomComponents.RoundedPanel;
 
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Piano extends JFrame {
     private PianoController pianoController;
+
     private JButton[] keys;
     private Map<String, JButton> keyboardMap;
     private boolean isRunning;
+
+    private JLabel recording;
+    private RoundedPanel rec;
+    private Boolean isRecording;
+
+    private JLabel goBack;
 
     public Piano(PianoController a, Song toPlay) {
         this.pianoController = a;
@@ -204,12 +208,73 @@ public class Piano extends JFrame {
         playing.start();
     }
 
-
-
     public void stop(){
         isRunning = false;
     }
 
+    public void isRecordingPiano(){
+        recording = new JLabel("Press " + pianoController.getRecordingKey() + " to start/stop recording");
+        recording.setBounds(150 ,90, 600, 100);
+        recording.setFont(new Font("Tahoma", Font.BOLD, 30));
+        getContentPane().add(recording);
+
+        goBack = new JLabel("Press " + pianoController.getReturnKey() + " to quit playing");
+        goBack.setBounds(150, 130, 600, 100);
+        goBack.setFont(new Font("Tahoma", Font.BOLD, 30));
+        getContentPane().add(goBack);
+
+        rec = new RoundedPanel();
+        rec.setShady(true);
+        rec.setBackground(Color.RED);
+        rec.setBounds((856/2)-25-25, 20, 25 ,25);
+        rec.grabFocus();
+        getContentPane().add(rec);
+
+
+        RoundedPanel upperContainer = new RoundedPanel();
+        upperContainer.setShady(false);
+        upperContainer.setBackground(new Color(39, 39, 39));
+        upperContainer.setBounds((856/2)-70, 10, 100, 40);
+        getContentPane().add(upperContainer);
+
+        getContentPane().repaint();
+    }
+
+    public void startRecording(){
+        Thread recordingThread  = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isRecording = true;
+                recording.setVisible(false);
+                goBack.setVisible(false);
+                while (isRecording){
+                    try {
+                        //Thread.sleep(10);
+                        rec.setVisible(false);
+                        getContentPane().repaint();
+                        Thread.sleep(1000);
+                        rec.setVisible(true);
+                        getContentPane().repaint();
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        recordingThread.start();
+    }
+
+    public void stopRecording(){
+        isRecording = false;
+        recording.setVisible(true);
+        goBack.setVisible(true);
+    }
+
+    public Boolean isRecording() {
+        return isRecording;
+    }
 }
 
 

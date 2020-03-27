@@ -2,59 +2,50 @@ package View.CustomComponents;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class JPiano extends JPanel {
+    private JButton[] keys;
+
     public JPiano() {
-        //no funciona el JPanel..
-        JLayeredPane teclat = new JLayeredPane();
+        setSize(856, 800);
+        JLayeredPane keyBoard = new JLayeredPane();
 
         // total de tecles
-        JButton[] tecla = new JButton[24];
-        int sum = 0, i;
+        keys = new JButton[36];
+        int j = 0;
         //las teclas normals
-        for (i = 0; i < 14; i++) {
-            tecla[sum] = crearTeclaNormal(i);
-            teclat.add(tecla[sum], 0, -1);
-            sum += 1;
+        for (int i = 0; i < 21; i++) {
+            keys[j] = generateKey(i);
+            keyBoard.add(keys[j], 0, -1);
+            j += 1;
             if (i % 7 != 2 && i % 7 != 6) {
-                tecla[sum] = crearTeclaSust(i);
-                teclat.add(tecla[sum], 1, -1);
-                sum += 1;
+                keys[j] = generateSustKey(i);
+                keyBoard.add(keys[j], 1, -1);
+                j += 1;
             }
         }
-
-        teclat.setSize(500,300);
-        teclat.setLocation(450,800);
-
-
-        this.add(teclat);
-        //setLocationRelativeTo(null);
-        setSize(900, 800);
-        setVisible(true);
-        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     }
 
-    private JButton crearTeclaNormal(int i)
-    {
-        JButton teclaB = new JButton();
-        teclaB.setBackground(Color.WHITE);
-        //teclaB.setBorderPainted(true);
-        teclaB.setOpaque(true);
-        teclaB.setLocation(i*40,0);
-        teclaB.setSize(40, 150);
-        return teclaB;
+    private JButton generateKey(int i){
+        JButton key = new JButton();
+        key.setBackground(Color.WHITE);
+        //key.setBorderPainted(true);
+        key.setOpaque(true);
+        key.setLocation(i*40,0);
+        key.setSize(40, 200);
+
+        return key;
     }
 
-    private JButton crearTeclaSust(int i)
-    {
-        JButton teclaN = new JButton();
-        teclaN.setBackground(Color.BLACK);
-        teclaN.setBorderPainted(false);
-        teclaN.setOpaque(true);
-        teclaN.setLocation(25 + i*40,0);
-        teclaN.setSize(30, 90);
+    private JButton generateSustKey(int i){
+        JButton sustKey = new JButton();
+        sustKey.setBackground(Color.BLACK);
+        //sustKey.setBorderPainted(false);
+        sustKey.setOpaque(true);
+        sustKey.setLocation(25 + i*40,0);
+        sustKey.setSize(30, 125);
 
-        return teclaN;
+        return sustKey;
     }
 }

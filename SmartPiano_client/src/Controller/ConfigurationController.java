@@ -62,6 +62,7 @@ public class ConfigurationController implements ActionListener {
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
                     c.registerManager(m);
+                    c.startClient();
                     v.registerController(c);
                     v.setVisible(true);
                 });
