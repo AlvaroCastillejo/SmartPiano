@@ -8,8 +8,12 @@ import View.LoginView;
 import View.MainMenuView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 //Controller for the ConfigurationView.
 public class ConfigurationController implements ActionListener {
@@ -58,6 +62,7 @@ public class ConfigurationController implements ActionListener {
             case "LogOff":
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
+                    introSong.interrupt();
                     LoginView v = new LoginView();
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
