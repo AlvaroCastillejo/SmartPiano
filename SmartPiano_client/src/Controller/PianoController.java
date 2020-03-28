@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.AudioPlayer;
-import Model.Configuration;
-import Model.Note;
-import Model.PianoManager;
+import Model.*;
 import View.MainMenuView;
 import View.Piano;
 
@@ -15,11 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-import java.time.Clock;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 //The controller for the Piano view.
 public class PianoController implements ActionListener, KeyListener {
@@ -263,6 +257,8 @@ public class PianoController implements ActionListener, KeyListener {
             //write the MIDI sequence to a MIDI file
             File f = new File("midifile.mid");
             MidiSystem.write(s,1,f);
+
+            FileSaver fileSaver = new FileSaver(f);
         } catch (InvalidMidiDataException | IOException e) {
             e.printStackTrace();
         }
