@@ -61,6 +61,10 @@ public class PianoController implements ActionListener, KeyListener {
         //Obtain the keyCode (w/0) from the keybinding configuration.
         String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
 
+        if(keyCode == null){
+            return;
+        }
+
         switch (keyCode){
             case "rec":
                 if(v.isRecording() == null || !v.isRecording()){
@@ -97,6 +101,10 @@ public class PianoController implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         //Obtain the keyCode (w/0) from the keybinding configuration.
         String keyCode = Configuration.getKeyBinding(keyEvent.getKeyCode());
+
+        if(keyCode == null){
+            return;
+        }
 
         switch (keyCode) {
             case "rec":

@@ -14,7 +14,7 @@ public class Piano extends JFrame {
 
     private JButton[] keys;
     private Map<String, JButton> keyboardMap;
-    private boolean isRunning;
+    //private boolean isRunning;
 
     private JLabel recording;
     private RoundedPanel rec;
@@ -28,7 +28,7 @@ public class Piano extends JFrame {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
         ascendingNotes = new HashMap<>();
-        isRunning = false;
+        boolean isRunning = false;
 
         setSize(856, 800);
         setLocationRelativeTo(null);
@@ -185,7 +185,7 @@ public class Piano extends JFrame {
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {
-                isRunning = true;
+                boolean isRunning = true;
 
                 int i = 7;
                 while (isRunning){
@@ -209,10 +209,6 @@ public class Piano extends JFrame {
         });
 
         playing.start();
-    }
-
-    public void stop(){
-        isRunning = false;
     }
 
     public void isRecordingPiano(){
@@ -283,7 +279,7 @@ public class Piano extends JFrame {
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {
-                isRunning = true;
+                boolean isRunning = true;
                 boolean croped = false;
 
                 int x = keyboardMap.get(ascendingNote).getX();
@@ -292,10 +288,15 @@ public class Piano extends JFrame {
                 int j = 0;
                 while (isRunning){
                     try {
-                        JPanel note = new JPanel();
-                        note.setSize(40,j);
-                        note.setLocation(x,i);
-                        note.setBackground(new Color(140, 0, 25));
+                        RoundedPanel note = new RoundedPanel();
+                        note.setSize(35,j);
+                        note.setLocation(x+2,i);
+                        if(ascendingNote.startsWith("b")){
+                            note.setBackground(new Color(88, 111, 192));
+                            note.grabFocus();
+                        } else {
+                            note.setBackground(new Color(88, 135, 192));
+                        }
                         getContentPane().add(note);
                         getContentPane().repaint();
                         //Determines the speed of the ascending notes. 10ms means 5s.
@@ -310,10 +311,17 @@ public class Piano extends JFrame {
                             croped = true;
                         }
 
+                        if(onTop(note)){
+                            isRunning = false;
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+            }
+
+            private boolean onTop(JPanel note) {
+                return note.getY()+note.getHeight() == 0;
             }
         });
         //Hardcoded to 1. Should be the keyCode
