@@ -249,119 +249,119 @@ public class PianoManager {
         return null;
     }
 
-    public int getHexaCode(String keyCode){
+    public static int getHexaCode(String keyCode){
         int toReturn = -1;
         if(getKeyName(keyCode) == null){
             return toReturn;
         }
-        switch (getKeyName(keyCode)){
+        switch (keyCode){
             case "C2":
-                toReturn = 0x30;
+                toReturn = 0x18;
                 break;
             case "Db2":
-                toReturn = 0x31;
+                toReturn = 0x19;
                 break;
             case "D2":
-                toReturn = 0x32;
+                toReturn = 0x1A;
                 break;
             case "Eb2":
-                toReturn = 0x33;
+                toReturn = 0x1B;
                 break;
             case "E2":
-                toReturn = 0x34;
+                toReturn = 0x1C;
                 break;
             case "F2":
-                toReturn = 0x35;
+                toReturn = 0x1D;
                 break;
             case "Gb2":
-                toReturn = 0x36;
+                toReturn = 0x1E;
                 break;
             case "G2":
-                toReturn = 0x37;
+                toReturn = 0x1F;
                 break;
             case "Ab2":
-                toReturn = 0x38;
+                toReturn = 0x20;
                 break;
             case "A2":
-                toReturn = 0x39;
+                toReturn = 0x21;
                 break;
             case "Bb2":
-                toReturn = 0x3A;
+                toReturn = 0x22;
                 break;
             case "B2":
-                toReturn = 0x3B;
+                toReturn = 0x23;
                 break;
             case "C3":
-                toReturn = 0x3C;
+                toReturn = 0x24;
                 break;
             case "Db3":
-                toReturn = 0x3D;
+                toReturn = 0x25;
                 break;
             case "D3":
-                toReturn = 0x3F;
+                toReturn = 0x26;
                 break;
             case "Eb3":
-                toReturn = 0x40;
+                toReturn = 0x27;
                 break;
             case "E3":
-                toReturn = 0x41;
+                toReturn = 0x28;
                 break;
             case "F3":
-                toReturn = 0x42;
+                toReturn = 0x29;
                 break;
             case "Gb3":
-                toReturn = 0x43;
+                toReturn = 0x2A;
                 break;
             case "G3":
-                toReturn = 0x44;
+                toReturn = 0x2B;
                 break;
             case "Ab3":
-                toReturn = 0x45;
+                toReturn = 0x2C;
                 break;
             case "A3":
-                toReturn = 0x46;
+                toReturn = 0x2D;
                 break;
             case "Bb3":
-                toReturn = 0x47;
+                toReturn = 0x2E;
                 break;
             case "B3":
-                toReturn = 0x48;
+                toReturn = 0x2F;
                 break;
             case "C4":
-                toReturn = 0x49;
+                toReturn = 0x30;
                 break;
             case "Db4":
-                toReturn = 0x4A;
+                toReturn = 0x31;
                 break;
             case "D4":
-                toReturn = 0x4B;
+                toReturn = 0x32;
                 break;
             case "Eb4":
-                toReturn = 0x4C;
+                toReturn = 0x33;
                 break;
             case "E4":
-                toReturn = 0x4D;
+                toReturn = 0x34;
                 break;
             case "F4":
-                toReturn = 0x4E;
+                toReturn = 0x35;
                 break;
             case "Gb4":
-                toReturn = 0x4F;
+                toReturn = 0x36;
                 break;
             case "G4":
-                toReturn = 0x50;
+                toReturn = 0x37;
                 break;
             case "Ab4":
-                toReturn = 0x51;
+                toReturn = 0x38;
                 break;
             case "A4":
-                toReturn = 0x52;
+                toReturn = 0x39;
                 break;
             case "Bb4":
-                toReturn = 0x53;
+                toReturn = 0x3A;
                 break;
             case "B4":
-                toReturn = 0x54;
+                toReturn = 0x3B;
                 break;
         }
         return toReturn;
