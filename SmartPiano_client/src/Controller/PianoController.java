@@ -28,6 +28,7 @@ public class PianoController implements ActionListener, KeyListener {
     private Map<String, KeyPressed> sustainingKeys;
     private ActionListener[] actionListeners;
     private boolean isRecordingPiano;
+    private boolean startedRecording;
 
     Track t;
     Sequence s;
@@ -39,6 +40,7 @@ public class PianoController implements ActionListener, KeyListener {
     public PianoController(){
         sustainingKeys = new HashMap<>();
         isRecordingPiano = false;
+        startedRecording = false;
     }
 
     /**
@@ -108,7 +110,9 @@ public class PianoController implements ActionListener, KeyListener {
                     sustainingKeys.put(keyCode, new KeyPressed(v, keyCode));
                     sustainingKeys.get(keyCode).start();
                     v.pressButton(keyCode);
-                    notePressed(keyCode);
+                    if(isRecordingPiano && startedRecording){
+                        notePressed(keyCode);
+                    }
                 }
         }
     }
@@ -134,6 +138,8 @@ public class PianoController implements ActionListener, KeyListener {
      * Creates the MIDI file that will store the notes played.
      */
     private void startRecording() {
+
+        startedRecording = true;
         try {
             initialTime = System.currentTimeMillis();
             s = new Sequence(Sequence.PPQ,120);
@@ -210,15 +216,15 @@ public class PianoController implements ActionListener, KeyListener {
                 });
                 break;
             default:
-
                 v.cropAscendingNote(keyCode);
-
                 //Cut off the sustaining.
                 sustainingKeys.get(keyCode).setSustaining(false);
                 //Remove it from the current sustaining notes.
                 sustainingKeys.remove(keyCode);
                 v.releaseButton(keyCode);
-                noteReleased(keyCode);
+                if(isRecordingPiano && startedRecording){
+                    noteReleased(keyCode);
+                }
         }
     }
 
@@ -243,6 +249,8 @@ public class PianoController implements ActionListener, KeyListener {
      * Finishes the MIDI file, closes it and saves it.
      */
     private void stopRecording() {
+
+        startedRecording = false;
         try {
 
             //set end of track (meta event) 19 ticks later
