@@ -249,12 +249,17 @@ public class PianoManager {
         return null;
     }
 
-    public static int getHexaCode(String keyCode){
+    /**
+     * Obtains the equivalent Hexadecimal Code for a given Note name (C2).
+     * @param keyName The name of the desired Note.
+     * @return returns the hexadecimal code for the note to be inserted in the MIDI file.
+     */
+    public static int getHexaCode(String keyName){
         int toReturn = -1;
-        if(getKeyName(keyCode) == null){
+        if(getKeyName(keyName) == null){
             return toReturn;
         }
-        switch (keyCode){
+        switch (keyName){
             case "C2":
                 toReturn = 0x18;
                 break;

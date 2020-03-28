@@ -41,6 +41,10 @@ public class PianoController implements ActionListener, KeyListener {
         isRecordingPiano = false;
     }
 
+    /**
+     * Assigns the view of the controller.
+     * @param v The piano to control.
+     */
     public void setView(Piano v) {
         this.v = v;
     }
@@ -56,6 +60,10 @@ public class PianoController implements ActionListener, KeyListener {
         //new KeyPressed(v, command).start();
     }
 
+    /**
+     * Detects if a key (from the keyboard) has been typed.
+     * @param keyEvent The information about the key typed.
+     */
     @Override
     public void keyTyped(KeyEvent keyEvent) {
 
@@ -105,6 +113,10 @@ public class PianoController implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Saves the note pressed in the MIDI file. This only stores the beginning of the note.
+     * @param keyCode The code of the note pressed.
+     */
     private void notePressed(String keyCode) {
         int hexacode = PianoManager.getHexaCode(PianoManager.getKeyName(keyCode));
         try {
@@ -118,19 +130,9 @@ public class PianoController implements ActionListener, KeyListener {
         }
     }
 
-    private void noteReleased(String keyCode){
-        int hexacode = PianoManager.getHexaCode(PianoManager.getKeyName(keyCode));
-        try {
-            //****  note off - middle C - 120 ticks later  ****
-            ShortMessage mm = new ShortMessage();
-            mm.setMessage(0x80,hexacode,0x40);
-            MidiEvent me = new MidiEvent(mm,(long) (System.currentTimeMillis()-initialTime)+120);
-            t.add(me);
-        } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Creates the MIDI file that will store the notes played.
+     */
     private void startRecording() {
         try {
             initialTime = System.currentTimeMillis();
@@ -220,6 +222,26 @@ public class PianoController implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Saves the note pressed in the MIDI file. This stores the end of the note.
+     * @param keyCode The code of the note released.
+     */
+    private void noteReleased(String keyCode){
+        int hexacode = PianoManager.getHexaCode(PianoManager.getKeyName(keyCode));
+        try {
+            //****  note off - middle C - 120 ticks later  ****
+            ShortMessage mm = new ShortMessage();
+            mm.setMessage(0x80,hexacode,0x40);
+            MidiEvent me = new MidiEvent(mm,(long) (System.currentTimeMillis()-initialTime)+120);
+            t.add(me);
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Finishes the MIDI file, closes it and saves it.
+     */
     private void stopRecording() {
         try {
 
@@ -238,7 +260,10 @@ public class PianoController implements ActionListener, KeyListener {
         }
     }
 
-
+    /**
+     * Drops one note on the Piano.
+     * @param note The note to drop.
+     */
     public void drop(Note note) {
         //v.drop(note);
     }

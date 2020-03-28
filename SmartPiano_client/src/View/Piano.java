@@ -14,7 +14,6 @@ public class Piano extends JFrame {
 
     private JButton[] keys;
     private Map<String, JButton> keyboardMap;
-    //private boolean isRunning;
 
     private JLabel recording;
     private RoundedPanel rec;
@@ -22,6 +21,7 @@ public class Piano extends JFrame {
 
     private JLabel goBack;
 
+    //Stores the Notes that are being built.
     private Map<String, Thread> ascendingNotes;
 
     public Piano(PianoController a, Song toPlay) {
@@ -38,10 +38,10 @@ public class Piano extends JFrame {
 
         JLayeredPane keyBoard = new JLayeredPane();
 
-        // total de tecles
+        //Total amount of keys.
         keys = new JButton[36];
         int j = 0;
-        //las teclas normals
+        //The normal keys.
         for (int i = 0; i < 21; i++) {
             keys[j] = generateKey(i);
             keyBoard.add(keys[j], 0, -1);
@@ -56,6 +56,7 @@ public class Piano extends JFrame {
         keyBoard.setSize(840,300);
         keyBoard.setLocation(0,550);
 
+        //Beautifiers.
         JPanel horizontalDivider = new JPanel();
         horizontalDivider.setSize(840, 7);
         horizontalDivider.setLocation(0, 541);
@@ -282,15 +283,20 @@ public class Piano extends JFrame {
                 boolean isRunning = true;
                 boolean croped = false;
 
+                //Get the position of the note.
                 int x = keyboardMap.get(ascendingNote).getX();
 
+                //i = 541 to start from the bottom.
                 int i = 541;
+                //Initial size of the note.
                 int j = 0;
+                //Will always be running unless the note displayed is out of view.
                 while (isRunning){
                     try {
                         RoundedPanel note = new RoundedPanel();
                         note.setSize(35,j);
                         note.setLocation(x+2,i);
+                        //Assign different colours if the note is sustained or not. (b/... -> sustained(black) || (w/... -> not sustained(white)))
                         if(ascendingNote.startsWith("b")){
                             note.setBackground(new Color(88, 111, 192));
                             note.grabFocus();
@@ -299,18 +305,24 @@ public class Piano extends JFrame {
                         }
                         getContentPane().add(note);
                         getContentPane().repaint();
-                        //Determines the speed of the ascending notes. 10ms means 5s.
+                        //Determines the speed of the ascending notes. 10ms means 5s to get to the top. Ascends 1 pixel for each 10ms.
                         Thread.sleep(10);
                         getContentPane().remove(note);
                         i--;
+
+                        //If there is another note displaying in the same column (including itself) in this moment.
                         if(!(ascendingNotes.get(ascendingNote) == null)){
+                            //And its not cropped yet, means it's himself.
                             if(!croped){
+                                //Increment the size by one pixel.
                                 j++;
                             }
                         } else {
+                            //If there is NOT another note in this same moment it must have been cropped so the size should not change.
                             croped = true;
                         }
 
+                        //If the bottom of the note reaches the top stop the Thread as it is not visible no more. This way we save computational cost.
                         if(onTop(note)){
                             isRunning = false;
                         }
@@ -329,6 +341,7 @@ public class Piano extends JFrame {
         playing.start();
     }
 
+    //Crop a note by removing it from the ascendingNotes map.
     public void cropAscendingNote(String note){
         ascendingNotes.remove(note);
     }
