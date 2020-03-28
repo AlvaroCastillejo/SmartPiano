@@ -22,16 +22,14 @@ public class PianoController implements ActionListener, KeyListener {
     //A map with the keys that are concurrently sustaining.
     private Map<String, KeyPressed> sustainingKeys;
     private ActionListener[] actionListeners;
+    private boolean isRecordingPiano;
 
     /**
      * An empty constructor.
      */
     public PianoController(){
         sustainingKeys = new HashMap<>();
-    }
-
-    public ActionListener getActionListener(int i) {
-        return actionListeners[i];
+        isRecordingPiano = false;
     }
 
     public void setView(Piano v) {
@@ -47,7 +45,6 @@ public class PianoController implements ActionListener, KeyListener {
         //String command = actionEvent.getActionCommand();
         //Play the corresponding sound.
         //new KeyPressed(v, command).start();
-        System.out.println("hola");
     }
 
     @Override
@@ -75,6 +72,13 @@ public class PianoController implements ActionListener, KeyListener {
             case "goBack":
                 break;
             default:
+
+                if(isRecordingPiano){
+                    if((sustainingKeys.get(keyCode) == null)){
+                        v.ascend(keyCode);
+                    }
+                }
+
                 //If it wasn't sustaining...
                 if(sustainingKeys.get(keyCode) == null){
                     //Add the note to the current sustaining notes.
@@ -83,8 +87,6 @@ public class PianoController implements ActionListener, KeyListener {
                     v.pressButton(keyCode);
                 }
         }
-
-
     }
 
     /**
@@ -109,6 +111,9 @@ public class PianoController implements ActionListener, KeyListener {
                 });
                 break;
             default:
+
+                v.cropAscendingNote(keyCode);
+
                 //Cut off the sustaining.
                 sustainingKeys.get(keyCode).setSustaining(false);
                 //Remove it from the current sustaining notes.
@@ -127,5 +132,9 @@ public class PianoController implements ActionListener, KeyListener {
 
     public String getReturnKey() {
         return  Configuration.getGoBackKeyName();
+    }
+
+    public void isRecordingPiano() {
+        this.isRecordingPiano = true;
     }
 }

@@ -22,9 +22,12 @@ public class Piano extends JFrame {
 
     private JLabel goBack;
 
+    private Map<String, Thread> ascendingNotes;
+
     public Piano(PianoController a, Song toPlay) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
+        ascendingNotes = new HashMap<>();
         isRunning = false;
 
         setSize(856, 800);
@@ -274,6 +277,52 @@ public class Piano extends JFrame {
 
     public Boolean isRecording() {
         return isRecording;
+    }
+
+    public synchronized void ascend(String ascendingNote) {
+        Thread playing = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isRunning = true;
+                boolean croped = false;
+
+                int x = keyboardMap.get(ascendingNote).getX();
+
+                int i = 541;
+                int j = 0;
+                while (isRunning){
+                    try {
+                        JPanel note = new JPanel();
+                        note.setSize(40,j);
+                        note.setLocation(x,i);
+                        note.setBackground(new Color(140, 0, 25));
+                        getContentPane().add(note);
+                        getContentPane().repaint();
+                        //Determines the speed of the ascending notes. 10ms means 5s.
+                        Thread.sleep(10);
+                        getContentPane().remove(note);
+                        i--;
+                        if(!(ascendingNotes.get(ascendingNote) == null)){
+                            if(!croped){
+                                j++;
+                            }
+                        } else {
+                            croped = true;
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Hardcoded to 1. Should be the keyCode
+        ascendingNotes.put(ascendingNote, playing);
+        playing.start();
+    }
+
+    public void cropAscendingNote(String note){
+        ascendingNotes.remove(note);
     }
 }
 
