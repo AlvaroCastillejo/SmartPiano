@@ -51,6 +51,7 @@ public class ConfigurationController implements ActionListener {
                 break;
             case "Back":
                 v.setVisible(false);
+                introSong.setVolume(1.0f);
                 SwingUtilities.invokeLater( () -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);

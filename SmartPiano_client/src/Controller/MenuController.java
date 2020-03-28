@@ -54,7 +54,7 @@ public class MenuController implements ActionListener {
                 break;
             case "Configuration":
                 v.setVisible(false);
-                //introSong.stopTheCurrent();
+                introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
                     ConfigurationView v = new ConfigurationView();

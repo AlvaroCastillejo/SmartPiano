@@ -60,7 +60,7 @@ public class AudioPlayer extends Thread {
         }
     }
 
-    public void setVolume(int db){
+    public void setVolume(float db){
         volume.setValue(db);
     }
 }
