@@ -39,7 +39,7 @@ public class Song extends Thread {
                 line = bufferedReader.readLine();
             }
             String songName = bufferedReader.readLine().substring(1);
-            System.out.println("Reproducing:" + songName);
+            System.out.println("Reproducing: " + songName);
 
             for(int i = 0; !line.equals("\\"); i++){
                 try{
@@ -87,7 +87,7 @@ public class Song extends Thread {
                     } catch (InterruptedException ignore) {}
                     break;
                 case "1":
-                    currentNotes.put(action, new Note(PianoManager.getKeyCode(action)));
+                    //currentNotes.put(action, new Note(PianoManager.getKeyCode(action)));
                     pianoController.drop(currentNotes.get(action));
                     break;
                 case "2":

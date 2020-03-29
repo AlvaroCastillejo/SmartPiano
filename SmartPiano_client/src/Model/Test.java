@@ -1,6 +1,10 @@
 package Model;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
@@ -14,8 +18,16 @@ public class Test {
     public static final int NOTE_OFF = 0x80;
     public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
+    public static LinkedList<Note> notes;
+    public static Map<String, Note> notes_on;
+    public static Map<String, Note> notes_off;
+
     public static void main(String[] args) throws Exception {
-        Sequence sequence = MidiSystem.getSequence(new File("midifile.mid"));
+        notes = new LinkedList<>();
+        notes_on = new HashMap<>();
+        notes_off = new HashMap<>();
+
+        Sequence sequence = MidiSystem.getSequence(new File("F:\\Escritorio\\Musica\\furElise.mid"));
 
         int trackNumber = 0;
         for (Track track :  sequence.getTracks()) {
@@ -35,6 +47,9 @@ public class Test {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
+
+                        notes_on.put(noteName, new Note(event.getTick()));
+
                         System.out.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
                     } else if (sm.getCommand() == NOTE_OFF) {
                         int key = sm.getData1();
