@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PianoController;
+import Model.Configuration;
 import Model.Note;
 import Model.PianoManager;
 import Model.Song;
@@ -8,6 +9,8 @@ import View.CustomComponents.RoundedPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -212,6 +215,16 @@ public class Piano extends JFrame {
                     getContentPane().add(note);
                     repaint();
                     y++;
+                    if(hit(note)){
+                        JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+note.getHeight()+20);
+                        JButton source = (JButton) jLayeredPane.getComponentAt(note.getX() + 5, 10);
+                        pianoController.keyPressed(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.BUTTON1_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
+                    }
+                    if(hitnt(note)){
+                        JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+note.getHeight()+20);
+                        JButton source = (JButton) jLayeredPane.getComponentAt(note.getX() + 5, 10);
+                        pianoController.keyReleased(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.BUTTON1_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
+                    }
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -219,6 +232,14 @@ public class Piano extends JFrame {
                     }
                     getContentPane().remove(note);
                 } while (!onBottom(note));
+            }
+
+            private boolean hitnt(RoundedPanel note) {
+                return (note.getY() == 541);
+            }
+
+            private boolean hit(RoundedPanel note) {
+                return (note.getY()+note.getHeight()) == 541;
             }
 
             private boolean onBottom(JPanel note) {
