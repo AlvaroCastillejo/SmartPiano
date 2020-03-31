@@ -1,14 +1,22 @@
 package Model;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 //A class that will represent a note to be played.
-public class Note {
+public class Note extends Thread{
 
     private long time_on;
     private long time_off;
     private String name;
+    private long goTime;
+    private Song song;
+    private CyclicBarrier gate;
 
-    public Note(long time_on) {
+    public Note(long time_on, String noteName) {
         this.time_on = time_on;
+        this.name = noteName;
+        this.goTime = 0;
     }
 
     public long getTime_on() {
@@ -27,11 +35,44 @@ public class Note {
         this.time_off = time_off;
     }
 
-    public String getName() {
+    public String getNoteName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setNoteName(String name) {
         this.name = name;
+    }
+
+    public int getPixelSize() {
+        return (int)((time_off)-(time_on))/10;
+    }
+
+    public void setGoTime (long time){
+        this.goTime = time;
+    }
+
+    public void registerSong(Song song){
+        this.song = song;
+    }
+
+    public void registerGate(CyclicBarrier gate){
+        this.gate = gate;
+    }
+
+    @Override
+    public void run(){
+        try {
+            gate.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+        try {
+            sleep(goTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        song.dropNote(this);
+        System.out.println("Drop: " + name);
     }
 }

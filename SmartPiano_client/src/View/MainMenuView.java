@@ -81,6 +81,9 @@ public class MainMenuView extends JFrame {
         jbRecordSong.addActionListener(al);
         jbRecordSong.setActionCommand("RecordPiano");
 
+        jbPlaySong.addActionListener(al);
+        jbPlaySong.setActionCommand("PlaySong");
+
     }
 
     private void setButtonInvisible(JButton button) {

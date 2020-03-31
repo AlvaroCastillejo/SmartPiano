@@ -1,6 +1,8 @@
 package View;
 
 import Controller.PianoController;
+import Model.Note;
+import Model.PianoManager;
 import Model.Song;
 import View.CustomComponents.RoundedPanel;
 
@@ -16,19 +18,25 @@ public class Piano extends JFrame {
     private Map<String, JButton> keyboardMap;
 
     private JLabel recording;
-    private RoundedPanel rec;
-    private Boolean isRecording;
-
     private JLabel goBack;
+    private RoundedPanel rec;
+
+    private Boolean isRecording;
+    private Boolean isSongPlayer;
 
     //Stores the Notes that are being built.
     private Map<String, Thread> ascendingNotes;
+    private Map<String, Thread> fallingNotes;
 
     public Piano(PianoController a, Song toPlay) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
+
         ascendingNotes = new HashMap<>();
+        fallingNotes = new HashMap<>();
+
         boolean isRunning = false;
+        this.isSongPlayer = false;
 
         setSize(856, 800);
         setLocationRelativeTo(null);
@@ -126,8 +134,8 @@ public class Piano extends JFrame {
         getContentPane().add(verticalDivider7);
         getContentPane().setBackground(Color.LIGHT_GRAY);
 
-        toPlay.registerView(this);
-        toPlay.start();
+        //toPlay.registerView(this);
+        //toPlay.start();
     }
 
     private JButton generateKey(int i){
@@ -182,33 +190,44 @@ public class Piano extends JFrame {
 
     public void doAction(String action){    }
 
-    public void drop(String keyCode) {
+    public void drop(Note fallingNote) {
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean isRunning = true;
+                int y = -fallingNote.getPixelSize();
+                //Get the position of the note.
+                int x = keyboardMap.get(PianoManager.getKeyCode(fallingNote.getNoteName())).getX();
 
-                int i = 7;
-                while (isRunning){
+                RoundedPanel note;
+                do{
+                    note = new RoundedPanel();
+                    note.setSize(35, fallingNote.getPixelSize());
+                    note.setLocation(x+2, y);
+                    if(PianoManager.getKeyCode(fallingNote.getNoteName()).startsWith("b")){
+                        note.setBackground(new Color(88, 111, 192));
+                        note.grabFocus();
+                    } else {
+                        note.setBackground(new Color(88, 135, 192));
+                    }
+                    getContentPane().add(note);
+                    repaint();
+                    y++;
                     try {
-                        //Thread.sleep(10);
-                        JPanel note = new JPanel();
-                        note.setSize(840,10);
-                        note.setLocation(0,i);
-                        note.setBackground(new Color(140, 0, 25));
-                        getContentPane().add(note);
-                        System.out.println("repainting note at y: " + note.getLocation().getY());
-                        getContentPane().repaint();
                         Thread.sleep(10);
-                        getContentPane().remove(note);
-                        i++;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                    getContentPane().remove(note);
+                } while (!onBottom(note));
+            }
+
+            private boolean onBottom(JPanel note) {
+                return note.getY() == 541;
             }
         });
 
+        //Hardcoded to 1. Should be the keyCode
+        fallingNotes.put(fallingNote.getNoteName(), playing);
         playing.start();
     }
 
@@ -344,6 +363,10 @@ public class Piano extends JFrame {
     //Crop a note by removing it from the ascendingNotes map.
     public void cropAscendingNote(String note){
         ascendingNotes.remove(note);
+    }
+
+    public void isSongPiano() {
+        this.isSongPlayer = true;
     }
 }
 

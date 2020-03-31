@@ -1,33 +1,26 @@
 package Model;
 
+import javax.sound.midi.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Track;
-
-public class Test {
+public class MidiFileSequencer {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
-    public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+    public static final String[] NOTE_NAMES = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
 
     public static LinkedList<Note> notes;
     public static Map<String, Note> notes_on;
     public static Map<String, Note> notes_off;
 
-    public static void main(String[] args) throws Exception {
+    public static LinkedList<Note> getNotes(String fileName) throws Exception {
         notes = new LinkedList<>();
         notes_on = new HashMap<>();
         notes_off = new HashMap<>();
 
-        Sequence sequence = MidiSystem.getSequence(new File("F:\\Escritorio\\Musica\\furElise.mid"));
+        Sequence sequence = MidiSystem.getSequence(new File(fileName));
 
         int trackNumber = 0;
         for (Track track :  sequence.getTracks()) {
@@ -43,12 +36,12 @@ public class Test {
                     System.out.print("Channel: " + sm.getChannel() + " ");
                     if (sm.getCommand() == NOTE_ON) {
                         int key = sm.getData1();
-                        int octave = (key / 12)-1;
+                        int octave = (key / 12);
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
 
-                        notes_on.put(noteName, new Note(event.getTick()));
+                        notes_on.put(noteName, new Note(event.getTick(), noteName + octave));
 
                         System.out.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
                     } else if (sm.getCommand() == NOTE_OFF) {
@@ -57,6 +50,11 @@ public class Test {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
+
+                        notes_on.get(noteName).setTime_off(event.getTick());
+                        notes.add(notes_on.get(noteName));
+                        notes_on.remove(noteName);
+
                         System.out.println("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
                     } else {
                         System.out.println("Command:" + sm.getCommand());
@@ -68,6 +66,6 @@ public class Test {
 
             System.out.println();
         }
-
+        return notes;
     }
 }

@@ -7,96 +7,49 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 //A class that represents a song to be played in the piano.
 public class Song extends Thread {
-    Map<String, Note> currentNotes;
-    LinkedList<String> instructionBuffer;
-    Piano piano;
-    PianoController pianoController;
+    private LinkedList<Note> notes;
+    private PianoController piano;
+
+    private LinkedList<Note> threadedNotes;
 
     /**
      * The class constructor. Plays the song by dropping the notes. Yet to be fully implemented.
-     * @param fileName Name of the song.
+     * @param notes A list with all the notes of the song.
      * @param c The controller of the piano.
      */
-    public Song(String fileName, PianoController c){
-        currentNotes = new HashMap<>();
-        instructionBuffer = new LinkedList<>();
-        this.pianoController = c;
+    public Song(LinkedList<Note> notes, PianoController c){
+        this.notes = notes;
+        this.piano = c;
 
-        String f = new File("").getAbsolutePath().concat("\\SmartPiano_client\\src\\Model\\Assets\\Music\\" + fileName);
-
-        String line = null;
-
-        try{
-            FileReader fileReader = new FileReader(f);
-
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            for(int i = 0; i < 6; i++){
-                //Ignore format information. Metadata will be added here.
-                line = bufferedReader.readLine();
-            }
-            String songName = bufferedReader.readLine().substring(1);
-            System.out.println("Reproducing: " + songName);
-
-            for(int i = 0; !line.equals("\\"); i++){
-                try{
-                    line = bufferedReader.readLine();
-                    instructionBuffer.add(line);
-                } catch (IOException | NullPointerException e){
-                    break;
-                }
-            }
-            bufferedReader.close();
-        }
-        catch(FileNotFoundException ex){
-            System.out.println(
-                    "Unable to open file '" +
-                            fileName + "'");
-            System.out.println("\nMore info: ");
-            ex.printStackTrace();
-        }
-        catch(IOException ex){
-            System.out.println(
-                    "Error reading file '" +
-                            fileName + "'");
-            System.out.println("\nMore info: ");
-            ex.printStackTrace();
-        }
-    }
-
-    public void registerView(Piano piano) {
-        this.piano = piano;
+        //Crear tantos threads como notas tengan que caer.
     }
 
     @Override
     public void run(){
-        for(String toDo : instructionBuffer){
-            if(toDo.contains("\\")){
-                break;
-            }
-            String actionCode = toDo.split("-")[0];
-            String action = toDo.split("-")[1];
+        final CyclicBarrier gate = new CyclicBarrier(notes.size()+1);
 
-            switch (actionCode){
-                case "0":
-                    try {
-                        sleep(Integer.parseInt(action));
-                    } catch (InterruptedException ignore) {}
-                    break;
-                case "1":
-                    //currentNotes.put(action, new Note(PianoManager.getKeyCode(action)));
-                    pianoController.drop(currentNotes.get(action));
-                    break;
-                case "2":
-
-                    break;
-                case "\\":
-
-                    break;
-            }
+        for(Note note : notes){
+            note.registerSong(this);
+            note.setGoTime(note.getTime_on() + 5000);
+            note.registerGate(gate);
         }
+        for(Note note :notes){
+            note.start();
+        }
+
+        try {
+            gate.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dropNote(Note note) {
+        piano.drop(note);
     }
 }

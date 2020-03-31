@@ -1,8 +1,7 @@
 package Controller;
 
 
-import Model.AudioPlayer;
-import Model.Song;
+import Model.*;
 import View.ConfigurationView;
 import View.MainMenuView;
 import View.Piano;
@@ -12,6 +11,8 @@ import com.sun.tools.javac.Main;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.LinkedList;
 
 //Controller for the MainMenu.
 public class MenuController implements ActionListener {
@@ -46,7 +47,7 @@ public class MenuController implements ActionListener {
                 //Shows the Piano view.
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
-                    Song toPlay = new Song("Prueba1.txt", c);
+                    Song toPlay = new Song(null, c);
                     Piano m = new Piano(c, toPlay);
                     c.setView(m);
                     m.setVisible(true);
@@ -71,12 +72,41 @@ public class MenuController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     c.isRecordingPiano();
-                    Song toPlay = new Song("Prueba1.txt", c);
+                    Song toPlay = new Song(null, c);
                     Piano v = new Piano(c, toPlay);
                     v.isRecordingPiano();
                     c.setView(v);
                     v.setVisible(true);
                 });
+                break;
+            case "PlaySong":
+
+                File midiFile = new FileChooser().FileChooser();
+
+                LinkedList<Note> notes = null;
+                try {
+                    notes = MidiFileSequencer.getNotes(midiFile.getPath());
+
+                    System.out.println();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                v.setVisible(false);
+                //Stop the background song.
+                introSong.stopTheCurrent();
+                //Shows the Piano view.
+                LinkedList<Note> finalNotes = notes;
+                SwingUtilities.invokeLater(() -> {
+                    PianoController c = new PianoController();
+                    Song toPlay = new Song(finalNotes, c);
+                    Piano v = new Piano(c, toPlay);
+                    v.isSongPiano();
+                    c.setView(v);
+                    v.setVisible(true);
+                    toPlay.start();
+                });
+
                 break;
         }
     }

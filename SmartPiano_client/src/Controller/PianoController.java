@@ -269,7 +269,7 @@ public class PianoController implements ActionListener, KeyListener {
      * @param note The note to drop.
      */
     public void drop(Note note) {
-        //v.drop(note);
+        v.drop(note);
     }
 
     public String getRecordingKey() {
