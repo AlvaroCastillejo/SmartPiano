@@ -49,12 +49,14 @@ public class RegisterController implements ActionListener {
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
                     c.registerManager(m);
+                    c.startClient();
                     v.registerController(c);
                     v.setVisible(true);
                 });
                 break;
         }
     }
+
 
     /**
      * Closes the view if the registration was successful.
