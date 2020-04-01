@@ -27,6 +27,7 @@ public class PianoController implements ActionListener, KeyListener {
     Track t;
     Sequence s;
     long initialTime;
+    private boolean autoplay;
 
     /**
      * An empty constructor.
@@ -35,6 +36,7 @@ public class PianoController implements ActionListener, KeyListener {
         sustainingKeys = new HashMap<>();
         isRecordingPiano = false;
         startedRecording = false;
+        autoplay = true;
     }
 
     /**
@@ -80,12 +82,24 @@ public class PianoController implements ActionListener, KeyListener {
 
         switch (keyCode){
             case "rec":
-                if(v.isRecording() == null || !v.isRecording()){
-                    v.startRecording();
-                    startRecording();
-                } else {
-                    v.stopRecording();
-                    stopRecording();
+                if(v.getIsRecordingPianoType()){
+                    if(v.isRecording() == null || !v.isRecording()){
+                        v.startRecording();
+                        startRecording();
+                    } else {
+                        v.stopRecording();
+                        stopRecording();
+                    }
+                    break;
+                }
+                if(v.getIsSongPlayer()){
+                    if(autoplay){
+                        v.setAutoPlay(false);
+                        autoplay = false;
+                    } else {
+                        v.setAutoPlay(true);
+                        autoplay = true;
+                    }
                 }
                 break;
             case "goBack":
@@ -199,6 +213,7 @@ public class PianoController implements ActionListener, KeyListener {
 
         switch (keyCode) {
             case "rec":
+                System.out.println("Holasa");
                 break;
             case "goBack":
                 v.setVisible(false);
@@ -212,7 +227,11 @@ public class PianoController implements ActionListener, KeyListener {
             default:
                 v.cropAscendingNote(keyCode);
                 //Cut off the sustaining.
-                sustainingKeys.get(keyCode).setSustaining(false);
+                try{
+                    sustainingKeys.get(keyCode).setSustaining(false);
+                } catch (NullPointerException e){
+                    System.out.println();
+                }
                 //Remove it from the current sustaining notes.
                 sustainingKeys.remove(keyCode);
                 v.releaseButton(keyCode);
@@ -282,5 +301,9 @@ public class PianoController implements ActionListener, KeyListener {
 
     public void isRecordingPiano() {
         this.isRecordingPiano = true;
+    }
+
+    public void startCount(int countdown) {
+        v.startCountDown(countdown);
     }
 }

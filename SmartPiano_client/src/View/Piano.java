@@ -22,10 +22,13 @@ public class Piano extends JFrame {
 
     private JLabel recording;
     private JLabel goBack;
+    private JLabel jlToggleAutoPlay;
     private RoundedPanel rec;
 
     private Boolean isRecording;
     private Boolean isSongPlayer;
+    private Boolean isRecordingPianoType;
+    private Boolean wantsAutoplay;
 
     //Stores the Notes that are being built.
     private Map<String, Thread> ascendingNotes;
@@ -40,6 +43,8 @@ public class Piano extends JFrame {
 
         boolean isRunning = false;
         this.isSongPlayer = false;
+        this.isRecordingPianoType = false;
+        this.wantsAutoplay = true;
 
         setSize(856, 800);
         setLocationRelativeTo(null);
@@ -215,15 +220,18 @@ public class Piano extends JFrame {
                     getContentPane().add(note);
                     repaint();
                     y++;
-                    if(hit(note)){
+                    boolean tmp = wantsAutoplay;
+                    if(hit(note) && wantsAutoplay){
+                        //tmp = true;
                         JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+note.getHeight()+20);
                         JButton source = (JButton) jLayeredPane.getComponentAt(note.getX() + 5, 10);
                         pianoController.keyPressed(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.BUTTON1_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
                     }
                     if(hitnt(note)){
-                        JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+note.getHeight()+20);
+                        //tmp = false;
+                        JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+20);
                         JButton source = (JButton) jLayeredPane.getComponentAt(note.getX() + 5, 10);
-                        pianoController.keyReleased(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.BUTTON1_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
+                        pianoController.keyReleased(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.ALT_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
                     }
                     try {
                         Thread.sleep(10);
@@ -253,6 +261,9 @@ public class Piano extends JFrame {
     }
 
     public void isRecordingPiano(){
+
+        this.isRecordingPianoType = true;
+
         recording = new JLabel("Press " + pianoController.getRecordingKey() + " to start/stop recording");
         recording.setBounds(150 ,90, 600, 100);
         recording.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -314,6 +325,10 @@ public class Piano extends JFrame {
 
     public Boolean isRecording() {
         return isRecording;
+    }
+
+    public Boolean getIsRecordingPianoType(){
+        return isRecordingPianoType;
     }
 
     public synchronized void ascend(String ascendingNote) {
@@ -388,6 +403,67 @@ public class Piano extends JFrame {
 
     public void isSongPiano() {
         this.isSongPlayer = true;
+
+        jlToggleAutoPlay = new JLabel("Press " + pianoController.getRecordingKey() + " to toggle AutoPlay");
+        jlToggleAutoPlay.setBounds(150 ,90, 600, 100);
+        jlToggleAutoPlay.setFont(new Font("Tahoma", Font.BOLD, 30));
+        getContentPane().add(jlToggleAutoPlay);
+        repaint();
+    }
+
+    public Boolean getIsSongPlayer(){
+        return isSongPlayer;
+    }
+
+    public void startCountDown(int countdown) {
+        int originalCountdown = countdown;
+        final int[] countdownThread = {countdown};
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < originalCountdown; i++){
+                    JLabel jlCountdown = new JLabel(String.valueOf(countdownThread[0]));
+                    jlCountdown.setBounds(350 ,90, 600, 300);
+                    jlCountdown.setFont(new Font("Tahoma", Font.BOLD, 200));
+                    getContentPane().add(jlCountdown);
+                    repaint();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    getContentPane().remove(jlCountdown);
+                    repaint();
+                    countdownThread[0]--;
+                }
+
+                jlToggleAutoPlay.setVisible(false);
+
+                JLabel jlCountdown = new JLabel("Let's play!");
+                jlCountdown.setBounds(150,90, 600, 300);
+                jlCountdown.setFont(new Font("Tahoma", Font.BOLD, 100));
+                getContentPane().add(jlCountdown);
+                repaint();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getContentPane().remove(jlCountdown);
+                repaint();
+            }
+        });
+
+        thread.start();
+
+    }
+
+    public boolean wantsAutoPlay() {
+        return wantsAutoplay;
+    }
+
+    public void setAutoPlay(boolean b) {
+        wantsAutoplay = b;
     }
 }
 

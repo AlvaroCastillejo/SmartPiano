@@ -12,6 +12,7 @@ import java.util.concurrent.CyclicBarrier;
 
 //A class that represents a song to be played in the piano.
 public class Song extends Thread {
+    private static final int COUNTDOWN = 5;
     private LinkedList<Note> notes;
     private PianoController piano;
 
@@ -31,22 +32,26 @@ public class Song extends Thread {
 
     @Override
     public void run(){
+        int countdownMs = COUNTDOWN*1000;
         final CyclicBarrier gate = new CyclicBarrier(notes.size()+1);
 
         for(Note note : notes){
             note.registerSong(this);
-            note.setGoTime(note.getTime_on() + 5000);
+            note.setGoTime(note.getTime_on() + countdownMs);
             note.registerGate(gate);
         }
         for(Note note :notes){
             note.start();
         }
 
+        piano.startCount(COUNTDOWN);
+
         try {
             gate.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
+
     }
 
     public void dropNote(Note note) {
