@@ -17,23 +17,39 @@ import java.util.Map;
 public class Piano extends JFrame {
     private PianoController pianoController;
 
+    //Array with the piano keys.
     private JButton[] keys;
+    //Map with the piano keys with its codes.
     private Map<String, JButton> keyboardMap;
 
+    //Info on the key binding.
     private JLabel recording;
     private JLabel goBack;
     private JLabel jlToggleAutoPlay;
+    //Rec indicator.
     private RoundedPanel rec;
 
+    //Info on the current autoplay state.
+    private JLabel jtBtoggleAutoplay;
+
+    //Its currently recording a song.
     private Boolean isRecording;
+    //Its the "play a song" piano.
     private Boolean isSongPlayer;
+    //Its the "record a song" piano.
     private Boolean isRecordingPianoType;
+    //If the user wants autoplay or not.
     private Boolean wantsAutoplay;
 
     //Stores the Notes that are being built.
     private Map<String, Thread> ascendingNotes;
     private Map<String, Thread> fallingNotes;
 
+    /**
+     * The constructor for the Piano. It builds the simplest piano, without any information or control.
+     * @param a The controller for the Piano.
+     * @param toPlay The song to play if needed.
+     */
     public Piano(PianoController a, Song toPlay) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
@@ -146,14 +162,19 @@ public class Piano extends JFrame {
         //toPlay.start();
     }
 
+    /**
+     * Generates normal key.
+     * @param i The index of the key.
+     * @return The key generated.
+     */
     private JButton generateKey(int i){
         JButton key = new JButton();
         key.setBackground(Color.WHITE);
-        //key.setBorderPainted(true);
         key.setOpaque(true);
         key.setLocation(i*40,0);
         key.setSize(40, 200);
 
+        //Disable space bar triggering click for JButton.
         key.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "none");
         key.addActionListener(pianoController);
         key.setActionCommand("w/".concat(String.valueOf(i)));
@@ -164,14 +185,19 @@ public class Piano extends JFrame {
         return key;
     }
 
+    /**
+     * Generates sustained key.
+     * @param i The index of the key.
+     * @return The key generated.
+     */
     private JButton generateSustKey(int i){
         JButton sustKey = new JButton();
         sustKey.setBackground(Color.BLACK);
-        //sustKey.setBorderPainted(false);
         sustKey.setOpaque(true);
         sustKey.setLocation(25 + i*40,0);
         sustKey.setSize(30, 125);
 
+        //Disable space bar triggering click for JButton.
         sustKey.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "none");
         sustKey.addActionListener(pianoController);
         sustKey.setActionCommand("b/".concat(String.valueOf(i)));
@@ -182,6 +208,10 @@ public class Piano extends JFrame {
         return sustKey;
     }
 
+    /**
+     * Makes a piano key look like its pressed by changing its colour.
+     * @param a The code of the key to press.
+     */
     public void pressButton(String a){
         try{
             if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.DARK_GRAY);
@@ -189,6 +219,10 @@ public class Piano extends JFrame {
         } catch (NullPointerException ignore){}
     }
 
+    /**
+     * Makes a piano key look like its released by changing its colour.
+     * @param a The code of the key to release.
+     */
     public void releaseButton(String a){
         try{
             if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.BLACK);
@@ -196,21 +230,27 @@ public class Piano extends JFrame {
         } catch (NullPointerException ignore){}
     }
 
-    public void doAction(String action){    }
-
+    /**
+     * This method drops a note from the top of the piano.
+     * @param fallingNote The note to drop.
+     */
     public void drop(Note fallingNote) {
+        //Each falling note is a new thread.
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {
+                //Set the Y position where it isn't visible, above the top.
                 int y = -fallingNote.getPixelSize();
-                //Get the position of the note.
+                //Get the X position of the note.
                 int x = keyboardMap.get(PianoManager.getKeyCode(fallingNote.getNoteName())).getX();
 
                 RoundedPanel note;
                 do{
                     note = new RoundedPanel();
                     note.setSize(35, fallingNote.getPixelSize());
+                    //"y" increments by one in each iteration.
                     note.setLocation(x+2, y);
+                    //Set the colour depending if it's sustained or not.
                     if(PianoManager.getKeyCode(fallingNote.getNoteName()).startsWith("b")){
                         note.setBackground(new Color(88, 111, 192));
                         note.grabFocus();
@@ -221,12 +261,18 @@ public class Piano extends JFrame {
                     repaint();
                     y++;
                     boolean tmp = wantsAutoplay;
+
+                    //If the note hits the keys of the piano and the user wants the autoplay.
                     if(hit(note) && wantsAutoplay){
                         //tmp = true;
+                        //Get the pane of the keyboard.
                         JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+note.getHeight()+20);
+                        //From that pane get the button below the note.
                         JButton source = (JButton) jLayeredPane.getComponentAt(note.getX() + 5, 10);
+                        //Emulate that is the user who presses the button by generating a KeyEvent.
                         pianoController.keyPressed(new KeyEvent(source, 1, System.currentTimeMillis(), InputEvent.BUTTON1_DOWN_MASK, Configuration.getKeyNameFromKeyEventCode(PianoManager.getKeyCode(fallingNote.getNoteName())), 'i'));
                     }
+                    //If the note ended.
                     if(hitnt(note)){
                         //tmp = false;
                         JLayeredPane jLayeredPane = (JLayeredPane) getContentPane().getComponentAt(note.getX() + 5, note.getY()+20);
@@ -255,20 +301,25 @@ public class Piano extends JFrame {
             }
         });
 
-        //Hardcoded to 1. Should be the keyCode
+        //Register in the map tha falling note.
         fallingNotes.put(fallingNote.getNoteName(), playing);
         playing.start();
     }
 
+    /**
+     * Settles everything that needs the Recording Piano, such as the rec panel or the info to be displayed.
+     */
     public void isRecordingPiano(){
 
         this.isRecordingPianoType = true;
 
+        //Info
         recording = new JLabel("Press " + pianoController.getRecordingKey() + " to start/stop recording");
         recording.setBounds(150 ,90, 600, 100);
         recording.setFont(new Font("Tahoma", Font.BOLD, 30));
         getContentPane().add(recording);
 
+        //Info
         goBack = new JLabel("Press " + pianoController.getReturnKey() + " to quit playing");
         goBack.setBounds(150, 130, 600, 100);
         goBack.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -281,7 +332,6 @@ public class Piano extends JFrame {
         rec.grabFocus();
         getContentPane().add(rec);
 
-
         RoundedPanel upperContainer = new RoundedPanel();
         upperContainer.setShady(false);
         upperContainer.setBackground(new Color(39, 39, 39));
@@ -291,6 +341,9 @@ public class Piano extends JFrame {
         getContentPane().repaint();
     }
 
+    /**
+     * This only makes the REC dot blink.
+     */
     public void startRecording(){
         Thread recordingThread  = new Thread(new Runnable() {
             @Override
@@ -317,25 +370,43 @@ public class Piano extends JFrame {
         recordingThread.start();
     }
 
+    /**
+     * Updates the state of the view to not recording.
+     */
     public void stopRecording(){
         isRecording = false;
         recording.setVisible(true);
         goBack.setVisible(true);
     }
 
+    /**
+     * Check if the piano is currently recording.
+     * @return If it's recording.
+     */
     public Boolean isRecording() {
         return isRecording;
     }
 
+    /**
+     * Check if the tipe of the piano is the "Recording Piano".
+     * @return If is the recording piano.
+     */
     public Boolean getIsRecordingPianoType(){
         return isRecordingPianoType;
     }
 
+    /**
+     * Creates the ascending note when the user is recording.
+     * @param ascendingNote The code of the key to create.
+     */
     public synchronized void ascend(String ascendingNote) {
+        //Each ascending note is a new Thread.
         Thread playing = new Thread(new Runnable() {
             @Override
             public void run() {
+                //If the note hasn't reached the top isRunning = true.
                 boolean isRunning = true;
+                //If the note is being created (cropped = false) or if the note is already cut off and is ascending (cropped = true)
                 boolean croped = false;
 
                 //Get the position of the note.
@@ -396,11 +467,17 @@ public class Piano extends JFrame {
         playing.start();
     }
 
-    //Crop a note by removing it from the ascendingNotes map.
+    /**
+     * Crop a note by removing it from the ascendingNotes map.
+     * @param note The keyCode of the note to cut off.
+     */
     public void cropAscendingNote(String note){
         ascendingNotes.remove(note);
     }
 
+    /**
+     * Settles everything that needs the Play a Song Piano.
+     */
     public void isSongPiano() {
         this.isSongPlayer = true;
 
@@ -408,13 +485,27 @@ public class Piano extends JFrame {
         jlToggleAutoPlay.setBounds(150 ,90, 600, 100);
         jlToggleAutoPlay.setFont(new Font("Tahoma", Font.BOLD, 30));
         getContentPane().add(jlToggleAutoPlay);
+
+        jtBtoggleAutoplay = new JLabel("autoplay: " + wantsAutoplay);
+        jtBtoggleAutoplay.setBounds(10, 30, 150, 20);
+        jtBtoggleAutoplay.setFont(new Font("Tahoma", Font.BOLD, 20));
+        getContentPane().add(jtBtoggleAutoplay);
+
         repaint();
     }
 
+    /**
+     * Check if the Piano is a Play a Song Piano type.
+     * @return If it's Play a Song.
+     */
     public Boolean getIsSongPlayer(){
         return isSongPlayer;
     }
 
+    /**
+     * Starts the countdown.
+     * @param countdown Countdown seconds.
+     */
     public void startCountDown(int countdown) {
         int originalCountdown = countdown;
         final int[] countdownThread = {countdown};
@@ -462,11 +553,13 @@ public class Piano extends JFrame {
         return wantsAutoplay;
     }
 
+    /**
+     * Switches the autoplay to on/off.
+     * @param b The new autoplay value.
+     */
     public void setAutoPlay(boolean b) {
         wantsAutoplay = b;
+        jtBtoggleAutoplay.setText("autoplay: " + wantsAutoplay);
+        repaint();
     }
 }
-
-
-
-
