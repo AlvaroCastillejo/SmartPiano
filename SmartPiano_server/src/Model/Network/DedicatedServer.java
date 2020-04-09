@@ -1,4 +1,4 @@
-package Network;
+package Model.Network;
 
 import Model.LoginManager;
 import Model.RegisterManager;
@@ -68,6 +68,12 @@ public class DedicatedServer extends Thread {
                                 }
                                 break;
                         }
+                        break;
+                    case "DOWNLOAD":
+
+                        break;
+                    case "UPLOAD":
+
                         break;
                 }
             }

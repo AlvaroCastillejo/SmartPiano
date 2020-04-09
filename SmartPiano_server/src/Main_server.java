@@ -1,5 +1,5 @@
 import Model.Database.SQLOperations;
-import Network.Server;
+import Model.Network.Server;
 
 import java.sql.SQLException;
 
@@ -8,6 +8,7 @@ public class Main_server {
         Server server = new Server();
         server.start();
 
+        //Database
         SQLOperations sqlOperations = new SQLOperations();
         try{
             sqlOperations.ImportaUsuari("admin", "admin", "admin");
