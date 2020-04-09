@@ -3,6 +3,7 @@ package Controller;
 
 import Model.*;
 import View.ConfigurationView;
+import View.FriendView;
 import View.MainMenuView;
 import View.Piano;
 import com.sun.tools.javac.Main;
@@ -107,6 +108,16 @@ public class MenuController implements ActionListener {
                     toPlay.start();
                 });
 
+                break;
+            case "Friends":
+                v.setVisible(false);
+                //Shows the Friends view.
+                SwingUtilities.invokeLater(() -> {
+                    FriendView v = new FriendView();
+                    FriendController c = new FriendController(v, introSong);
+                    v.registerController(c);
+                    v.setVisible(true);
+                });
                 break;
         }
     }

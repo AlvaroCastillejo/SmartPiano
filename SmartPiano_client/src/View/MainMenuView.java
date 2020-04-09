@@ -19,7 +19,6 @@ public class MainMenuView extends JFrame {
     private JButton jbFriends;
     private JButton jbConfiguration;
 
-
     private int offset;
 
     public MainMenuView(){
@@ -83,6 +82,9 @@ public class MainMenuView extends JFrame {
 
         jbPlaySong.addActionListener(al);
         jbPlaySong.setActionCommand("PlaySong");
+
+        jbFriends.addActionListener(al);
+        jbFriends.setActionCommand("Friends");
 
     }
 
