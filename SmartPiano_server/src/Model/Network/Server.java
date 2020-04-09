@@ -1,5 +1,8 @@
 package Model.Network;
 
+import Model.ServerConfiguration;
+import Model.Utils.JsonServerUtils;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +23,8 @@ public class Server extends Thread {
     @Override
     public void run(){
         try {
-            serverSocket = new ServerSocket(PORT);
+            ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+            serverSocket = new ServerSocket(sc.getClientPort());
             isRunning = true;
 
             int i = 0;

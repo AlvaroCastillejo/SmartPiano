@@ -1,5 +1,8 @@
 package Model.Database;
 
+import Model.ServerConfiguration;
+import Model.Utils.JsonServerUtils;
+
 import java.sql.SQLException;
 
 public class SQLOperations {
@@ -8,6 +11,8 @@ public class SQLOperations {
 
 
         System.out.println("conecto ?");
+
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 
         ConectorDB conn = new ConectorDB("root", "admin", "SmartPiano", 3306, "jdbc:mysql://localhost");
         conn.connect();
