@@ -1,9 +1,9 @@
-package Network;
+package Model.Network;
 
-import Controller.LoginController;
-import Controller.RegisterController;
 import Model.LoginManager;
 import Model.RegisterManager;
+import Model.ServerConnectionConfiguration;
+import Model.Utils.JsonUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,8 +30,10 @@ public class Client extends Thread {
      * @throws IOException Because of the socket.
      */
     public Client(LoginManager loginManager) throws IOException {
+        ServerConnectionConfiguration scc = JsonUtils.getConnectionConfiguration("config");
+
         this.loginManager = loginManager;
-        Socket socket = new Socket(IP, PORT);
+        Socket socket = new Socket(scc.getIp(), scc.getPort());
         dos = new DataOutputStream(socket.getOutputStream());
         dis = new DataInputStream(socket.getInputStream());
         id = -1;

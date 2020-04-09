@@ -198,6 +198,31 @@ public class PianoController implements ActionListener, KeyListener {
 
     }
 
+    public static MidiEvent createSetTempoEvent(long tick, long tempo) {
+        // microseconds per quarternote
+        long mpqn = 60000000 / tempo;
+
+        MetaMessage metaMessage = new MetaMessage();
+
+        // create the tempo byte array
+        byte[] array = new byte[] { 0, 0, 0 };
+
+        for (int i = 0; i < 3; i++) {
+            int shift = (3 - 1 - i) * 8;
+            array[i] = (byte) (mpqn >> shift);
+        }
+
+        // now set the message
+        try {
+            metaMessage.setMessage(81, array, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return new MidiEvent(metaMessage, tick);
+    }
+
     /**
      * Detects if a key (from the keyboard) was released.
      * @param keyEvent The information about the key released.
@@ -213,7 +238,6 @@ public class PianoController implements ActionListener, KeyListener {
 
         switch (keyCode) {
             case "rec":
-                System.out.println("Holasa");
                 break;
             case "goBack":
                 v.setVisible(false);

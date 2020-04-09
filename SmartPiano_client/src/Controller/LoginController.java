@@ -2,10 +2,9 @@ package Controller;
 
 import Model.AudioPlayer;
 import Model.LoginManager;
-import Network.Client;
+import Model.Network.Client;
 import View.LoginView;
 import View.MainMenuView;
-import View.Piano;
 import View.RegisterView;
 
 import javax.swing.*;

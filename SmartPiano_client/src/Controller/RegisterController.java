@@ -2,7 +2,7 @@ package Controller;
 
 import Model.LoginManager;
 import Model.RegisterManager;
-import Network.Client;
+import Model.Network.Client;
 import View.LoginView;
 import View.RegisterView;
 
