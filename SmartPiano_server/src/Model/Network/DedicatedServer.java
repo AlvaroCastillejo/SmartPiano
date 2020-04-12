@@ -1,5 +1,6 @@
 package Model.Network;
 
+import Model.Database.SQLOperations;
 import Model.LoginManager;
 import Model.RegisterManager;
 import Model.User;
@@ -9,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DedicatedServer extends Thread {
@@ -61,11 +63,17 @@ public class DedicatedServer extends Thread {
                                 String info = dis.readUTF();
                                 String[] credentials = info.split("/");
                                 User user = new User(credentials[0], credentials[1], credentials[2]);
-                                if(RegisterManager.userAlreadyRegistered(user) == 0){
-                                    RegisterManager.registerUser(user);
-                                    sendAction("REGISTER/registered");
-                                } else {
-                                    sendAction("REGISTER/failed=".concat(String.valueOf(RegisterManager.userAlreadyRegistered(user))));
+                                int status=SQLOperations.userAlreadyExists(user);
+                                switch (status){
+                                    case 0:
+                                        sendAction("REGISTER/registered");
+                                        break;
+                                    case 1:
+                                        sendAction("REGISTER/failed=1");
+                                        break;
+                                    case 2:
+                                        sendAction("REGISTER/failed=2");
+                                        break;
                                 }
                                 break;
                         }

@@ -24,9 +24,11 @@ public class RegisterController implements ActionListener {
     public RegisterController(RegisterView v, Client client){
         this.v = v;
         this.client = client;
+    }
+    public void assignRegisterManager(RegisterManager registerManager){
+        this.registerManager = registerManager;
         client.assignRegisterController(registerManager);
     }
-
     /**
      * Registers all the actions performed in the RegisterView.
      * @param actionEvent The event occurred.

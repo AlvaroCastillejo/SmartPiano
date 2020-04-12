@@ -4,6 +4,7 @@ import Model.AudioPlayer;
 import Model.LoginManager;
 import Model.MenuManager;
 import Model.Network.Client;
+import Model.RegisterManager;
 import View.LoginView;
 import View.MainMenuView;
 import View.RegisterView;
@@ -43,6 +44,8 @@ public class LoginController implements ActionListener {
                     v.setVisible(false);
                     RegisterView v = new RegisterView();
                     RegisterController c = new RegisterController(v, client);
+                    RegisterManager rm = new RegisterManager(c);
+                    c.assignRegisterManager(rm);
                     v.registerController(c);
                     v.setVisible(true);
                 });
@@ -84,6 +87,8 @@ public class LoginController implements ActionListener {
                 v.setVisible(false);
                 RegisterView v = new RegisterView();
                 RegisterController c = new RegisterController(v, client);
+                RegisterManager rm = new RegisterManager(c);
+                c.assignRegisterManager(rm);
                 v.registerController(c);
                 v.setVisible(true);
             });
