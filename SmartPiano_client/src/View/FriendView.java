@@ -96,4 +96,8 @@ public class FriendView extends JFrame {
         button.setBorderPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
+
+    public String getJtFriendCode() {
+        return jtFriendCode.getText();
+    }
 }

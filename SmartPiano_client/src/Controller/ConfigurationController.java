@@ -1,7 +1,9 @@
 package Controller;
 
 import Model.AudioPlayer;
+import Model.ConfigurationManager;
 import Model.LoginManager;
+import Model.MenuManager;
 import View.ConfigurationView;
 import View.KeyboardConfigurationView;
 import View.LoginView;
@@ -20,6 +22,7 @@ public class ConfigurationController implements ActionListener {
 
     private AudioPlayer introSong;
     private ConfigurationView v;
+    private ConfigurationManager m;
 
     /**
      * Constructor for the controller. It initializes the controller.
@@ -55,6 +58,8 @@ public class ConfigurationController implements ActionListener {
                 SwingUtilities.invokeLater( () -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);
+                    MenuManager m = new MenuManager(c, this.m.getClient());
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });
@@ -74,5 +79,9 @@ public class ConfigurationController implements ActionListener {
                 });
                 break;
         }
+    }
+
+    public void registerManager(ConfigurationManager m) {
+        this.m = m;
     }
 }

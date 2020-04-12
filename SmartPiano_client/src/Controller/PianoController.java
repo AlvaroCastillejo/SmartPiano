@@ -18,6 +18,7 @@ import java.util.Map;
 //The controller for the Piano view.
 public class PianoController implements ActionListener, KeyListener {
     private Piano v;
+    private PianoManager m;
     //A map with the keys that are concurrently sustaining.
     private Map<String, KeyPressed> sustainingKeys;
     private ActionListener[] actionListeners;
@@ -244,6 +245,8 @@ public class PianoController implements ActionListener, KeyListener {
                 SwingUtilities.invokeLater(() -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
+                    MenuManager m = new MenuManager(c, this.m.getClient());
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });
@@ -329,5 +332,9 @@ public class PianoController implements ActionListener, KeyListener {
 
     public void startCount(int countdown) {
         v.startCountDown(countdown);
+    }
+
+    public void registerManager(PianoManager m) {
+        this.m = m;
     }
 }

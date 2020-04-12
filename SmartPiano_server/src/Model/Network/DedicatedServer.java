@@ -3,6 +3,7 @@ package Model.Network;
 import Model.LoginManager;
 import Model.RegisterManager;
 import Model.User;
+import Model.Utils.Output;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -38,7 +39,7 @@ public class DedicatedServer extends Thread {
                 String[] elements = action.split("/");
                 action = elements[1];
                 String command = elements[0];
-                //REGISTER/tryRegister
+                Output.print(action, "green");
                 switch (command){
                     case "LOGIN":
                         switch (action){
@@ -73,7 +74,12 @@ public class DedicatedServer extends Thread {
 
                         break;
                     case "UPLOAD":
-
+                        switch (action){
+                            case "friendRequest":
+                                String friendCode = elements[2];
+                                System.out.println("friendCode is: " + friendCode);
+                                break;
+                        }
                         break;
                 }
             }

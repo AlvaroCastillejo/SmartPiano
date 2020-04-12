@@ -1,7 +1,11 @@
 package Model;
 
+import Model.Network.Client;
+
 //A class containind some utils for the piano.
 public class PianoManager {
+
+    private Client client;
 
     /**
      * Gets the name of the key given the code.
@@ -370,5 +374,13 @@ public class PianoManager {
                 break;
         }
         return toReturn;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Client getClient() {
+        return this.client;
     }
 }

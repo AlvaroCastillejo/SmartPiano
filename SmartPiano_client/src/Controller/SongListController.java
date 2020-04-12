@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class SongListController implements ActionListener {
     private AudioPlayer introSong;
     private SongListView v;
-
+    private SongListManager m;
     /**
      * Constructor for the controller. It initializes the controller.
      * @param v The view to control.
@@ -67,11 +67,18 @@ public class SongListController implements ActionListener {
                     Song toPlay = new Song(finalNotes, c);
                     Piano v = new Piano(c, toPlay);
                     v.isSongPiano();
+                    PianoManager m = new PianoManager();
+                    m.setClient(this.m.getClient());
+                    c.registerManager(m);
                     c.setView(v);
                     v.setVisible(true);
                     toPlay.start();
                 });
                 break;
         }
+    }
+
+    public void registerManager(SongListManager m) {
+        this.m = m;
     }
 }

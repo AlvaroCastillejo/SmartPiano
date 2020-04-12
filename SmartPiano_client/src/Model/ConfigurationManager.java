@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Network.Client;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +10,18 @@ public class ConfigurationManager {
     private Map<String, String> teclado;
     private boolean introMusic;
     private int volume;
-
+    private Client client;
 
     public ConfigurationManager() {
         this.teclado = new HashMap<>();
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public boolean isIntroMusic() { return introMusic; }

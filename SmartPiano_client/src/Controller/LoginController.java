@@ -2,6 +2,7 @@ package Controller;
 
 import Model.AudioPlayer;
 import Model.LoginManager;
+import Model.MenuManager;
 import Model.Network.Client;
 import View.LoginView;
 import View.MainMenuView;
@@ -72,6 +73,8 @@ public class LoginController implements ActionListener {
             SwingUtilities.invokeLater(() -> {
                 MainMenuView v = new MainMenuView();
                 MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
+                MenuManager m = new MenuManager(c, client);
+                c.registerManager(m);
                 v.registerController(c);
                 v.setVisible(true);
             });

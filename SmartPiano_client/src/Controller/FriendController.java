@@ -1,7 +1,6 @@
 package Controller;
 
-import Model.AudioPlayer;
-import Model.LoginManager;
+import Model.*;
 import View.*;
 
 import javax.swing.*;
@@ -11,6 +10,7 @@ import java.awt.event.ActionListener;
 public class FriendController implements ActionListener {
     private AudioPlayer introSong;
     private FriendView v;
+    private FriendManager m;
 
     /**
      * Constructor for the controller. It initializes the controller.
@@ -35,12 +35,15 @@ public class FriendController implements ActionListener {
                 SwingUtilities.invokeLater( () -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);
+                    MenuManager m = new MenuManager(c, this.m.getClient());
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });
                 break;
             case "AddFriend":
                 //add friend, update friendView and show the new friend in the table
+                m.sendRequest("UPLOAD/friendRequest/" + v.getJtFriendCode());
                 break;
             case "Friend":
                 //if friend is selected, show ShowSongs and DeleteFriend buttons above Friend button
@@ -53,6 +56,8 @@ public class FriendController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     SongListView v = new SongListView();
                     SongListController c = new SongListController(v, introSong);
+                    SongListManager m = new SongListManager(c, this.m.getClient());
+                    c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
                 });
@@ -61,5 +66,9 @@ public class FriendController implements ActionListener {
                 //delete the selected friend, update friendView and don't show that friend in the table
                 break;
         }
+    }
+
+    public void registerManager(FriendManager m) {
+        this.m = m;
     }
 }
