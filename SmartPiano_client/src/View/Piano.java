@@ -481,6 +481,12 @@ public class Piano extends JFrame {
     public void isSongPiano() {
         this.isSongPlayer = true;
 
+        //Info
+        goBack = new JLabel("Press " + pianoController.getReturnKey() + " to quit playing");
+        goBack.setBounds(150, 130, 600, 100);
+        goBack.setFont(new Font("Tahoma", Font.BOLD, 30));
+        getContentPane().add(goBack);
+
         jlToggleAutoPlay = new JLabel("Press " + pianoController.getRecordingKey() + " to toggle AutoPlay");
         jlToggleAutoPlay.setBounds(150 ,90, 600, 100);
         jlToggleAutoPlay.setFont(new Font("Tahoma", Font.BOLD, 30));

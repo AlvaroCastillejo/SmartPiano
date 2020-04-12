@@ -42,16 +42,6 @@ public class ConfigurationController implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         String command = actionEvent.getActionCommand();
         switch (command) {
-            case "KeyboardConfiguration":
-                introSong.setVolume(-40);
-                v.setVisible(false);
-                SwingUtilities.invokeLater( () -> {
-                    KeyboardConfigurationController c = new KeyboardConfigurationController();
-                    KeyboardConfigurationView m = new KeyboardConfigurationView(c);
-                    c.setView(m);
-                    m.setVisible(true);
-                });
-                break;
             case "Back":
                 v.setVisible(false);
                 introSong.setVolume(1.0f);
@@ -66,6 +56,32 @@ public class ConfigurationController implements ActionListener {
                 break;
 
             case "LogOff":
+                SwingUtilities.invokeLater(() -> {
+                    v.setVisible(false);
+                    introSong.interrupt();
+                    LoginView v = new LoginView();
+                    LoginController c = new LoginController(v);
+                    LoginManager m = new LoginManager(c);
+                    c.registerManager(m);
+                    c.startClient();
+                    v.registerController(c);
+                    v.setVisible(true);
+                });
+                break;
+
+            case "KeyboardConfiguration":
+                introSong.setVolume(-40);
+                v.setVisible(false);
+                SwingUtilities.invokeLater( () -> {
+                    KeyboardConfigurationController c = new KeyboardConfigurationController();
+                    KeyboardConfigurationView m = new KeyboardConfigurationView(c);
+                    c.setView(m,introSong);
+                    m.setVisible(true);
+                });
+                break;
+
+            case "DeleteAccount":
+                //delete current user account and data
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
                     introSong.interrupt();

@@ -1,22 +1,53 @@
 package View;
 
 import Controller.KeyboardConfigurationController;
+import View.CustomComponents.JPanelBackground;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class KeyboardConfigurationView extends JFrame {
+    private JPanelBackground jpBackground;
+    private JButton jbBack;
     private KeyboardConfigurationController keyboardController;
     private JButton[] keys;
+    private int offset;
 
     public KeyboardConfigurationView(KeyboardConfigurationController k) {
         this.keyboardController = k;
 
+        setTitle("Edit Keys");
+        setSize(900, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+
+        if(System.getProperty("os.name").equals("mac")){
+            offset = 10;
+        } else {
+            offset = 0;
+        }
+
+        jpBackground = new JPanelBackground();
+        jpBackground.setLayout(null);
+        String f = new File("").getAbsolutePath();
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\edit-keys.jpg"));
+
+        jbBack = new JButton(); //back to configuration view
+        setButtonInvisible(jbBack);
+        jbBack.setBounds(40, 45+offset, 75, 45);
+        jpBackground.add(jbBack);
+
+        //piano keyboard
+        /*
         setSize(856, 400);
         setLocationRelativeTo (null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
         setResizable(false);
+        */
 
         JLayeredPane keyBoard = new JLayeredPane();
 
@@ -36,7 +67,7 @@ public class KeyboardConfigurationView extends JFrame {
         }
 
         keyBoard.setSize(840,300);
-        keyBoard.setLocation(0,550);
+        keyBoard.setLocation(22,200);
 
         JPanel horizontalDivider = new JPanel();
         horizontalDivider.setSize(840, 7);
@@ -102,5 +133,20 @@ public class KeyboardConfigurationView extends JFrame {
         return sustKey;
     }
 
+    public void registerController (ActionListener al) {
+        jbBack.addActionListener(al);
+        jbBack.setActionCommand("Back");
+    }
+
+    /**
+     * Turns the JButton invisible.
+     * @param button
+     */
+    private void setButtonInvisible(JButton button) {
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
 
 }

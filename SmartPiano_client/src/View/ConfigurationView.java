@@ -11,7 +11,7 @@ public class ConfigurationView extends JFrame {
     private JPanelBackground jpBackground;
     private JButton jbBack;
     private JButton jbLogOff;
-    private JButton jbeditKeys;
+    private JButton jbEditKeys;
     private JButton jbDeleteAccount;
     private int offset;
 
@@ -43,29 +43,31 @@ public class ConfigurationView extends JFrame {
         jbLogOff.setBounds(100, 160+offset, 285, 45);
         jpBackground.add(jbLogOff);
 
-        jbeditKeys = new JButton("Edit Keys"); //Edit Keys button
-        jbeditKeys.setBounds(100, 240+offset, 285, 45);
-        jpBackground.add(jbeditKeys);
+        jbEditKeys = new JButton(); //Edit Keys button
+        setButtonInvisible(jbEditKeys);
+        jbEditKeys.setBounds(100, 240+offset, 285, 45);
+        jpBackground.add(jbEditKeys);
 
         jbDeleteAccount = new JButton("Delete account"); //Delete account button
+        //setButtonInvisible(jbDeleteAccount);
         jbDeleteAccount.setBounds(100, 320+offset, 285, 45);
         jpBackground.add(jbDeleteAccount);
 
-
         getContentPane().add(jpBackground, BorderLayout.CENTER);
-
-
     }
 
     public void registerController (ActionListener al) {
-        jbeditKeys.addActionListener(al);
-        jbeditKeys.setActionCommand("KeyboardConfiguration");
-
         jbBack.addActionListener(al);
         jbBack.setActionCommand("Back");
 
+        jbEditKeys.addActionListener(al);
+        jbEditKeys.setActionCommand("KeyboardConfiguration");
+
         jbLogOff.addActionListener(al);
         jbLogOff.setActionCommand("LogOff");
+
+        jbDeleteAccount.addActionListener(al);
+        jbDeleteAccount.setActionCommand("DeleteAccount");
     }
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);

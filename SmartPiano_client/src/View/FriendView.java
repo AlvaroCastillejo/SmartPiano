@@ -84,12 +84,16 @@ public class FriendView extends JFrame {
         //quiero usar la misma vista para las canciones del usuario y del amigo seleccionado
         //pero para mostrar la lista de canciones necesito pasarle el nombre del usuario al que pertenecen
         jbShowFriendSongs.addActionListener(al);
-        jbShowFriendSongs.setActionCommand("ShowSongs");
+        jbShowFriendSongs.setActionCommand("ShowSongList");
 
         jbDeleteFriend.addActionListener(al);
         jbDeleteFriend.setActionCommand("DeleteFriend");
     }
 
+    /**
+     * Turns the JButton invisible.
+     * @param button
+     */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);

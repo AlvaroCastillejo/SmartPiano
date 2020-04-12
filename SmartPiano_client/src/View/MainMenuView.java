@@ -15,7 +15,7 @@ public class MainMenuView extends JFrame {
     private JPanelBackground jpBackground;
     private JButton jbPlayPiano;
     private JButton jbRecordSong;
-    private JButton jbPlaySong;
+    private JButton jbSongList;
     private JButton jbFriends;
     private JButton jbConfiguration;
 
@@ -51,10 +51,10 @@ public class MainMenuView extends JFrame {
         jbRecordSong.setBounds(100, 220+offset, 285, 45);
         jpBackground.add(jbRecordSong);
 
-        jbPlaySong = new JButton(); //Play song button
-        setButtonInvisible(jbPlaySong);
-        jbPlaySong.setBounds(100, 280+offset, 285, 45);
-        jpBackground.add(jbPlaySong);
+        jbSongList = new JButton(); //Play song button
+        setButtonInvisible(jbSongList);
+        jbSongList.setBounds(100, 280+offset, 285, 45);
+        jpBackground.add(jbSongList);
 
         jbFriends = new JButton(); //Friends button
         setButtonInvisible(jbFriends);
@@ -80,8 +80,8 @@ public class MainMenuView extends JFrame {
         jbRecordSong.addActionListener(al);
         jbRecordSong.setActionCommand("RecordPiano");
 
-        jbPlaySong.addActionListener(al);
-        jbPlaySong.setActionCommand("PlaySong");
+        jbSongList.addActionListener(al);
+        jbSongList.setActionCommand("ShowSongList");
 
         jbFriends.addActionListener(al);
         jbFriends.setActionCommand("Friends");

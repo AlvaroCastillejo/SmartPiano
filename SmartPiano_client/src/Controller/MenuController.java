@@ -2,10 +2,7 @@ package Controller;
 
 
 import Model.*;
-import View.ConfigurationView;
-import View.FriendView;
-import View.MainMenuView;
-import View.Piano;
+import View.*;
 import com.sun.tools.javac.Main;
 
 
@@ -90,38 +87,20 @@ public class MenuController implements ActionListener {
                     v.setVisible(true);
                 });
                 break;
-            case "PlaySong":
 
-                File midiFile = new FileChooser().FileChooser();
-
-                LinkedList<Note> notes = null;
-                try {
-                    notes = MidiFileSequencer.getNotes(midiFile.getPath());
-
-                    System.out.println();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+            case "ShowSongList":
+                boolean backToMenu = true;
                 v.setVisible(false);
-                //Stop the background song.
-                introSong.stopTheCurrent();
-                //Shows the Piano view.
-                LinkedList<Note> finalNotes = notes;
+                introSong.setVolume(-10f);
+                //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
-                    PianoController c = new PianoController();
-                    Song toPlay = new Song(finalNotes, c);
-                    Piano v = new Piano(c, toPlay);
-                    v.isSongPiano();
-                    PianoManager m = new PianoManager();
-                    m.setClient(this.m.getClient());
-                    c.registerManager(m);
-                    c.setView(v);
+                    SongListView v = new SongListView();
+                    SongListController c = new SongListController(backToMenu, v, introSong);
+                    v.registerController(c);
                     v.setVisible(true);
-                    toPlay.start();
                 });
-
                 break;
+
             case "Friends":
                 v.setVisible(false);
                 //Shows the Friends view.

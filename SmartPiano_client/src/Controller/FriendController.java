@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import Model.AudioPlayer;
 import View.*;
 
 import javax.swing.*;
@@ -48,14 +49,15 @@ public class FriendController implements ActionListener {
             case "Friend":
                 //if friend is selected, show ShowSongs and DeleteFriend buttons above Friend button
                 break;
-            case "ShowSongs":
-                //show the <user_login> songsView (not created yet)
+            case "ShowSongList":
+                //show the <user_login> SongListView
+                boolean backToMenu = false;
                 v.setVisible(false);
                 introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
                     SongListView v = new SongListView();
-                    SongListController c = new SongListController(v, introSong);
+                    SongListController c = new SongListController(backToMenu, v, introSong);
                     SongListManager m = new SongListManager(c, this.m.getClient());
                     c.registerManager(m);
                     v.registerController(c);
