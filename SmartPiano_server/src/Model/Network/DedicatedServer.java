@@ -66,6 +66,7 @@ public class DedicatedServer extends Thread {
                                 int status=SQLOperations.userAlreadyExists(user);
                                 switch (status){
                                     case 0:
+                                        SQLOperations.ImportaUsuari(user.getUsername(),user.getPassword(),user.getMail());
                                         sendAction("REGISTER/registered");
                                         break;
                                     case 1:
@@ -91,7 +92,7 @@ public class DedicatedServer extends Thread {
                         break;
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
