@@ -9,10 +9,13 @@ import View.LoginView;
 import View.MainMenuView;
 import View.RegisterView;
 
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+
 
 //Controller for the LoginView.
 public class LoginController implements ActionListener {
@@ -106,5 +109,13 @@ public class LoginController implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Updates the view to show the corresponding error.
+     * @param error The error occurred.
+     */
+    public void showErrorUser(String error) {
+        v.showErrorUser(error);
     }
 }

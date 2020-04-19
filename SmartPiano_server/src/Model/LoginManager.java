@@ -2,6 +2,9 @@ package Model;
 
 import java.io.*;
 
+import Controller.LoginController;
+
+
 public class LoginManager {
     public static boolean checkLoging(User user){
         boolean correct = false;
@@ -53,7 +56,10 @@ public class LoginManager {
             System.out.println("\nMore info: ");
             ex.printStackTrace();
         }
-
         return correct;
+    }
+
+    public void showError(String user_or_password_incorrect) {
+        LoginController.showError(user_or_password_incorrect);
     }
 }

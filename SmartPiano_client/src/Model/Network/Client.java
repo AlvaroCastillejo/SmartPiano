@@ -84,6 +84,7 @@ public class Client extends Thread {
                                 loginManager.logged(true);
                                 break;
                             case "failed":
+                                loginManager.showErrorUser("User or password is incorrect");
                                 loginManager.logged(false);
                                 break;
                         }

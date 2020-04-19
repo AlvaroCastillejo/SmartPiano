@@ -31,20 +31,35 @@ public class SQLOperations {
         String query = "SELECT * FROM User WHERE username like '" + user.getUsername() + "'";
         ResultSet rs = conn.selectQuery(query);
         try {
-           if(!rs.isBeforeFirst()){
+            if (!rs.isBeforeFirst()) {
                 query = "SELECT * FROM User WHERE mail like '" + user.getMail() + "'";
                 rs = conn.selectQuery(query);
-                if(!rs.isBeforeFirst()){
+                if (!rs.isBeforeFirst()) {
                     return 0; //Everything is OK
-                }else{
+                } else {
                     return 2; //Mail already exists
                 }
-           }else{
-               return 1; //User already exists
-           }
+            } else {
+                return 1; //User already exists
+            }
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-    return -1;
+        return -1;
     }
+
+    public static int findUser(User user) throws SQLException {
+        ConectorDB conn = new ConectorDB("root", "root", "SmartPiano", 3306, "jdbc:mysql://localhost");
+        conn.connect();
+        String query = "SELECT * FROM User WHERE username like '" + user.getUsername() + "'"+"AND password LIKE '"+ user.getPassword() + "'";
+        ResultSet rs = conn.selectQuery(query);
+        if (rs.isBeforeFirst()){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+
 }

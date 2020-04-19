@@ -11,9 +11,10 @@ public class LoginView extends JFrame {
     private JPanelBackground jpBackground;
     private JButton jbLogin;
     private JButton jbRegister;
-
     private JTextField jtUsername;
     private JPasswordField jpPassword;
+    private JLabel jlError = new JLabel();
+
 
     private int offset;
 
@@ -82,5 +83,9 @@ public class LoginView extends JFrame {
 
     public String getPassword() {
         return String.valueOf(jpPassword.getPassword());
+    }
+
+    public void showErrorUser(String error) {
+        jlError.setText(error);
     }
 }

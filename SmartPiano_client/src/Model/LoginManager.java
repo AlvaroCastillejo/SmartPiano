@@ -17,4 +17,8 @@ public class LoginManager {
     public void logged(boolean b) {
         loginController.logged(b);
     }
+
+    public  void showErrorUser(String user_incorrect) {
+        loginController.showErrorUser(user_incorrect);
+    }
 }

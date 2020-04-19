@@ -48,10 +48,16 @@ public class DedicatedServer extends Thread {
                             case "tryLogin":
                                 sendAction("SEND_INFO/getLoggingUserCredentials");
                                 String info = dis.readUTF();
-                                if(LoginManager.checkLoging(new User(info.split("/")[0], info.split("/")[1]))){
-                                    sendAction("LOGIN/logged");
-                                } else {
-                                    sendAction("LOGIN/failed");
+                                String[] credentials = info.split("/");
+                                User user = new User(credentials[0], credentials[1]);
+                                int status=SQLOperations.findUser(user);
+                                switch (status){
+                                    case 0:
+                                        sendAction("LOGIN/logged");
+                                        break;
+                                    case 1:
+                                        sendAction("LOGIN/failed");
+                                        break;
                                 }
                                 break;
                         }
