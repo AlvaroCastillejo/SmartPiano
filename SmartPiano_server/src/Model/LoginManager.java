@@ -59,7 +59,7 @@ public class LoginManager {
         return correct;
     }
 
-    public void showError(String user_or_password_incorrect) {
-        LoginController.showError(user_or_password_incorrect);
+    public static void showErrorUser(String user_or_password_incorrect) {
+        //showErrorUser(user_or_password_incorrect);
     }
 }
