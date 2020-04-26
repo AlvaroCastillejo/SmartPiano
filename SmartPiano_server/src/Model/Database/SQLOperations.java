@@ -16,7 +16,7 @@ public class SQLOperations {
 
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 
-        ConectorDB conn = new ConectorDB("root", "root", "SmartPiano", 3306, "jdbc:mysql://localhost");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         conn.connect();
 
 
@@ -26,7 +26,9 @@ public class SQLOperations {
     }
 
     public static int userAlreadyExists(User user) {
-        ConectorDB conn = new ConectorDB("root", "root", "SmartPiano", 3306, "jdbc:mysql://localhost");
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         conn.connect();
         String query = "SELECT * FROM User WHERE username like '" + user.getUsername() + "'";
         ResultSet rs = conn.selectQuery(query);
@@ -49,7 +51,9 @@ public class SQLOperations {
     }
 
     public static int findUser(User user) throws SQLException {
-        ConectorDB conn = new ConectorDB("root", "root", "SmartPiano", 3306, "jdbc:mysql://localhost");
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         conn.connect();
         String query = "SELECT * FROM User WHERE username like '" + user.getUsername() + "'"+"AND password LIKE '"+ user.getPassword() + "'";
         ResultSet rs = conn.selectQuery(query);

@@ -1,6 +1,9 @@
+import Controller.MainMenuController;
 import Model.Database.SQLOperations;
 import Model.Network.Server;
+import View.MainMenu;
 
+import javax.swing.*;
 import java.sql.SQLException;
 
 public class Main_server {
@@ -8,12 +11,10 @@ public class Main_server {
         Server server = new Server();
         server.start();
 
-        //Database
-        SQLOperations sqlOperations = new SQLOperations();
-        try{
-            sqlOperations.ImportaUsuari("admin", "admin", "admin");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SwingUtilities.invokeLater(() -> {
+            MainMenuController c = new MainMenuController();
+            MainMenu v = new MainMenu(c);
+            v.setVisible(true);
+        });
     }
 }

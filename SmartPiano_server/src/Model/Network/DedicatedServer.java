@@ -93,6 +93,8 @@ public class DedicatedServer extends Thread {
                             case "friendRequest":
                                 String friendCode = elements[2];
                                 System.out.println("friendCode is: " + friendCode);
+                                //Database stuff
+                                sendAction("DOWNLOAD/information/friendRequest/accepted");
                                 break;
                         }
                         break;

@@ -16,7 +16,28 @@ public class Song extends Thread {
     private LinkedList<Note> notes;
     private PianoController piano;
 
+    //***********
+    private String songName;
+    private String songId;
+
+    //***********
+
     private LinkedList<Note> threadedNotes;
+
+    //***********
+    public String getSongName() {
+        return songName;
+    }
+
+    public String getSongId() {
+        return songId;
+    }
+
+    public Song(String name, String id){
+        this.songName = name;
+        this.songId = id;
+    }
+    //***********
 
     /**
      * The class constructor. Plays the song by dropping the notes. Yet to be fully implemented.
