@@ -1,12 +1,17 @@
 package View;
 
 import Controller.MainMenuController;
+import Model.Database.SongVisualization;
+import Model.Database.Song_database;
 import Model.Song;
 import View.CustomComponents.SongScrollPane;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainMenu extends JFrame {
@@ -58,11 +63,37 @@ public class MainMenu extends JFrame {
     }
 
     private JPanel createTop5Pane() {
-        JPanel panel3 = new JPanel();
-        //Componentes del panel3
-        JLabel et_p3 = new JLabel("Estas en el panel 3");
-        panel3.add(et_p3);
-        return panel3;
+        JPanel generalPanel = new JPanel();
+
+        generalPanel.setLayout(null);
+        generalPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        SongVisualization s = new SongVisualization();
+        ArrayList<Song_database> topSongList = new ArrayList<>();
+        try {
+            topSongList = s.ShowTop5List();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String[] columnNames = {"Id", "Title", "Author", "Album", "Nº Reproductions"};
+        Object[][] data = {
+                {topSongList.get(0).getSong_id() , topSongList.get(0).getSong_name(), topSongList.get(0).getAuthor_name(), topSongList.get(0).getAlbum_id() , topSongList.get(0).getNum_reproductions()},
+                {topSongList.get(1).getSong_id() , topSongList.get(1).getSong_name(), topSongList.get(1).getAuthor_name(), topSongList.get(1).getAlbum_id() , topSongList.get(1).getNum_reproductions()},
+                {topSongList.get(2).getSong_id() , topSongList.get(2).getSong_name(), topSongList.get(2).getAuthor_name(), topSongList.get(2).getAlbum_id() , topSongList.get(2).getNum_reproductions()},
+                {topSongList.get(3).getSong_id() , topSongList.get(3).getSong_name(), topSongList.get(3).getAuthor_name(), topSongList.get(3).getAlbum_id() , topSongList.get(3).getNum_reproductions()},
+                {topSongList.get(4).getSong_id() , topSongList.get(4).getSong_name(), topSongList.get(4).getAuthor_name(), topSongList.get(4).getAlbum_id() , topSongList.get(4).getNum_reproductions()}
+        };
+
+        JTable table = new JTable(data, columnNames);
+        table.setBounds(0, 20, 800, 600);
+        JTableHeader h = table.getTableHeader();
+        h.setBounds(0, 0, 800, 20);
+
+        generalPanel.add(table);
+        generalPanel.add(h);
+
+        return generalPanel;
     }
 
     private JPanel createGraphicsPane() {
@@ -104,12 +135,20 @@ public class MainMenu extends JFrame {
         nPlays.setVerticalAlignment(JLabel.CENTER);
         header.add(nPlays);
 
-        header.setBounds(20, 40, 500, 25);
+        header.setBounds(0, 0, 500, 25);
         panel1.add(header);
 
+        SongVisualization s = new SongVisualization();
+        ArrayList<Song_database> songList = new ArrayList<>();
+        try {
+            songList = s.ShowSongList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         LinkedList<Song> songs = initializeSongs();
-        SongScrollPane panel = new SongScrollPane(songs, 500, 300, controller);
-        panel.setBounds(20, 65, panel.getPanelWidth(), panel.getPanelHeight());
+        SongScrollPane panel = new SongScrollPane(songList, 500, 510, controller);
+        panel.setBounds(0, 25, panel.getPanelWidth(), panel.getPanelHeight());
         panel1.add(panel);
 
         return panel1;

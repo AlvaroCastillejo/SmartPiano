@@ -20,7 +20,7 @@ public class SQLOperations {
         conn.connect();
 
 
-        conn.insertQuery("INSERT INTO User(username,password,mail) VALUES ('" + name + "','" + pass + "', '" + mail + "')");
+        conn.insertQuery("INSERT INTO User(username,password,email) VALUES ('" + name + "','" + pass + "', '" + mail + "')");
         System.out.println("intento inserir");
 
     }
@@ -34,7 +34,7 @@ public class SQLOperations {
         ResultSet rs = conn.selectQuery(query);
         try {
             if (!rs.isBeforeFirst()) {
-                query = "SELECT * FROM User WHERE mail like '" + user.getMail() + "'";
+                query = "SELECT * FROM User WHERE email like '" + user.getMail() + "'";
                 rs = conn.selectQuery(query);
                 if (!rs.isBeforeFirst()) {
                     return 0; //Everything is OK

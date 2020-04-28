@@ -1,11 +1,13 @@
 package View.CustomComponents;
 
 import Controller.MainMenuController;
+import Model.Database.Song_database;
 import Model.Song;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,7 +18,7 @@ public class SongScrollPane extends JPanel {
     int width, height;
     private Map<String, JButton> buttonMap;
 
-    public SongScrollPane(LinkedList<Song> songs, int width, int height, ActionListener controller){
+    public SongScrollPane(ArrayList<Song_database> songs, int width, int height, ActionListener controller){
         this.width = width;
         this.height = height;
 
@@ -33,23 +35,35 @@ public class SongScrollPane extends JPanel {
 
         JPanel auxPanel;
         JLabel auxLabel;
-        for (Song t : songs) {
+        for (Song_database t : songs) {
             auxPanel = new JPanel();
             auxPanel.setLayout(new GridLayout(1,4));
 
-
             auxPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "/"));
 
+            JLabel title = new JLabel(t.getSong_name());
+            title.setVerticalAlignment(JLabel.CENTER);
+            title.setHorizontalAlignment(JLabel.CENTER);
+            auxPanel.add(title);
 
-            JButton jbAddToFav = new JButton("’Add to favorites");
-            jbAddToFav.addActionListener(controller);
-            jbAddToFav.setActionCommand("LSUBJECTS/add&".concat(t.getSongId()));
-            buttonMap.put(t.getSongId(), jbAddToFav);
+            JLabel author = new JLabel(t.getAlbum_id());
+            author.setHorizontalAlignment(JLabel.CENTER);
+            author.setVerticalAlignment(JLabel.CENTER);
+            auxPanel.add(author);
 
-            auxPanel.add(new JLabel(t.getSongName()));
-            auxLabel = new JLabel(t.getSongId() + " credits");
-            auxPanel.add(auxLabel);
-            auxPanel.add(jbAddToFav);
+            JLabel album = new JLabel(t.getAlbum_id());
+            album.setHorizontalAlignment(JLabel.CENTER);
+            album.setVerticalAlignment(JLabel.CENTER);
+            auxPanel.add(album);
+
+            JButton jbDelete = new JButton("Delete");
+            jbDelete.addActionListener(controller);
+            jbDelete.setActionCommand("DELETE/".concat(String.valueOf(t.getSong_id())));
+            jbDelete.setHorizontalAlignment(JLabel.CENTER);
+            jbDelete.setVerticalAlignment(JLabel.CENTER);
+            buttonMap.put(String.valueOf(t.getSong_id()), jbDelete);
+
+            auxPanel.add(jbDelete);
 
             jpLower.add(auxPanel);
         }

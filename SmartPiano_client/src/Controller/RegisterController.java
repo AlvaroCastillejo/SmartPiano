@@ -67,6 +67,15 @@ public class RegisterController implements ActionListener {
     public void registered(boolean b) {
         if (b){
             v.setVisible(false);
+            SwingUtilities.invokeLater(() -> {
+                LoginView v = new LoginView();
+                LoginController c = new LoginController(v);
+                LoginManager m = new LoginManager(c);
+                c.registerManager(m);
+                c.startClient();
+                v.registerController(c);
+                v.setVisible(true);
+            });
         }
     }
 
