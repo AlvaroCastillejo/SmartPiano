@@ -1,14 +1,14 @@
 package Model.Network;
 
+import Model.*;
 import Model.Database.SQLOperations;
-import Model.LoginManager;
-import Model.RegisterManager;
-import Model.User;
 import Model.Utils.Output;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,6 +42,7 @@ public class DedicatedServer extends Thread {
                 action = elements[1];
                 String command = elements[0];
                 Output.print(action, "green");
+                System.out.println(command);
                 switch (command){
                     case "LOGIN":
                         switch (action){
@@ -88,6 +89,20 @@ public class DedicatedServer extends Thread {
                     case "DOWNLOAD":
 
                         break;
+                    case "SAVESONG":
+                        switch (action){
+                            case "saveSong":
+                                sendAction("SEND_INFO/getSongInfo");
+                                ObjectInputStream objectInputStream = new ObjectInputStream(dis);
+                                SavedSong savedSong = null;
+                                try {
+                                    savedSong = (SavedSong) objectInputStream.readObject();
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                SQLOperations.addSong(savedSong);
+                                break;
+                        }
                     case "UPLOAD":
                         switch (action){
                             case "friendRequest":
@@ -98,6 +113,20 @@ public class DedicatedServer extends Thread {
                                 break;
                         }
                         break;
+
+                    case "ASKFOR":
+                        String[] aux = action.split("=");
+                        switch(aux[0]){
+                            case "checkSongName":
+                                boolean exists = SQLOperations.checkSongName(aux[1]);
+                                if (exists){
+                                    sendAction("RECEIVE_INFO/checkSongName=true");
+                                }else{
+                                    sendAction("RECEIVE_INFO/checkSongName=false");
+                                }
+
+                                break;
+                        }
                 }
             }
         } catch (IOException | SQLException e) {

@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.*;
+import Model.Network.Client;
 import View.MainMenuView;
 import View.Piano;
+import View.SaveSongView;
 
 import javax.sound.midi.*;
 import javax.swing.*;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class PianoController implements ActionListener, KeyListener {
     private Piano v;
     private PianoManager m;
+    private SaveSongView ssv;
     //A map with the keys that are concurrently sustaining.
     private Map<String, KeyPressed> sustainingKeys;
     private ActionListener[] actionListeners;
@@ -30,6 +33,7 @@ public class PianoController implements ActionListener, KeyListener {
     Sequence s;
     long initialTime;
     private boolean autoplay;
+    private SavedSong savedSong;
 
     /**
      * An empty constructor.
@@ -105,7 +109,9 @@ public class PianoController implements ActionListener, KeyListener {
                 }
                 break;
             case "goBack":
-                   v.setAutoPlay(false);
+                if (v.getIsSongPlayer()){
+                    v.setAutoPlay(false);
+                }
                 break;
             default:
 
@@ -302,14 +308,33 @@ public class PianoController implements ActionListener, KeyListener {
             MidiEvent me = new MidiEvent(mt, (long)140);
             t.add(me);
 
-            //write the MIDI sequence to a MIDI file
-            File f = new File("midifile.mid");
-            MidiSystem.write(s,1,f);
+            //We open the Saving Song View
 
-            FileSaver fileSaver = new FileSaver(f);
-        } catch (InvalidMidiDataException | IOException e) {
+
+            SwingUtilities.invokeLater(()->{
+                SaveSongView v = new SaveSongView();
+                SaveSongController c = new SaveSongController(v,m.getClient(),this);
+                SaveSongManager ssm = new SaveSongManager(c);
+                m.getClient().setSaveSongManager(ssm);
+                c.assignSaveSongManager(ssm);
+                v.setVisible(true);
+            });
+
+        } catch (InvalidMidiDataException e) {
             e.printStackTrace();
         }
+    }
+    public void saveSong(String songName, String albumName, String songPrivacy ){
+        File f = new File(songName+".mid");
+        try {
+            MidiSystem.write(s,1,f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.savedSong= new SavedSong(songName,albumName,songPrivacy,m.getClient().getLogin(),f);
+        this.m.sendAction("SAVESONG/saveSong");
+        //write the MIDI sequence to a MIDI file
+        //FileSaver fileSaver = new FileSaver(f);
     }
 
     public void setSong(Song song) { this.song = song;}
@@ -340,5 +365,9 @@ public class PianoController implements ActionListener, KeyListener {
 
     public void registerManager(PianoManager m) {
         this.m = m;
+    }
+
+    public SavedSong getSavedSong() {
+        return this.savedSong;
     }
 }

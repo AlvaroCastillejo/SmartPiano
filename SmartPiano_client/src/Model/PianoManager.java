@@ -1,11 +1,15 @@
 package Model;
 
+import Controller.PianoController;
 import Model.Network.Client;
+
+import java.io.File;
 
 //A class containind some utils for the piano.
 public class PianoManager {
 
     private Client client;
+    private PianoController pianoController;
 
     /**
      * Gets the name of the key given the code.
@@ -378,11 +382,23 @@ public class PianoManager {
 
     public void setClient(Client client) {
         this.client = client;
+        client.setPianoManager(this);
     }
 
     public Client getClient() {
         return this.client;
     }
 
+    public void sendAction(String action){
+        client.sendAction(action);
+    }
 
+    public SavedSong getSongFile() {
+        return pianoController.getSavedSong();
+    }
+
+    public void registerController(PianoController c) {
+        this.pianoController = c;
+
+    }
 }

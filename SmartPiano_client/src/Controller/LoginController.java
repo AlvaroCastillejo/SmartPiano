@@ -85,16 +85,8 @@ public class LoginController implements ActionListener {
                 v.setVisible(true);
             });
         } else {
-            //Show register view.
-            SwingUtilities.invokeLater(() -> {
-                v.setVisible(false);
-                RegisterView v = new RegisterView();
-                RegisterController c = new RegisterController(v, client);
-                RegisterManager rm = new RegisterManager(c);
-                c.assignRegisterManager(rm);
-                v.registerController(c);
-                v.setVisible(true);
-            });
+            showErrorUser("kk");
+            System.out.println("ENTRO\n");
         }
     }
 
@@ -117,5 +109,9 @@ public class LoginController implements ActionListener {
      */
     public void showErrorUser(String error) {
         v.showErrorUser(error);
+    }
+
+    public String getUserLogin() {
+        return v.getUsername();
     }
 }

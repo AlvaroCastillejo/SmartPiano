@@ -1,13 +1,11 @@
 package Model.Network;
 
-import Model.LoginManager;
-import Model.RegisterManager;
-import Model.ServerConnectionConfiguration;
+import Controller.SaveSongController;
+import Model.*;
 import Model.Utils.JsonUtils;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import javax.sound.midi.SysexMessage;
+import java.io.*;
 import java.net.Socket;
 
 //A class that represents the client connected to the server.
@@ -20,6 +18,8 @@ public class Client extends Thread {
 
     private LoginManager loginManager;
     private RegisterManager registerManager;
+    private SaveSongManager saveSongManager;
+    private PianoManager pianoManager;
 
     private DataOutputStream dos;
     private DataInputStream dis;
@@ -47,6 +47,9 @@ public class Client extends Thread {
         this.registerManager = registerManager;
     }
 
+    public void assignSaveSongController(SaveSongManager saveSongManager){
+        this.saveSongManager = saveSongManager;
+    }
     /**
      * Start the communication with the server.
      */
@@ -76,6 +79,24 @@ public class Client extends Thread {
                             case "getRegisterUserCredentials":
                                 dos.writeUTF(this.registerManager.getRegisterCredentials());
                                 break;
+                            case "getSongInfo":
+                                ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
+                                SavedSong savedSong = pianoManager.getSongFile();
+                                File myFile = savedSong.getFile();
+                                savedSong.destroySongFile();
+                                objectOutputStream.writeObject(savedSong);
+                                break;
+                        }
+                        break;
+
+                    case "RECEIVE_INFO":
+                        switch (action){
+                            case "checkSongName=true":
+                                saveSongManager.sendResultCheckSongName(true);
+                                break;
+                            case "checkSongName=false":
+                                saveSongManager.sendResultCheckSongName(false);
+                                break;
                         }
                         break;
                     case "LOGIN":
@@ -85,10 +106,11 @@ public class Client extends Thread {
                                 break;
                             case "failed":
                                 loginManager.showErrorUser("User or password is incorrect");
+                                System.out.println(("EROR/USER MAL\n"));
                                 loginManager.logged(false);
                                 break;
                         }
-                        break;
+
 
 
                     case "REGISTER":
@@ -105,6 +127,14 @@ public class Client extends Thread {
                                 registerManager.registered(false);
                                 break;
                         }
+                    case "SaveSong":
+                        switch (action){
+                            case "SaveSong":
+                                System.out.println("VOY A GUARDAR LA CANCION\n");
+                                break;
+                        }
+
+
 
                 }
             }
@@ -124,8 +154,21 @@ public class Client extends Thread {
     public void sendAction(String action){
         try{
             dos.writeUTF(action);
+            System.out.println("ENVIO\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getLogin() {
+        return loginManager.getUserLogin();
+    }
+
+    public void setPianoManager(PianoManager pianoManager){
+        this.pianoManager = pianoManager;
+    }
+
+    public void setSaveSongManager(SaveSongManager saveSongManager){
+        this.saveSongManager = saveSongManager;
     }
 }

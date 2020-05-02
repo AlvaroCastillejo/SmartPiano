@@ -7,8 +7,9 @@ public class FriendManager {
     private FriendController c;
     private Client client;
 
-    public FriendManager(FriendController c) {
+    public FriendManager(FriendController c,Client client) {
         this.c = c;
+        this.client = client;
     }
 
     public void setClient(Client client) {

@@ -42,6 +42,8 @@ public class SongListController implements ActionListener {
                     SwingUtilities.invokeLater(() -> {
                         MainMenuView v = new MainMenuView();
                         MenuController c = new MenuController(v, introSong);
+                        MenuManager m = new MenuManager(c,this.m.getClient());
+                        c.registerManager(m);
                         v.registerController(c);
                         v.setVisible(true);
                     });
@@ -51,6 +53,8 @@ public class SongListController implements ActionListener {
                     SwingUtilities.invokeLater(() -> {
                         FriendView v = new FriendView();
                         FriendController c = new FriendController(v, introSong);
+                        FriendManager m = new FriendManager(c,this.m.getClient());
+                        c.registerManager(m);
                         v.registerController(c);
                         v.setVisible(true);
                     });
@@ -83,7 +87,8 @@ public class SongListController implements ActionListener {
                     Piano v = new Piano(c, toPlay);
                     v.isSongPiano();
                     PianoManager m = new PianoManager();
-                    //m.setClient(this.m.getClient());
+                    m.registerController(c);
+                    m.setClient(this.m.getClient());
                     c.registerManager(m);
                     c.setView(v);
                     v.setVisible(true);

@@ -41,7 +41,6 @@ public class RegisterController implements ActionListener {
             //Wants to register.
             case "REGISTER/register":
                 client.sendAction("REGISTER/tryRegister");
-                System.out.println("REGISTER");
                 break;
             //Wants to login.
             case "REGISTER/login":

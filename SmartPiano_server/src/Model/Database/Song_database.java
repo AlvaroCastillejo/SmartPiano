@@ -5,22 +5,22 @@ import java.io.File;
 public class Song_database {
 
     private int song_id ;
-    private int song_number;
     private String song_name;
     private String author_name;
     private String album_id;
     private int num_reproductions;
     private String song_url;
+    private String privacy;
     private File song;
 
-    public Song_database(int song_id, int song_number, String song_name,String author_name, String album_id, int num_reproductions, String song_url) {
+    public Song_database(int song_id,String song_name,String author_name, String album_id, int num_reproductions, String song_url, String privacy) {
         this.song_id = song_id;
-        this.song_number = song_number;
         this.song_name = song_name;
         this.author_name = author_name;
         this.album_id = album_id;
         this.num_reproductions = num_reproductions;
         this.song_url = song_url;
+        this.privacy = privacy;
 
         String f = new File("").getAbsolutePath();
 
@@ -33,14 +33,6 @@ public class Song_database {
 
     public void setSong_id(int song_id) {
         this.song_id = song_id;
-    }
-
-    public int getSong_number() {
-        return song_number;
-    }
-
-    public void setSong_number(int song_number) {
-        this.song_number = song_number;
     }
 
     public String getSong_name() {

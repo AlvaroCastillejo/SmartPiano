@@ -21,4 +21,8 @@ public class LoginManager {
     public  void showErrorUser(String user_incorrect) {
         loginController.showErrorUser(user_incorrect);
     }
+
+    public String getUserLogin() {
+        return loginController.getUserLogin();
+    }
 }

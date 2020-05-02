@@ -36,13 +36,13 @@ public class SongVisualization extends JFrame {
             try {
 
                 int song_id = rs.getInt(1);
-                int song_number = rs.getInt(2);
-                String song_name = rs.getString(3);
-                String author_name = rs.getString(4);
-                String album_id = rs.getString(5);
-                int num_reproductions = rs.getInt(6);
-                String song_url = rs.getString(7);
-                Song_database song = new Song_database(song_id,song_number,song_name,author_name,album_id,num_reproductions,song_url);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                String album_id = rs.getString(4);
+                int num_reproductions = rs.getInt(5);
+                String song_url = rs.getString(6);
+                String privacy = rs.getString(7);
+                Song_database song = new Song_database(song_id,song_name,author_name,album_id,num_reproductions,song_url,privacy);
                 songList.add(song);
 
             } catch (NullPointerException e) {
@@ -85,13 +85,13 @@ public class SongVisualization extends JFrame {
         while (rs.next()) {
             try {
                 int song_id = rs.getInt(1);
-                int song_number = rs.getInt(2);
-                String song_name = rs.getString(3);
-                String author_name = rs.getString(4);
-                String album_id = rs.getString(5);
-                int num_reproductions = rs.getInt(6);
-                String song_url = rs.getString(7);
-                Song_database song = new Song_database(song_id,song_number,song_name,author_name,album_id,num_reproductions,song_url);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                String album_id = rs.getString(4);
+                int num_reproductions = rs.getInt(5);
+                String song_url = rs.getString(6);
+                String privacy = rs.getString(7);
+                Song_database song = new Song_database(song_id,song_name,author_name,album_id,num_reproductions,song_url,privacy);
                 songTopList.add(song);
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -122,13 +122,13 @@ public class SongVisualization extends JFrame {
         while (rs.next()) {
             try {
                 int song_id = rs.getInt(1);
-                int song_number = rs.getInt(2);
-                String song_name = rs.getString(3);
-                String author_name = rs.getString(4);
-                String album_id = rs.getString(5);
-                int num_reproductions = rs.getInt(6);
-                String song_url = rs.getString(7);
-                Song_database song = new Song_database(song_id,song_number,song_name,author_name,album_id,num_reproductions,song_url);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                String album_id = rs.getString(4);
+                int num_reproductions = rs.getInt(5);
+                String song_url = rs.getString(6);
+                String privacy = rs.getString(7);
+                Song_database song = new Song_database(song_id,song_name,author_name,album_id,num_reproductions,song_url,privacy);
                 songTopList.add(song);
             } catch (NullPointerException e) {
                 e.printStackTrace();

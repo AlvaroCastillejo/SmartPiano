@@ -1,5 +1,6 @@
 package Model.Database;
 
+import Model.SavedSong;
 import Model.ServerConfiguration;
 import Model.User;
 import Model.Utils.JsonServerUtils;
@@ -65,5 +66,33 @@ public class SQLOperations {
 
     }
 
+    public static int addSong(SavedSong s) throws SQLException{
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "INSERT INTO Song(song_name,author_name ,album_name,num_reproductions,song_url,privacy)"+
+                       "VALUES("+"'"+s.getSongName()+"'"+","+"'"+s.getSongAuthor()+"'"+","+"'"+s.getSongAlbum()+"'"+",0,"+"'"+s.getSongName()+"'"+","+"'"+s.getSongPrivacy()+"'"+");";
+        conn.insertQuery(query);
+        return 0;
+    }
+
+
+    public static boolean checkSongName(String songName) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "SELECT * FROM Song WHERE song_name like '" + songName +  "'";
+        ResultSet rs = conn.selectQuery(query);
+        try {
+            if (rs.isBeforeFirst()) {
+                return true; // No other song has that name
+            } else {
+                return false; //Song name already exists
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        System.out.println("-----> final funcion\n");
+        return false;
+    }
 
 }
