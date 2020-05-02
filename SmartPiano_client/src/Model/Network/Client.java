@@ -111,8 +111,6 @@ public class Client extends Thread {
                                 break;
                         }
 
-
-
                     case "REGISTER":
                         switch (action){
                             case "registered":

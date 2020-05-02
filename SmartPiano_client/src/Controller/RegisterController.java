@@ -9,9 +9,11 @@ import View.RegisterView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 //The Register view controller.
-public class RegisterController implements ActionListener {
+public class RegisterController implements ActionListener, KeyListener {
     private RegisterView v;
     private Client client;
     private RegisterManager registerManager;
@@ -92,5 +94,22 @@ public class RegisterController implements ActionListener {
      */
     public void showError(String error) {
         v.showError(error);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode() == 10){
+            client.sendAction("REGISTER/tryRegister");
+        }
     }
 }

@@ -9,18 +9,19 @@ import View.CustomComponents.SongScrollPane;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainMenu extends JFrame {
+
     private int offset;
-    private JPanel jpLower;
-    private JScrollPane jspSongs;
     private MainMenuController controller;
 
-
+    private JPanel panel1, panel2, panel3;
+    private JTabbedPane tabs;
 
     public MainMenu(MainMenuController a){
         this.controller = a;
@@ -42,16 +43,12 @@ public class MainMenu extends JFrame {
         } catch (Exception ignore) { }
 
         //Create the tabs
-        JTabbedPane tabs = new JTabbedPane();
+        tabs = new JTabbedPane();
 
         //Create the panels and add them to the tabs.
-        //JPanel panel1 = createManageSongsPane();
-        //LinkedList<Song> songs = new LinkedList<>();
-        //songs = initializeSongs();
-        JPanel panel1 = createManageSongsPane();
-        JPanel panel2 = createGraphicsPane();
-        JPanel panel3 = createTop5Pane();
-
+        panel1 = createManageSongsPane();
+        panel2 = createGraphicsPane();
+        panel3 = createTop5Pane();
 
         //Añadimos un nombre de la pestaña y el panel
         tabs.addTab("Manage Songs", panel1);
@@ -59,7 +56,6 @@ public class MainMenu extends JFrame {
         tabs.addTab("Top 5", panel3);
 
         getContentPane().add(tabs);
-
     }
 
     private JPanel createTop5Pane() {
@@ -146,7 +142,6 @@ public class MainMenu extends JFrame {
             e.printStackTrace();
         }
 
-        LinkedList<Song> songs = initializeSongs();
         SongScrollPane panel = new SongScrollPane(songList, 500, 510, controller);
         panel.setBounds(0, 25, panel.getPanelWidth(), panel.getPanelHeight());
         panel1.add(panel);
@@ -154,30 +149,21 @@ public class MainMenu extends JFrame {
         return panel1;
     }
 
-    private LinkedList<Song> initializeSongs() {
-        LinkedList<Song> songLinkedList = new LinkedList<>();
-        songLinkedList.add(new Song("Julia Michels", "0"));
-        songLinkedList.add(new Song("Adam Levine", "1"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        songLinkedList.add(new Song("Ed Sheeran", "2"));
-        return songLinkedList;
-    }
+    public void refresh(){
+        this.panel1 = createManageSongsPane();
+        this.panel2 = createGraphicsPane();
+        this.panel3 = createTop5Pane();
 
+        getContentPane().removeAll();
+        tabs.removeAll();
+
+        tabs.add(panel1);
+        tabs.add(panel2);
+        tabs.add(panel3);
+
+        getContentPane().add(tabs);
+
+        getContentPane().repaint();
+        getContentPane().revalidate();
+    }
 }

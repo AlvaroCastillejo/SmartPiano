@@ -1,0 +1,68 @@
+DROP database if exists SmartPiano;
+CREATE database SmartPiano;
+USE SmartPiano;
+DROP TABLE IF exists User;
+CREATE table User(
+    username VARCHAR(255),
+    password VARCHAR(255),
+    email VARCHAR(255),
+    INDEX  (email),
+    PRIMARY KEY (username,email)
+);
+
+DROP TABLE IF EXISTS Song;
+CREATE TABLE Song(
+	song_id int(5) not null auto_increment,
+  song_number int(2),
+  song_name varchar(50) not null,
+  author_name varchar(50) not null,
+  album_name varchar(50),
+  num_reproductions int(5),
+  song_url varchar(100) not null,
+  PRIMARY KEY(song_id)
+);
+
+DROP TABLE IF exists UserSong;
+CREATE TABLE UserSong(
+	usernameUser VARCHAR(255),
+	emailUser VARCHAR(255),
+    idSong INT,
+	PRIMARY KEY (usernameUser,emailUser,idSong),
+    FOREIGN KEY (usernameUser) REFERENCES User(username),
+    FOREIGN KEY (emailUser) REFERENCES User(email),
+	FOREIGN KEY (idSong) REFERENCES Song(song_id)
+);
+
+DROP TABLE IF exists Friend;
+CREATE TABLE Friend(
+	usernameFriend VARCHAR(255),
+	emailFriend VARCHAR(255),
+	usernameUser VARCHAR(255),
+    emailUser VARCHAR(255),
+	PRIMARY KEY (usernameUser,emailUser,usernameFriend,emailFriend),
+    FOREIGN KEY (usernameUser) REFERENCES User(username),
+    FOREIGN KEY (emailUser) REFERENCES User(email)
+);
+
+INSERT INTO Song(song_number, song_name,author_name ,album_name,num_reproductions,song_url)
+VALUES('1','Tusa','Karol','Album_Name','23','http://'),
+      ('2','Muevelo','NickyJam','Album_Name','8','http://'),
+      ('3','4k','El Alfa','Album_Name','5','http://'),
+      ('4','Morado','J Balvin','Album_Name','5','http://'),
+      ('5','No Me Ame','Rvssian','Album_Name','10','http://'),
+      ('6','Mil tekilas','Chema Rivas','Album_Name','3','http://'),
+      ('7','4 besos','Lola Indigo','Album_Name','6','http://'),
+      ('8','Dime Bbsita','Robledo','Album_Name','2','http://'),
+      ('9','Una Mala','El Completo Rd','Album_Name','3','http://'),
+      ('10','Amarillo','J Balvin','Album_Name','9','http://'),
+      ('11','Loco','Beéle','Album_Name','11','http://'),
+      ('12','Atrevete','Yago','Album_Name','14','http://');
+
+INSERT INTO Song(song_number, song_name,author_name ,album_name,num_reproductions,song_url)
+VALUES('1','refresh','Aga','Album_Name','23','http://');
+
+select * from Song;
+
+SELECT * FROM User WHERE email like 'admin';
+
+select * from User;

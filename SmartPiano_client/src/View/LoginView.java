@@ -1,5 +1,6 @@
 package View;
 
+import Controller.LoginController;
 import View.CustomComponents.JPanelBackground;
 
 import javax.swing.*;
@@ -69,9 +70,12 @@ public class LoginView extends JFrame {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public void registerController(ActionListener a){
+    public void registerController(LoginController a){
         jbLogin.addActionListener(a);
+        jbLogin.addKeyListener(a);
         jbLogin.setActionCommand("LOGIN/login");
+
+        jpPassword.addKeyListener(a);
 
         jbRegister.addActionListener(a);
         jbRegister.setActionCommand("LOGIN/register");

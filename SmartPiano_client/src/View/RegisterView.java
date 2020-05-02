@@ -1,5 +1,6 @@
 package View;
 
+import Controller.RegisterController;
 import View.CustomComponents.JPanelBackground;
 
 import javax.swing.*;
@@ -79,9 +80,11 @@ public class RegisterView extends JFrame {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public void registerController(ActionListener a){
+    public void registerController(RegisterController a){
         jbLogin.addActionListener(a);
         jbLogin.setActionCommand("REGISTER/login");
+
+        jpPassword.addKeyListener(a);
 
         jbRegister.addActionListener(a);
         jbRegister.setActionCommand("REGISTER/register");

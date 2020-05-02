@@ -13,12 +13,14 @@ import View.RegisterView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 
 
 //Controller for the LoginView.
-public class LoginController implements ActionListener {
+public class LoginController implements ActionListener, KeyListener {
     private LoginView v;
     private Client client;
     private LoginManager loginManager;
@@ -113,5 +115,22 @@ public class LoginController implements ActionListener {
 
     public String getUserLogin() {
         return v.getUsername();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode()==10){
+            client.sendAction("LOGIN/tryLogin");
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+
     }
 }

@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DedicatedServer extends Thread {
+    private Server server;
+
     private ArrayList<DedicatedServer> dedicatedServers;
     private int id;
 
@@ -21,7 +23,8 @@ public class DedicatedServer extends Thread {
     private DataOutputStream dos;
     private DataInputStream dis;
 
-    public DedicatedServer(Socket socket, ArrayList<DedicatedServer> dedicatedServers, int i) {
+    public DedicatedServer(Socket socket, ArrayList<DedicatedServer> dedicatedServers, int i, Server server) {
+        this.server = server;
         try {
             this.socket = socket;
             this.dedicatedServers = dedicatedServers;
@@ -101,6 +104,7 @@ public class DedicatedServer extends Thread {
                                     e.printStackTrace();
                                 }
                                 SQLOperations.addSong(savedSong);
+                                server.refreshUI();
                                 break;
                         }
                     case "UPLOAD":

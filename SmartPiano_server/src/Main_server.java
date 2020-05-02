@@ -1,5 +1,6 @@
 import Controller.MainMenuController;
 import Model.Database.SQLOperations;
+import Model.MainMenuManager;
 import Model.Network.Server;
 import View.MainMenu;
 
@@ -10,11 +11,5 @@ public class Main_server {
     public static void main(String[] args) {
         Server server = new Server();
         server.start();
-
-        SwingUtilities.invokeLater(() -> {
-            MainMenuController c = new MainMenuController();
-            MainMenu v = new MainMenu(c);
-            v.setVisible(true);
-        });
     }
 }
