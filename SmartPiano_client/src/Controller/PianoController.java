@@ -24,6 +24,7 @@ public class PianoController implements ActionListener, KeyListener {
     private ActionListener[] actionListeners;
     private boolean isRecordingPiano;
     private boolean startedRecording;
+    private Song song;
 
     Track t;
     Sequence s;
@@ -104,6 +105,7 @@ public class PianoController implements ActionListener, KeyListener {
                 }
                 break;
             case "goBack":
+                   v.setAutoPlay(false);
                 break;
             default:
 
@@ -309,6 +311,8 @@ public class PianoController implements ActionListener, KeyListener {
             e.printStackTrace();
         }
     }
+
+    public void setSong(Song song) { this.song = song;}
 
     /**
      * Drops one note on the Piano.

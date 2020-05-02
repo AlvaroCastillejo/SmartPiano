@@ -47,7 +47,7 @@ public class Song extends Thread {
     public Song(LinkedList<Note> notes, PianoController c){
         this.notes = notes;
         this.piano = c;
-
+        this.threadedNotes = new LinkedList<>();
         //Crear tantos threads como notas tengan que caer.
     }
 
@@ -60,6 +60,7 @@ public class Song extends Thread {
             note.registerSong(this);
             note.setGoTime(note.getTime_on() + countdownMs);
             note.registerGate(gate);
+            threadedNotes.add(note);
         }
         for(Note note :notes){
             note.start();

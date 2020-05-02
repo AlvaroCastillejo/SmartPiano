@@ -79,6 +79,7 @@ public class SongListController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     Song toPlay = new Song(finalNotes, c);
+                    c.setSong(toPlay);
                     Piano v = new Piano(c, toPlay);
                     v.isSongPiano();
                     PianoManager m = new PianoManager();
