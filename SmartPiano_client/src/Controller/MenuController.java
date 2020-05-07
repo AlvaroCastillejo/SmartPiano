@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 //Controller for the MainMenu.
@@ -107,20 +108,59 @@ public class MenuController implements ActionListener {
 
             case "Friends":
                 v.setVisible(false);
+                m.sendAction("ASKFOR/friendList");
                 //Shows the Friends view.
-                SwingUtilities.invokeLater(() -> {
-                    FriendView v = new FriendView();
-                    FriendController c = new FriendController(v, introSong);
-                    FriendManager m = new FriendManager(c,this.m.getClient());
-                    c.registerManager(m);
-                    v.registerController(c);
-                    v.setVisible(true);
-                });
+
                 break;
         }
     }
 
+    private ArrayList<Friend> fillFriendList() {
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+
+        return friends;
+    }
+
     public void registerManager(MenuManager m) {
         this.m = m;
+    }
+
+    public void sentFriendListToSend(FriendListToSend friendList) {
+        SwingUtilities.invokeLater(() -> {
+            ArrayList<Friend> list = friendList.getFriendList();
+            FriendController c = new FriendController(introSong);
+            FriendView v = new FriendView(list, c);
+            FriendManager m = new FriendManager(c,this.m.getClient());
+            c.registerManager(m);
+            c.registerView(v);
+            v.registerController(c);
+
+
+            //v.generateFriendPanel(list);
+            v.setVisible(true);
+        });
     }
 }

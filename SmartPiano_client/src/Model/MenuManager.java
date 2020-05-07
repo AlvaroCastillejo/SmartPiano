@@ -15,4 +15,12 @@ public class MenuManager {
     public Client getClient() {
         return client;
     }
+
+    public void sendAction(String s) {
+        client.sendAction(s);
+    }
+
+    public void sendFriendListToSend(FriendListToSend friendList) {
+        c.sentFriendListToSend(friendList);
+    }
 }

@@ -15,11 +15,9 @@ public class FriendController implements ActionListener {
 
     /**
      * Constructor for the controller. It initializes the controller.
-     * @param v The view to control.
      * @param introSong The background song that was playing in the MainMenu.
      */
-    public FriendController(FriendView v, AudioPlayer introSong) {
-        this.v = v;
+    public FriendController(AudioPlayer introSong) {
         this.introSong = introSong;
     }
 
@@ -30,6 +28,7 @@ public class FriendController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String command = actionEvent.getActionCommand();
+        System.out.println(command);
         switch (command) {
             case "Back":
                 v.setVisible(false);
@@ -48,6 +47,7 @@ public class FriendController implements ActionListener {
                 break;
             case "Friend":
                 //if friend is selected, show ShowSongs and DeleteFriend buttons above Friend button
+
                 break;
             case "ShowSongList":
                 //show the <user_login> SongListView
@@ -72,5 +72,9 @@ public class FriendController implements ActionListener {
 
     public void registerManager(FriendManager m) {
         this.m = m;
+    }
+
+    public void registerView(FriendView v) {
+        this.v = v;
     }
 }

@@ -20,6 +20,7 @@ public class SaveSongController implements ActionListener {
     private Client client;
     private SaveSongManager saveSongManager;
     private PianoController pc;
+
     public SaveSongController(SaveSongView v,Client client, PianoController pc) {
         this.v  = v;
         this.client = client;
@@ -57,7 +58,6 @@ public class SaveSongController implements ActionListener {
         }else{
             pc.saveSong(v.getSongName(),v.getAlbumName(),v.getPrivacy());
             v.setVisible(false);
-
         }
     }
 

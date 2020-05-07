@@ -82,6 +82,7 @@ public class LoginController implements ActionListener, KeyListener {
                 MainMenuView v = new MainMenuView();
                 MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
                 MenuManager m = new MenuManager(c, client);
+                client.assignMenuManager(m);
                 c.registerManager(m);
                 v.registerController(c);
                 v.setVisible(true);

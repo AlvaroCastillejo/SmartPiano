@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SongListController implements ActionListener {
@@ -51,10 +52,12 @@ public class SongListController implements ActionListener {
                     v.setVisible(false);
                     introSong.setVolume(1.0f);
                     SwingUtilities.invokeLater(() -> {
-                        FriendView v = new FriendView();
-                        FriendController c = new FriendController(v, introSong);
+                        ArrayList<Friend> list = fillFriendList();
+                        FriendController c = new FriendController(introSong);
+                        FriendView v = new FriendView(list, c);
                         FriendManager m = new FriendManager(c,this.m.getClient());
                         c.registerManager(m);
+                        c.registerView(v);
                         v.registerController(c);
                         v.setVisible(true);
                     });
@@ -96,6 +99,35 @@ public class SongListController implements ActionListener {
                 });
                 break;
         }
+    }
+
+    private ArrayList<Friend> fillFriendList() {
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+
+        return friends;
     }
 
     public void registerManager(SongListManager m) {

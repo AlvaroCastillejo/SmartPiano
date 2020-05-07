@@ -1,5 +1,6 @@
 package Model.Database;
 
+import Model.Friend;
 import Model.SavedSong;
 import Model.ServerConfiguration;
 import Model.User;
@@ -7,6 +8,7 @@ import Model.Utils.JsonServerUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SQLOperations {
     public static void ImportaUsuari(String name, String pass, String mail) throws SQLException {
@@ -95,4 +97,26 @@ public class SQLOperations {
         return false;
     }
 
+    public static ArrayList<Friend> getFriendsFrom(User user) {
+        ArrayList<Friend> friendList = new ArrayList<>();
+
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "SELECT * FROM friend WHERE usernameUser like '" + user.getUsername() +  "'";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+                String usernameFriend = rs.getString(1);
+                String emailFriend = rs.getString(2);
+                String usernameUser = rs.getString(3);
+                String emailUser = rs.getString(4);
+                friendList.add(new Friend(emailFriend, usernameFriend));
+            }
+            //rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return friendList;
+    }
 }

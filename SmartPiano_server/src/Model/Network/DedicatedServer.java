@@ -5,16 +5,15 @@ import Model.Database.SQLOperations;
 import Model.Utils.Output;
 
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DedicatedServer extends Thread {
     private Server server;
+    private User user;
 
     private ArrayList<DedicatedServer> dedicatedServers;
     private int id;
@@ -40,6 +39,7 @@ public class DedicatedServer extends Thread {
     public void run(){
         try{
             while (true){
+                // LOGIN/tryLogin
                 String action = dis.readUTF();
                 String[] elements = action.split("/");
                 action = elements[1];
@@ -58,6 +58,8 @@ public class DedicatedServer extends Thread {
                                 switch (status){
                                     case 0:
                                         sendAction("LOGIN/logged");
+                                        server.registerConnectedUser(user, this.id);
+                                        this.user = user;
                                         break;
                                     case 1:
                                         sendAction("LOGIN/failed");
@@ -90,7 +92,12 @@ public class DedicatedServer extends Thread {
                         }
                         break;
                     case "DOWNLOAD":
+                        switch (action){
+                            case "accept":
+                                sendAction("DOWNLOAD/accept?");
 
+                                break;
+                        }
                         break;
                     case "SAVESONG":
                         switch (action){
@@ -100,6 +107,10 @@ public class DedicatedServer extends Thread {
                                 SavedSong savedSong = null;
                                 try {
                                     savedSong = (SavedSong) objectInputStream.readObject();
+                                    sendAction("SEND_INFO/getSongFile");
+
+                                    foo(savedSong.getSongName());
+
                                 } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
@@ -113,7 +124,7 @@ public class DedicatedServer extends Thread {
                                 String friendCode = elements[2];
                                 System.out.println("friendCode is: " + friendCode);
                                 //Database stuff
-                                sendAction("DOWNLOAD/information/friendRequest/accepted");
+                                //sendAction("DOWNLOAD/information/friendRequest/accepted");
                                 break;
                         }
                         break;
@@ -128,12 +139,54 @@ public class DedicatedServer extends Thread {
                                 }else{
                                     sendAction("RECEIVE_INFO/checkSongName=false");
                                 }
-
+                                break;
+                            case "friendList":
+                                sendAction("SEND_INFO/sendingSongFromServerRequest");
+                                String confirmation = dis.readUTF();
+                                switch (confirmation){
+                                    case "accept":
+                                        ArrayList<Friend> friendList = SQLOperations.getFriendsFrom(user);
+                                        FriendListToSend flts = new FriendListToSend();
+                                        flts.setFriendList(friendList);
+                                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                                        oos.writeObject(flts);
+                                        break;
+                                    case "decline":
+                                        //ignore for now
+                                        break;
+                                }
                                 break;
                         }
                 }
             }
         } catch (IOException | SQLException e) {
+            if(e.getMessage().equals("Connection reset")){
+                System.out.println("User " + user.getUsername() + " disconnected.");
+                server.deleteConnectedUser(this.id);
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void foo(String songName) {
+        try{
+            InputStream is= socket.getInputStream();
+
+            byte[] bytes= new byte[1024*16];
+
+            DataInputStream dis=new DataInputStream(socket.getInputStream());
+            String ext=dis.readUTF();
+
+            File aux = new File("");
+            String filePath = aux.getAbsolutePath();
+            String path = filePath + "\\SmartPiano_server\\src\\Model\\Assets\\Songs\\" + songName + "." + ext;
+            File f= new File(path);
+            OutputStream output = new FileOutputStream(f);
+            for(int i = is.read(bytes); i > 0; i--){
+                output.write(bytes, 0, i);
+            }
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }

@@ -1,11 +1,15 @@
 package View;
 
+import Controller.FriendController;
+import Model.Friend;
+import View.CustomComponents.FriendListScrollPane;
 import View.CustomComponents.JPanelBackground;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class FriendView extends JFrame {
     private JPanelBackground jpBackground;
@@ -16,8 +20,10 @@ public class FriendView extends JFrame {
     private JButton jbShowFriendSongs;
     private JButton jbDeleteFriend;
     private int offset;
+    private FriendController controller;
 
-    public FriendView () {
+    public FriendView (ArrayList<Friend> friendList, FriendController controller) {
+        this.controller = controller;
         setTitle("Friends");
         setSize(500, 500);
         setLocationRelativeTo(null);
@@ -51,26 +57,44 @@ public class FriendView extends JFrame {
         jbAddFriend.setBounds(295, 130+offset, 60, 40);
         jpBackground.add(jbAddFriend);
 
-        jbFriend = new JButton("Friend"); // friend's name button (dynamic array with all friends)
-        //setButtonInvisible(jbAddFriend);
-        jbFriend.setBounds(55, 210+offset, 280, 30);
-        jpBackground.add(jbFriend);
-
-        //hacer un boton por cada amigo y cuando se pulse, mostrar los dos botones siguientes
-        jbShowFriendSongs = new JButton(">"); //Show songs list button
-        //setButtonInvisible(jbShowFriendSongs);
-        jbShowFriendSongs.setBounds(335, 210+offset, 45, 30);
-        jpBackground.add(jbShowFriendSongs);
-
-        jbDeleteFriend = new JButton("F"); //Delete Friend button
-        //setButtonInvisible(jbDeleteFriend);
-        jbDeleteFriend.setBounds(380, 210+offset, 45, 30);
-        jpBackground.add(jbDeleteFriend);
+        FriendListScrollPane friendListScrollPane = new FriendListScrollPane(friendList, 350, 210, controller);
+        friendListScrollPane.setBounds(70, 220, friendListScrollPane.getPanelWidth(), friendListScrollPane.getPanelHeight());
+        getContentPane().add(friendListScrollPane);
 
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
-    public void registerController (ActionListener al) {
+    private ArrayList<Friend> fillFriendList() {
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "Alvaro"));
+
+        return friends;
+    }
+
+    public void registerController (FriendController al) {
+        this.controller = al;
         jbBack.addActionListener(al);
         jbBack.setActionCommand("Back");
 
@@ -78,16 +102,16 @@ public class FriendView extends JFrame {
         jbAddFriend.addActionListener(al);
         jbAddFriend.setActionCommand("AddFriend");
 
-        jbFriend.addActionListener(al);
-        jbFriend.setActionCommand("Friend");
+        //jbFriend.addActionListener(al);
+        //jbFriend.setActionCommand("Friend");
 
         //quiero usar la misma vista para las canciones del usuario y del amigo seleccionado
         //pero para mostrar la lista de canciones necesito pasarle el nombre del usuario al que pertenecen
-        jbShowFriendSongs.addActionListener(al);
-        jbShowFriendSongs.setActionCommand("ShowSongList");
+        //jbShowFriendSongs.addActionListener(al);
+        //jbShowFriendSongs.setActionCommand("ShowSongList");
 
-        jbDeleteFriend.addActionListener(al);
-        jbDeleteFriend.setActionCommand("DeleteFriend");
+        //jbDeleteFriend.addActionListener(al);
+        //jbDeleteFriend.setActionCommand("DeleteFriend");
     }
 
     /**
@@ -103,5 +127,11 @@ public class FriendView extends JFrame {
 
     public String getJtFriendCode() {
         return jtFriendCode.getText();
+    }
+
+    public void generateFriendPanel(ArrayList<Friend> friendList){
+        FriendListScrollPane friendListScrollPane = new FriendListScrollPane(friendList, 200, 300, controller);
+        friendListScrollPane.setBounds(0, 60, friendListScrollPane.getPanelWidth(), friendListScrollPane.getPanelHeight());
+        getContentPane().add(friendListScrollPane);
     }
 }

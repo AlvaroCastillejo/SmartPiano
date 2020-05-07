@@ -3,6 +3,7 @@ package Model.Network;
 import Controller.MainMenuController;
 import Model.MainMenuManager;
 import Model.ServerConfiguration;
+import Model.User;
 import Model.Utils.JsonServerUtils;
 import View.MainMenu;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Server extends Thread {
     private static final int PORT = 12345;
@@ -21,9 +23,11 @@ public class Server extends Thread {
 
     private MainMenuManager m;
 
+    private HashMap<Integer, User> connectedUsers;
     public Server(){
         dedicatedServers = new ArrayList<>();
         serverSocket = null;
+        connectedUsers = new HashMap<>();
     }
 
     @Override
@@ -60,5 +64,13 @@ public class Server extends Thread {
 
     public void refreshUI() {
         this.m.refreshUI();
+    }
+
+    public void registerConnectedUser(User user, int id) {
+        connectedUsers.put(id, user);
+    }
+
+    public void deleteConnectedUser(int id) {
+        connectedUsers.remove(id);
     }
 }

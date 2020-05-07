@@ -5,8 +5,10 @@ import Model.*;
 import Model.Utils.JsonUtils;
 
 import javax.sound.midi.SysexMessage;
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 //A class that represents the client connected to the server.
 public class Client extends Thread {
@@ -21,8 +23,10 @@ public class Client extends Thread {
     private SaveSongManager saveSongManager;
     private PianoManager pianoManager;
 
+    private Socket socket;
     private DataOutputStream dos;
     private DataInputStream dis;
+    private MenuManager menuManager;
 
     /**
      * Class constructor. Initializes the communication with the server.
@@ -33,7 +37,7 @@ public class Client extends Thread {
         ServerConnectionConfiguration scc = JsonUtils.getConnectionConfiguration("config");
 
         this.loginManager = loginManager;
-        Socket socket = new Socket(scc.getIp(), scc.getPort());
+        socket = new Socket(scc.getIp(), scc.getPort());
         dos = new DataOutputStream(socket.getOutputStream());
         dis = new DataInputStream(socket.getInputStream());
         id = -1;
@@ -83,8 +87,38 @@ public class Client extends Thread {
                                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
                                 SavedSong savedSong = pianoManager.getSongFile();
                                 File myFile = savedSong.getFile();
-                                savedSong.destroySongFile();
+                                //savedSong.destroySongFile();
                                 objectOutputStream.writeObject(savedSong);
+                                break;
+                            case "getSongFile":
+                                File file = pianoManager.getSongFile().getFile();
+                                String name = file.getName();
+                                String n = name.substring(name.lastIndexOf(".") + 1);
+
+                                OutputStream os =  socket.getOutputStream();
+
+                                try {
+                                    DataOutputStream dos= new DataOutputStream(os);
+                                    dos.writeUTF(n);
+                                    os.flush();
+
+
+                                    FileInputStream fis= new FileInputStream(file);
+                                    BufferedInputStream bis= new BufferedInputStream(fis);
+                                    byte[] mybytearray = new byte[(int) file.length()];
+                                    bis.read(mybytearray, 0, mybytearray.length);
+                                    os.write(mybytearray, 0, mybytearray.length);
+                                }
+
+                                catch (Exception ex) {
+                                    System.out.println(ex);
+                                }
+                                break;
+                            case "sendingSongFromServerRequest":
+                                sendAction("accept");
+                                ObjectInputStream ois = new ObjectInputStream(dis);
+                                FriendListToSend friendList = (FriendListToSend) ois.readObject();
+                                menuManager.sendFriendListToSend(friendList);
                                 break;
                         }
                         break;
@@ -131,13 +165,12 @@ public class Client extends Thread {
                                 System.out.println("VOY A GUARDAR LA CANCION\n");
                                 break;
                         }
-
-
-
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (IndexOutOfBoundsException ignore){
+
         }
     }
 
@@ -168,5 +201,9 @@ public class Client extends Thread {
 
     public void setSaveSongManager(SaveSongManager saveSongManager){
         this.saveSongManager = saveSongManager;
+    }
+
+    public void assignMenuManager(MenuManager m) {
+        this.menuManager = m;
     }
 }
