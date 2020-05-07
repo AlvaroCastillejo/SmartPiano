@@ -27,4 +27,8 @@ public class SongListManager {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public void sendAction(String s) {
+        client.sendAction(s);
+    }
 }

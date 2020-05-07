@@ -27,6 +27,7 @@ public class Client extends Thread {
     private DataOutputStream dos;
     private DataInputStream dis;
     private MenuManager menuManager;
+    private FriendManager friendManager;
 
     /**
      * Class constructor. Initializes the communication with the server.
@@ -120,6 +121,11 @@ public class Client extends Thread {
                                 FriendListToSend friendList = (FriendListToSend) ois.readObject();
                                 menuManager.sendFriendListToSend(friendList);
                                 break;
+                            case "sendingSongListFromFromServerRequest":
+                                sendAction("accept");
+                                ois = new ObjectInputStream(dis);
+                                Model.SongListToSend songListToSend = (SongListToSend) ois.readObject();
+                                menuManager.showSongList(songListToSend.getSongs());
                         }
                         break;
 
@@ -130,6 +136,15 @@ public class Client extends Thread {
                                 break;
                             case "checkSongName=false":
                                 saveSongManager.sendResultCheckSongName(false);
+                                break;
+                            case "friendAdded=true":
+                                friendManager.sendResultFriendAdded("true/ignore");
+                                break;
+                            case "friendAdded=false#useruser":
+                                friendManager.sendResultFriendAdded("false/useruser");
+                                break;
+                            case "friendAdded=false#alreadyFriends":
+                                friendManager.sendResultFriendAdded("false/alreadyFriends");
                                 break;
                         }
                         break;
@@ -167,10 +182,8 @@ public class Client extends Thread {
                         }
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | IndexOutOfBoundsException e) {
             e.printStackTrace();
-        } catch (IndexOutOfBoundsException ignore){
-
         }
     }
 
@@ -185,7 +198,7 @@ public class Client extends Thread {
     public void sendAction(String action){
         try{
             dos.writeUTF(action);
-            System.out.println("ENVIO\n");
+            System.out.println("ENVIO: " + action);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -205,5 +218,9 @@ public class Client extends Thread {
 
     public void assignMenuManager(MenuManager m) {
         this.menuManager = m;
+    }
+
+    public void assignFriendManager(FriendManager m) {
+        this.friendManager = m;
     }
 }

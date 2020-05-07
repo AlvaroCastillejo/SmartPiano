@@ -1,8 +1,9 @@
-package Model.Database;
+package Model;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class Song_database {
+public class Song_database implements Serializable {
 
     private int song_id ;
     private String song_name;
@@ -13,7 +14,7 @@ public class Song_database {
     private String privacy;
     private File song;
 
-    public Song_database(int song_id,String song_name,String author_name, String album_id, int num_reproductions, String song_url, String privacy) {
+    public Song_database(int song_id, String song_name, String author_name, String album_id, int num_reproductions, String song_url, String privacy) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.author_name = author_name;

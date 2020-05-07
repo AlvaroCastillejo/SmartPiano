@@ -1,20 +1,30 @@
 package View;
 
+import Controller.SongListController;
+import Model.Song_database;
 import View.CustomComponents.JPanelBackground;
+import View.CustomComponents.SongScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SongListView extends JFrame {
     private JPanelBackground jpBackground;
     private JButton jbBack;
     private JButton jbSong;
     private JButton jbPlaySong;
+    private JPanel songListPanel;
     private int offset;
 
-    public SongListView () {
+    private SongListController controller;
+
+    public SongListView (ArrayList<Song_database> songList, SongListController controller) {
+        this.controller = controller;
+
         setTitle("Song list");
         setSize(500, 500);
         setLocationRelativeTo(null);
@@ -37,10 +47,9 @@ public class SongListView extends JFrame {
         jbBack.setBounds(40, 45+offset, 75, 45);
         jpBackground.add(jbBack);
 
-        jbSong = new JButton("Song"); //Song name button(dynamic array with all songs)
-        //setButtonInvisible(jbSong);
-        jbSong.setBounds(55, 150+offset, 370, 30);
-        jpBackground.add(jbSong);
+        songListPanel = createManageSongsPane(songList);
+        songListPanel.setBounds(40, 150, 400, 200);
+        getContentPane().add(songListPanel);
 
         jbPlaySong = new JButton(); //Play song button
         setButtonInvisible(jbPlaySong);
@@ -50,12 +59,21 @@ public class SongListView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
+    private JPanel createManageSongsPane(ArrayList<Song_database> songList) {
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(null);
+        panel1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        SongScrollPane panel = new SongScrollPane(songList, 400, 200, controller);
+        panel.setBounds(0, 0, panel.getPanelWidth(), panel.getPanelHeight());
+        panel1.add(panel);
+
+        return panel1;
+    }
+
     public void registerController (ActionListener al) {
         jbBack.addActionListener(al);
         jbBack.setActionCommand("Back");
-
-        jbSong.addActionListener(al);
-        jbSong.setActionCommand("SelectedSong");
 
         jbPlaySong.addActionListener(al);
         jbPlaySong.setActionCommand("PlaySong");

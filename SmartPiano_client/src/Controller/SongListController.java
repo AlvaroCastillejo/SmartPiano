@@ -18,12 +18,11 @@ public class SongListController implements ActionListener {
     private SongListManager m;
     /**
      * Constructor for the controller. It initializes the controller.
-     * @param v The view to control.
      * @param introSong The background song that was playing in the MainMenu.
      */
-    public SongListController(boolean backToMenu, SongListView v, AudioPlayer introSong) {
+    public SongListController(boolean backToMenu, AudioPlayer introSong) {
         this.backToMenu = backToMenu;
-        this.v = v;
+
         this.introSong = introSong;
     }
 
@@ -49,18 +48,21 @@ public class SongListController implements ActionListener {
                         v.setVisible(true);
                     });
                 } else {
-                    v.setVisible(false);
+                    /*v.setVisible(false);
                     introSong.setVolume(1.0f);
                     SwingUtilities.invokeLater(() -> {
                         ArrayList<Friend> list = fillFriendList();
                         FriendController c = new FriendController(introSong);
                         FriendView v = new FriendView(list, c);
                         FriendManager m = new FriendManager(c,this.m.getClient());
+                        m.getClient().assignFriendManager(m);
                         c.registerManager(m);
                         c.registerView(v);
                         v.registerController(c);
                         v.setVisible(true);
-                    });
+                    });*/
+                    v.setVisible(false);
+                    m.sendAction("ASKFOR/friendList");
                 }
                 break;
             case "SelectedSong":
@@ -101,6 +103,8 @@ public class SongListController implements ActionListener {
         }
     }
 
+
+
     private ArrayList<Friend> fillFriendList() {
         ArrayList<Friend> friends = new ArrayList<>();
         friends.add(new Friend("0", "Alvaro"));
@@ -132,5 +136,9 @@ public class SongListController implements ActionListener {
 
     public void registerManager(SongListManager m) {
         this.m = m;
+    }
+
+    public void registerView(SongListView v) {
+        this.v = v;
     }
 }

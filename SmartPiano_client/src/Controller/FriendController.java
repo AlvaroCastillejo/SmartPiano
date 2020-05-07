@@ -7,6 +7,7 @@ import View.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class FriendController implements ActionListener {
     private AudioPlayer introSong;
@@ -28,6 +29,12 @@ public class FriendController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String command = actionEvent.getActionCommand();
+        String action = "";
+        if(command.contains("/")){
+            String[] elements = command.split("/");
+            command = elements[0];
+            action = elements[1];
+        }
         System.out.println(command);
         switch (command) {
             case "Back":
@@ -36,6 +43,7 @@ public class FriendController implements ActionListener {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);
                     MenuManager m = new MenuManager(c, this.m.getClient());
+                    m.getClient().assignMenuManager(m);
                     c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);
@@ -56,8 +64,10 @@ public class FriendController implements ActionListener {
                 introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
-                    SongListView v = new SongListView();
-                    SongListController c = new SongListController(backToMenu, v, introSong);
+                    SongListController c = new SongListController(backToMenu, introSong);
+                    ArrayList<Song_database> songList = fillSongList();
+                    SongListView v = new SongListView(songList, c);
+                    c.registerView(v);
                     SongListManager m = new SongListManager(c, this.m.getClient());
                     c.registerManager(m);
                     v.registerController(c);
@@ -67,7 +77,47 @@ public class FriendController implements ActionListener {
             case "DeleteFriend":
                 //delete the selected friend, update friendView and don't show that friend in the table
                 break;
+            case "SELECT":
+                backToMenu = false;
+                v.setVisible(false);
+                introSong.setVolume(-10f);
+                //Shows the Configuration view.
+                /*SwingUtilities.invokeLater(() -> {
+                    SongListController c = new SongListController(backToMenu, introSong);
+                    ArrayList<Song_database> songList = fillSongList();
+                    SongListView v = new SongListView(songList, c);
+                    c.registerView(v);
+                    SongListManager m = new SongListManager(c, this.m.getClient());
+                    c.registerManager(m);
+                    v.registerController(c);
+                    v.setVisible(true);
+                });*/
+                ArrayList<Song_database> songList = fillSongList();
+                m.sendAction("DOWNLOAD/userSongList=" + action);
+                break;
         }
+    }
+
+    private ArrayList<Song_database> fillSongList() {
+        ArrayList<Song_database> toReturn = new ArrayList<>();
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "JUAN", "4", 23, "", "public"));
+        return toReturn;
     }
 
     public void registerManager(FriendManager m) {
@@ -76,5 +126,13 @@ public class FriendController implements ActionListener {
 
     public void registerView(FriendView v) {
         this.v = v;
+    }
+
+    public void sendResultFriendAdded(boolean added, String s) {
+        if(added){
+            v.addedStatus(s, "green");
+        } else {
+            v.addedStatus(s, "red");
+        }
     }
 }

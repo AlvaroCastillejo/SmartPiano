@@ -23,4 +23,23 @@ public class FriendManager {
     public Client getClient() {
         return client;
     }
+
+    public void sendResultFriendAdded(String s) {
+        String[] result = s.split("/");
+        switch (result[1]){
+            case "ignore":
+                c.sendResultFriendAdded(true, "Friend added successfully!");
+                break;
+            case "useruser":
+                c.sendResultFriendAdded(false, "You cannot add yourself!");
+                break;
+            case "alreadyFriends":
+                c.sendResultFriendAdded(false, "You are already friends!");
+                break;
+        }
+    }
+
+    public void sendAction(String s) {
+        client.sendAction(s);
+    }
 }

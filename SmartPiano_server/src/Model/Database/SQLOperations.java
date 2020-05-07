@@ -119,4 +119,45 @@ public class SQLOperations {
         }
         return friendList;
     }
+
+    public static boolean alreadyFriends(User user, String friendCode) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "SELECT * FROM friend WHERE usernameUser like '" + user.getUsername() +  "' and usernameFriend like '" + friendCode + "'";
+        ResultSet rs = conn.selectQuery(query);
+        try {
+            if (rs.isBeforeFirst()) {
+                return true; //No other song has that name
+            } else {
+                return false; //Song name already exists
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void addFriend(User user, String friendCode) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "insert into Friend(usernameFriend, emailFriend, usernameUser, emailUser)" +
+                       "values ('"+ friendCode +"', '" + SQLOperations.getUserEmail(friendCode) + "', '" + user.getUsername() + "', '" + getUserEmail(user.getUsername()) + "')";
+        conn.insertQuery(query);
+    }
+
+    private static String getUserEmail(String friendCode) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "select user.email from user where username like '" + friendCode + "'";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+                String toReturn = rs.getString("email");
+                return toReturn;
+            }
+        } catch (SQLException ignore){}
+
+        return "null";
+    }
 }

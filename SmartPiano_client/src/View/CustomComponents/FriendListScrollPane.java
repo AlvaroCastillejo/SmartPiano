@@ -50,7 +50,7 @@ public class FriendListScrollPane extends JPanel {
 
             JButton jbSelectFriend = new JButton("->");
             jbSelectFriend.addActionListener(controller);
-            jbSelectFriend.setActionCommand("SELECT/".concat(t.getId()));
+            jbSelectFriend.setActionCommand("SELECT/".concat(t.getName()));
             buttonMap.put(t.getId(), jbSelectFriend);
             auxPanel.add(jbSelectFriend);
 

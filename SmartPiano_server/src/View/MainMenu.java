@@ -2,18 +2,14 @@ package View;
 
 import Controller.MainMenuController;
 import Model.Database.SongVisualization;
-import Model.Database.Song_database;
-import Model.Song;
+import Model.Song_database;
 import View.CustomComponents.SongScrollPane;
 
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class MainMenu extends JFrame {
 

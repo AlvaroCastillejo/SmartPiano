@@ -2,12 +2,13 @@ package Model.Network;
 
 import Model.*;
 import Model.Database.SQLOperations;
+import Model.Database.SongVisualization;
+import Model.Song_database;
 import Model.Utils.Output;
 
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -92,10 +93,28 @@ public class DedicatedServer extends Thread {
                         }
                         break;
                     case "DOWNLOAD":
+                        String subAction = "";
+                        if(action.contains("=")){
+                            String[] aux = action.split("=");
+                            action = aux[0];
+                            subAction = aux[1];
+                        }
                         switch (action){
                             case "accept":
                                 sendAction("DOWNLOAD/accept?");
+                                break;
+                            case "userSongList":
+                                sendAction("SEND_INFO/sendingSongListFromFromServerRequest");
+                                String confirmation = dis.readUTF();
+                                if(confirmation.equals("accept")){
+                                    SongVisualization s = new SongVisualization();
+                                    ArrayList<Song_database> songList = new ArrayList<>();
+                                    songList = s.ShowSongListFrom(subAction);
+                                    SongListToSend toSend = new SongListToSend(songList);
 
+                                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                                    oos.writeObject(toSend);
+                                }
                                 break;
                         }
                         break;
@@ -123,6 +142,16 @@ public class DedicatedServer extends Thread {
                             case "friendRequest":
                                 String friendCode = elements[2];
                                 System.out.println("friendCode is: " + friendCode);
+                                if(friendCode.equals(user.getUsername())){
+                                    sendAction("RECEIVE_INFO/friendAdded=false#useruser");
+                                } else {
+                                    if(!SQLOperations.alreadyFriends(user, friendCode)){
+                                        SQLOperations.addFriend(user, friendCode);
+                                        sendAction("RECEIVE_INFO/friendAdded=true");
+                                    } else {
+                                        sendAction("RECEIVE_INFO/friendAdded=false#alreadyFriends");
+                                    }
+                                }
                                 //Database stuff
                                 //sendAction("DOWNLOAD/information/friendRequest/accepted");
                                 break;
@@ -193,6 +222,7 @@ public class DedicatedServer extends Thread {
 
     public void sendAction(String action){
         try{
+            System.out.println("ENVIO: " + action);
             dos.writeUTF(action);
         } catch (IOException e) {
             e.printStackTrace();

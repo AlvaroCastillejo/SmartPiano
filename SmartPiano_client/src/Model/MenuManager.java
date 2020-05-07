@@ -3,6 +3,8 @@ package Model;
 import Controller.MenuController;
 import Model.Network.Client;
 
+import java.util.ArrayList;
+
 public class MenuManager {
     private MenuController c;
     private Client client;
@@ -22,5 +24,9 @@ public class MenuManager {
 
     public void sendFriendListToSend(FriendListToSend friendList) {
         c.sentFriendListToSend(friendList);
+    }
+
+    public void showSongList(ArrayList<Song_database> songList){
+        c.showSongList(songList);
     }
 }

@@ -18,6 +18,7 @@ public class MenuController implements ActionListener {
     private MainMenuView v;
     private AudioPlayer introSong;
     private MenuManager m;
+    private boolean backToMenu;
 
     /**
      * Constructor for the class. Plays a background song.
@@ -92,50 +93,77 @@ public class MenuController implements ActionListener {
                 break;
 
             case "ShowSongList":
-                boolean backToMenu = true;
+                this.backToMenu = true;
                 v.setVisible(false);
                 introSong.setVolume(-10f);
                 //Shows the Configuration view.
-                SwingUtilities.invokeLater(() -> {
-                    SongListView v = new SongListView();
-                    SongListController c = new SongListController(backToMenu, v, introSong);
-                    SongListManager m = new SongListManager(c,this.m.getClient());
-                    c.registerManager(m);
-                    v.registerController(c);
-                    v.setVisible(true);
-                });
-                break;
 
+                ArrayList<Song_database> songList = fillSongList();
+                m.sendAction("DOWNLOAD/userSongList=" + m.getClient().getLogin());
+                break;
             case "Friends":
                 v.setVisible(false);
                 m.sendAction("ASKFOR/friendList");
                 //Shows the Friends view.
-
                 break;
         }
     }
 
+    public void showSongList(ArrayList<Song_database> songList){
+        SwingUtilities.invokeLater(() -> {
+            SongListController c = new SongListController(backToMenu, introSong);
+            SongListView v = new SongListView(songList, c);
+            c.registerView(v);
+            SongListManager m = new SongListManager(c,this.m.getClient());
+            c.registerManager(m);
+            v.registerController(c);
+            v.setVisible(true);
+        });
+    }
+
+    private ArrayList<Song_database> fillSongList() {
+        ArrayList<Song_database> toReturn = new ArrayList<>();
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
+        return toReturn;
+    }
+
     private ArrayList<Friend> fillFriendList() {
         ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
+        friends.add(new Friend("0", "PEDRO"));
         friends.add(new Friend("0", "Alvaro"));
         friends.add(new Friend("0", "Alvaro"));
         friends.add(new Friend("0", "Alvaro"));
@@ -154,6 +182,7 @@ public class MenuController implements ActionListener {
             FriendController c = new FriendController(introSong);
             FriendView v = new FriendView(list, c);
             FriendManager m = new FriendManager(c,this.m.getClient());
+            m.getClient().assignFriendManager(m);
             c.registerManager(m);
             c.registerView(v);
             v.registerController(c);

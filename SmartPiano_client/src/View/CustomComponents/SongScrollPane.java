@@ -43,15 +43,18 @@ public class SongScrollPane extends JPanel {
             title.setHorizontalAlignment(JLabel.CENTER);
             auxPanel.add(title);
 
-            JLabel author = new JLabel(t.getAlbum_id());
+            JLabel author = new JLabel(t.getAuthor_name());
             author.setHorizontalAlignment(JLabel.CENTER);
             author.setVerticalAlignment(JLabel.CENTER);
             auxPanel.add(author);
 
-            JLabel album = new JLabel(t.getAlbum_id());
-            album.setHorizontalAlignment(JLabel.CENTER);
-            album.setVerticalAlignment(JLabel.CENTER);
-            auxPanel.add(album);
+            JButton jbPlay = new JButton("Play");
+            jbPlay.addActionListener(controller);
+            jbPlay.setActionCommand("PLAY/".concat(String.valueOf(t.getSong_id())));
+            jbPlay.setHorizontalAlignment(JLabel.CENTER);
+            jbPlay.setVerticalAlignment(JLabel.CENTER);
+            buttonMap.put(String.valueOf(t.getSong_id()), jbPlay);
+            auxPanel.add(jbPlay);
 
             JButton jbDelete = new JButton("Delete");
             jbDelete.addActionListener(controller);

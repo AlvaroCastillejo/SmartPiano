@@ -16,9 +16,8 @@ public class FriendView extends JFrame {
     private JButton jbBack;
     private JTextField jtFriendCode;
     private JButton jbAddFriend;
-    private JButton jbFriend;
-    private JButton jbShowFriendSongs;
-    private JButton jbDeleteFriend;
+    private JLabel jlStatus;
+
     private int offset;
     private FriendController controller;
 
@@ -35,6 +34,10 @@ public class FriendView extends JFrame {
         } else {
             offset = 0;
         }
+
+        jlStatus = new JLabel();
+        jlStatus.setBounds(200, 50, 200, 100);
+        getContentPane().add(jlStatus);
 
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
@@ -64,35 +67,6 @@ public class FriendView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
-    private ArrayList<Friend> fillFriendList() {
-        ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-
-        return friends;
-    }
-
     public void registerController (FriendController al) {
         this.controller = al;
         jbBack.addActionListener(al);
@@ -101,17 +75,6 @@ public class FriendView extends JFrame {
         //pasar aqui el contenido del textField con el codigo del amigo
         jbAddFriend.addActionListener(al);
         jbAddFriend.setActionCommand("AddFriend");
-
-        //jbFriend.addActionListener(al);
-        //jbFriend.setActionCommand("Friend");
-
-        //quiero usar la misma vista para las canciones del usuario y del amigo seleccionado
-        //pero para mostrar la lista de canciones necesito pasarle el nombre del usuario al que pertenecen
-        //jbShowFriendSongs.addActionListener(al);
-        //jbShowFriendSongs.setActionCommand("ShowSongList");
-
-        //jbDeleteFriend.addActionListener(al);
-        //jbDeleteFriend.setActionCommand("DeleteFriend");
     }
 
     /**
@@ -129,9 +92,10 @@ public class FriendView extends JFrame {
         return jtFriendCode.getText();
     }
 
-    public void generateFriendPanel(ArrayList<Friend> friendList){
-        FriendListScrollPane friendListScrollPane = new FriendListScrollPane(friendList, 200, 300, controller);
-        friendListScrollPane.setBounds(0, 60, friendListScrollPane.getPanelWidth(), friendListScrollPane.getPanelHeight());
-        getContentPane().add(friendListScrollPane);
+    public void addedStatus(String message, String color) {
+        jlStatus.setText(message);
+        if(color.equals("green")) jlStatus.setBackground(Color.GREEN);
+        else jlStatus.setBackground(Color.RED);
+        repaint();
     }
 }
