@@ -50,7 +50,7 @@ public class SongScrollPane extends JPanel {
 
             JButton jbPlay = new JButton("Play");
             jbPlay.addActionListener(controller);
-            jbPlay.setActionCommand("PLAY/".concat(String.valueOf(t.getSong_id())));
+            jbPlay.setActionCommand("PLAY/".concat(String.valueOf(t.getSong_name())));
             jbPlay.setHorizontalAlignment(JLabel.CENTER);
             jbPlay.setVerticalAlignment(JLabel.CENTER);
             buttonMap.put(String.valueOf(t.getSong_id()), jbPlay);

@@ -1,5 +1,6 @@
 package Model.Database;
 
+import Model.SavedSong;
 import Model.ServerConfiguration;
 import Model.Song_database;
 import Model.Utils.JsonServerUtils;
@@ -167,5 +168,35 @@ public class SongVisualization extends JFrame {
             e.printStackTrace();
         }
         return songTopList;
+    }
+    public static SavedSong getSongByName(String name){
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        conn.connect();
+
+        String query = " SELECT * FROM Song where song_name like '" + name + "'";
+        ResultSet rs = conn.selectQuery(query);
+
+        SavedSong song = null;
+        try{
+            while (rs.next()) {
+                try {
+                    int song_id = rs.getInt(1);
+                    String song_name = rs.getString(2);
+                    String author_name = rs.getString(3);
+                    String album_name = rs.getString(4);
+                    int num_reproductions = rs.getInt(5);
+                    String song_url = rs.getString(6);
+                    String privacy = rs.getString(7);
+                    song = new SavedSong(song_name, album_name, privacy,author_name);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return song;
     }
 }

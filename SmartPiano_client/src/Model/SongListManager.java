@@ -3,6 +3,8 @@ package Model;
 import Controller.SongListController;
 import Model.Network.Client;
 
+import java.util.LinkedList;
+
 public class SongListManager {
     private SongListController c;
     private Client client;
@@ -30,5 +32,9 @@ public class SongListManager {
 
     public void sendAction(String s) {
         client.sendAction(s);
+    }
+
+    public void playSong(LinkedList<Note> notes) {
+        this.c.playSong(notes);
     }
 }

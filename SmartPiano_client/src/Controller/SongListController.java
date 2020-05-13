@@ -33,6 +33,12 @@ public class SongListController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String command = actionEvent.getActionCommand();
+        String action = "";
+        if(command.contains("/")){
+            String[] elements = command.split("/");
+            command = elements[0];
+            action = elements[1];
+        }
         switch (command) {
             case "Back":
                 //if I was in the menu go back to menu, else, go back to friendView
@@ -79,8 +85,8 @@ public class SongListController implements ActionListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                v.setVisible(false);
+                playSong(notes);
+                /*v.setVisible(false);
                 //Stop the background song.
                 introSong.stopTheCurrent();
                 //Shows the Piano view.
@@ -98,40 +104,35 @@ public class SongListController implements ActionListener {
                     c.setView(v);
                     v.setVisible(true);
                     toPlay.start();
-                });
+                });*/
+                break;
+            case "PLAY":
+                v.setVisible(false);
+                m.sendAction("DOWNLOAD/requestFileByName="+action);
                 break;
         }
     }
 
-
-
-    private ArrayList<Friend> fillFriendList() {
-        ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-
-        return friends;
+    public void playSong(LinkedList<Note> notes){
+        v.setVisible(false);
+        //Stop the background song.
+        introSong.stopTheCurrent();
+        //Shows the Piano view.
+        LinkedList<Note> finalNotes = notes;
+        SwingUtilities.invokeLater(() -> {
+            PianoController c = new PianoController();
+            Song toPlay = new Song(finalNotes, c);
+            c.setSong(toPlay);
+            Piano v = new Piano(c, toPlay);
+            v.isSongPiano();
+            PianoManager m = new PianoManager();
+            m.registerController(c);
+            m.setClient(this.m.getClient());
+            c.registerManager(m);
+            c.setView(v);
+            v.setVisible(true);
+            toPlay.start();
+        });
     }
 
     public void registerManager(SongListManager m) {

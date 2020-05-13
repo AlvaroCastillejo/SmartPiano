@@ -77,7 +77,6 @@ public class SQLOperations {
         return 0;
     }
 
-
     public static boolean checkSongName(String songName) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");

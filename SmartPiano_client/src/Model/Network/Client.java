@@ -28,6 +28,7 @@ public class Client extends Thread {
     private DataInputStream dis;
     private MenuManager menuManager;
     private FriendManager friendManager;
+    private SongListManager songListManager;
 
     /**
      * Class constructor. Initializes the communication with the server.
@@ -126,6 +127,14 @@ public class Client extends Thread {
                                 ois = new ObjectInputStream(dis);
                                 Model.SongListToSend songListToSend = (SongListToSend) ois.readObject();
                                 menuManager.showSongList(songListToSend.getSongs());
+                                break;
+                            case "sendingSongFileFromServerRequest":
+                                sendAction("accept");
+                                ois = new ObjectInputStream(dis);
+                                SongToSend songToSend = (SongToSend) ois.readObject();
+                                songListManager.playSong(songToSend.getNotes());
+                                System.out.println("GOT THEM");
+                                break;
                         }
                         break;
 
@@ -187,6 +196,30 @@ public class Client extends Thread {
         }
     }
 
+    private File foo(String songName) {
+        File f = null;
+        try{
+            InputStream is= socket.getInputStream();
+
+            byte[] bytes= new byte[1024*16];
+
+            DataInputStream dis=new DataInputStream(socket.getInputStream());
+            String ext=dis.readUTF();
+
+            File aux = new File("");
+            String filePath = aux.getAbsolutePath();
+            String path = filePath + "\\SmartPiano_server\\src\\Model\\Assets\\Songs\\" + songName + "." + ext;
+            f = new File(path);
+            OutputStream output = new FileOutputStream(f);
+            for(int i = is.read(bytes); i > 0; i--){
+                output.write(bytes, 0, i);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
     public void stopIt(){
         isRunning = false;
     }
@@ -222,5 +255,9 @@ public class Client extends Thread {
 
     public void assignFriendManager(FriendManager m) {
         this.friendManager = m;
+    }
+
+    public void assignSongListManager(SongListManager m) {
+        this.songListManager = m;
     }
 }

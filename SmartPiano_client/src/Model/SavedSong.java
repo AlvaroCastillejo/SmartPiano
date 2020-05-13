@@ -18,6 +18,13 @@ public class SavedSong implements Serializable {
         this.songFile = songFile;
     }
 
+    public SavedSong(String song_name, String album_name, String privacy, String author_name) {
+        this.songName = song_name;
+        this.songAlbum = album_name;
+        this.songPrivacy = privacy;
+        this.songAuthor = author_name;
+    }
+
     public File getFile() {
         return songFile;
     }
@@ -56,5 +63,9 @@ public class SavedSong implements Serializable {
 
     public void setSongAuthor(String songAuthor) {
         this.songAuthor = songAuthor;
+    }
+
+    public void setFile(File file) {
+        this.songFile = file;
     }
 }

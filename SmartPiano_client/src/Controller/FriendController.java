@@ -69,6 +69,7 @@ public class FriendController implements ActionListener {
                     SongListView v = new SongListView(songList, c);
                     c.registerView(v);
                     SongListManager m = new SongListManager(c, this.m.getClient());
+                    this.m.getClient().assignSongListManager(m);
                     c.registerManager(m);
                     v.registerController(c);
                     v.setVisible(true);

@@ -116,6 +116,22 @@ public class DedicatedServer extends Thread {
                                     oos.writeObject(toSend);
                                 }
                                 break;
+                            case "requestFileByName":
+                                sendAction("SEND_INFO/sendingSongFileFromServerRequest");
+                                String accept = dis.readUTF();
+
+                                switch (accept){
+                                    case "accept":
+                                        File aux = new File("");
+                                        String path = aux.getAbsolutePath();
+                                        File file = new File(path + "\\SmartPiano_server\\src\\Model\\Assets\\Songs\\"+subAction+".mid");
+                                        SongToSend songToSend = new SongToSend(file);
+
+                                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                                        oos.writeObject(songToSend);
+                                        break;
+                                }
+                                break;
                         }
                         break;
                     case "SAVESONG":
