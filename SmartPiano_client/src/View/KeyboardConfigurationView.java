@@ -162,6 +162,7 @@ public class KeyboardConfigurationView extends JFrame {
         keyboardMap.put("w/".concat(String.valueOf(i)), key);
 
         return key;
+
     }
 
 
