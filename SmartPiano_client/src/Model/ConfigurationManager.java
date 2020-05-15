@@ -37,4 +37,7 @@ public class ConfigurationManager {
     public void trunOnIntr0 () { this.introMusic = true; }
 
 
+    public void sendAction(String s) {
+        client.sendAction(s);
+    }
 }

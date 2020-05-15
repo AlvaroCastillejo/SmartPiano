@@ -7,6 +7,7 @@ import View.CustomComponents.JPanelBackground;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class FriendView extends JFrame {
     private JTextField jtFriendCode;
     private JButton jbAddFriend;
     private JLabel jlStatus;
+
+    private JPanel listPanel;
 
     private int offset;
     private FriendController controller;
@@ -36,7 +39,7 @@ public class FriendView extends JFrame {
         }
 
         jlStatus = new JLabel();
-        jlStatus.setBounds(200, 50, 200, 100);
+        jlStatus.setBounds(120, 60, 200, 100);
         getContentPane().add(jlStatus);
 
         jpBackground = new JPanelBackground();
@@ -60,11 +63,36 @@ public class FriendView extends JFrame {
         jbAddFriend.setBounds(295, 130+offset, 60, 40);
         jpBackground.add(jbAddFriend);
 
-        FriendListScrollPane friendListScrollPane = new FriendListScrollPane(friendList, 350, 210, controller);
-        friendListScrollPane.setBounds(70, 220, friendListScrollPane.getPanelWidth(), friendListScrollPane.getPanelHeight());
-        getContentPane().add(friendListScrollPane);
+        listPanel = createFriendList(friendList);
+        listPanel.setBounds(70, 220, 350, 210);
+        getContentPane().add(listPanel);
+
 
         getContentPane().add(jpBackground, BorderLayout.CENTER);
+    }
+
+    public JPanel createFriendList(ArrayList<Friend> friendList) {
+        JPanel toReturn = new JPanel();
+        toReturn.setLayout(null);
+        toReturn.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        FriendListScrollPane friendListScrollPane = new FriendListScrollPane(friendList, 350, 210, controller);
+        friendListScrollPane.setBounds(0, 0, friendListScrollPane.getPanelWidth(), friendListScrollPane.getPanelHeight());
+        toReturn.add(friendListScrollPane);
+
+        return toReturn;
+    }
+
+    public void updateUI(ArrayList<Friend> friendList){
+        getContentPane().remove(listPanel);
+        listPanel.removeAll();
+
+        listPanel = createFriendList(friendList);
+        listPanel.setBounds(70, 220, 350, 210);
+        getContentPane().add(listPanel);
+
+        getContentPane().repaint();
+        //getContentPane().revalidate();
     }
 
     public void registerController (FriendController al) {
@@ -94,8 +122,18 @@ public class FriendView extends JFrame {
 
     public void addedStatus(String message, String color) {
         jlStatus.setText(message);
-        if(color.equals("green")) jlStatus.setBackground(Color.GREEN);
-        else jlStatus.setBackground(Color.RED);
+        if(color.equals("green")) jlStatus.setForeground(Color.GREEN);
+        else jlStatus.setForeground(Color.RED);
         repaint();
+        /*int delay = 3000; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jlStatus.setText("");
+                repaint();
+            }
+        };
+        Timer h = new Timer(delay, taskPerformer);
+        h.setRepeats(false);
+        h.start();*/
     }
 }

@@ -6,7 +6,10 @@ import java.util.LinkedList;
 
 public class SongToSend implements Serializable {
     private LinkedList<Note> notes;
-    public SongToSend(File file) {
+    private final String songName;
+
+    public SongToSend(File file, String songName) {
+        this.songName = songName;
         notes = new LinkedList<>();
 
         try {
@@ -20,5 +23,9 @@ public class SongToSend implements Serializable {
 
     public LinkedList<Note> getNotes() {
         return notes;
+    }
+
+    public String getSongName() {
+        return songName;
     }
 }

@@ -48,8 +48,8 @@ public class ConfigurationView extends JFrame {
         jbEditKeys.setBounds(100, 240+offset, 285, 45);
         jpBackground.add(jbEditKeys);
 
-        jbDeleteAccount = new JButton("Delete account"); //Delete account button
-        //setButtonInvisible(jbDeleteAccount);
+        jbDeleteAccount = new JButton(); //Delete account button
+        setButtonInvisible(jbDeleteAccount);
         jbDeleteAccount.setBounds(100, 320+offset, 285, 45);
         jpBackground.add(jbDeleteAccount);
 

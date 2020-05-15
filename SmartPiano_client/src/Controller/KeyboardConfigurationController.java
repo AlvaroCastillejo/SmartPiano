@@ -40,7 +40,7 @@ public class KeyboardConfigurationController implements ActionListener {
         switch (command) {
             case "Back":
                 k.setVisible(false);
-                introSong.setVolume(40);
+                if(introSong != null) introSong.setVolume(40);
                 SwingUtilities.invokeLater( () -> {
                     ConfigurationView v = new ConfigurationView();
                     ConfigurationController c = new ConfigurationController(v, introSong);

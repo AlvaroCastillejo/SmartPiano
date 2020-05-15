@@ -132,8 +132,14 @@ public class Client extends Thread {
                                 sendAction("accept");
                                 ois = new ObjectInputStream(dis);
                                 SongToSend songToSend = (SongToSend) ois.readObject();
-                                songListManager.playSong(songToSend.getNotes());
+                                songListManager.playSong(songToSend.getNotes(), songToSend.getSongName());
                                 System.out.println("GOT THEM");
+                                break;
+                            case "sendingFriendListForUpdate":
+                                sendAction("accept");
+                                ois = new ObjectInputStream(dis);
+                                FriendListToSend friendListToSend = (FriendListToSend) ois.readObject();
+                                friendManager.updateUI(friendListToSend.getFriendList());
                                 break;
                         }
                         break;
@@ -154,6 +160,9 @@ public class Client extends Thread {
                                 break;
                             case "friendAdded=false#alreadyFriends":
                                 friendManager.sendResultFriendAdded("false/alreadyFriends");
+                                break;
+                            case "friendAdded=false#notExist":
+                                friendManager.sendResultFriendAdded("false/notExist");
                                 break;
                         }
                         break;

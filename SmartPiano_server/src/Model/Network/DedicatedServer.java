@@ -125,10 +125,23 @@ public class DedicatedServer extends Thread {
                                         File aux = new File("");
                                         String path = aux.getAbsolutePath();
                                         File file = new File(path + "\\SmartPiano_server\\src\\Model\\Assets\\Songs\\"+subAction+".mid");
-                                        SongToSend songToSend = new SongToSend(file);
+                                        SongToSend songToSend = new SongToSend(file, subAction);
 
                                         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                                         oos.writeObject(songToSend);
+                                        break;
+                                }
+                                break;
+                            case "friendListForUpdate":
+                                sendAction("SEND_INFO/sendingFriendListForUpdate");
+                                accept = dis.readUTF();
+                                switch (accept){
+                                    case "accept":
+                                        ArrayList<Friend> friendList = SQLOperations.getFriendsFrom(user);
+                                        FriendListToSend flts = new FriendListToSend();
+                                        flts.setFriendList(friendList);
+                                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                                        oos.writeObject(flts);
                                         break;
                                 }
                                 break;
@@ -154,10 +167,20 @@ public class DedicatedServer extends Thread {
                                 break;
                         }
                     case "UPLOAD":
+                        subAction = "";
+                        if(action.contains("=")){
+                            String[] aux = action.split("=");
+                            action = aux[0];
+                            subAction = aux[1];
+                        }
                         switch (action){
                             case "friendRequest":
                                 String friendCode = elements[2];
                                 System.out.println("friendCode is: " + friendCode);
+                                if(SQLOperations.userAlreadyExists(new User(friendCode, "")) == 0){
+                                    sendAction("RECEIVE_INFO/friendAdded=false#notExist");
+                                    break;
+                                }
                                 if(friendCode.equals(user.getUsername())){
                                     sendAction("RECEIVE_INFO/friendAdded=false#useruser");
                                 } else {
@@ -170,6 +193,9 @@ public class DedicatedServer extends Thread {
                                 }
                                 //Database stuff
                                 //sendAction("DOWNLOAD/information/friendRequest/accepted");
+                                break;
+                            case "deleteAcc":
+                                SQLOperations.deleteAccount(subAction);
                                 break;
                         }
                         break;

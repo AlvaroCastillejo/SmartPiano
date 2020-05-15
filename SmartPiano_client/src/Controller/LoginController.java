@@ -80,7 +80,7 @@ public class LoginController implements ActionListener, KeyListener {
             //Show main menu.
             SwingUtilities.invokeLater(() -> {
                 MainMenuView v = new MainMenuView();
-                MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
+                MenuController c = new MenuController(v, null); //new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav")
                 MenuManager m = new MenuManager(c, client);
                 client.assignMenuManager(m);
                 c.registerManager(m);

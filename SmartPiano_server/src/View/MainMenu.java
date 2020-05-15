@@ -68,13 +68,21 @@ public class MainMenu extends JFrame {
             e.printStackTrace();
         }
 
+        for(int i = 0; i < 5; i++){
+            try{
+                topSongList.get(i);
+            } catch (IndexOutOfBoundsException e){
+                topSongList.add(new Song_database());
+            }
+        }
+
         String[] columnNames = {"Id", "Title", "Author", "Album", "Nº Reproductions"};
         Object[][] data = {
-                {topSongList.get(0).getSong_id() , topSongList.get(0).getSong_name(), topSongList.get(0).getAuthor_name(), topSongList.get(0).getAlbum_id() , topSongList.get(0).getNum_reproductions()},
-                {topSongList.get(1).getSong_id() , topSongList.get(1).getSong_name(), topSongList.get(1).getAuthor_name(), topSongList.get(1).getAlbum_id() , topSongList.get(1).getNum_reproductions()},
-                {topSongList.get(2).getSong_id() , topSongList.get(2).getSong_name(), topSongList.get(2).getAuthor_name(), topSongList.get(2).getAlbum_id() , topSongList.get(2).getNum_reproductions()},
-                {topSongList.get(3).getSong_id() , topSongList.get(3).getSong_name(), topSongList.get(3).getAuthor_name(), topSongList.get(3).getAlbum_id() , topSongList.get(3).getNum_reproductions()},
-                {topSongList.get(4).getSong_id() , topSongList.get(4).getSong_name(), topSongList.get(4).getAuthor_name(), topSongList.get(4).getAlbum_id() , topSongList.get(4).getNum_reproductions()}
+                {topSongList.get(0).getSong_id(), topSongList.get(0).getSong_name(), topSongList.get(0).getAuthor_name(), topSongList.get(0).getAlbum_id(), topSongList.get(0).getNum_reproductions()},
+                {topSongList.get(1).getSong_id(), topSongList.get(1).getSong_name(), topSongList.get(1).getAuthor_name(), topSongList.get(1).getAlbum_id(), topSongList.get(1).getNum_reproductions()},
+                {topSongList.get(2).getSong_id(), topSongList.get(2).getSong_name(), topSongList.get(2).getAuthor_name(), topSongList.get(2).getAlbum_id(), topSongList.get(2).getNum_reproductions()},
+                {topSongList.get(3).getSong_id(), topSongList.get(3).getSong_name(), topSongList.get(3).getAuthor_name(), topSongList.get(3).getAlbum_id(), topSongList.get(3).getNum_reproductions()},
+                {topSongList.get(4).getSong_id(), topSongList.get(4).getSong_name(), topSongList.get(4).getAuthor_name(), topSongList.get(4).getAlbum_id(), topSongList.get(4).getNum_reproductions()}
         };
 
         JTable table = new JTable(data, columnNames);

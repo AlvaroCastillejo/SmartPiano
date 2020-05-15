@@ -44,7 +44,7 @@ public class ConfigurationController implements ActionListener {
         switch (command) {
             case "Back":
                 v.setVisible(false);
-                introSong.setVolume(1.0f);
+                if(introSong != null) introSong.setVolume(1.0f);
                 SwingUtilities.invokeLater( () -> {
                     MainMenuView v = new MainMenuView();
                     MenuController c = new MenuController(v, introSong);
@@ -58,7 +58,7 @@ public class ConfigurationController implements ActionListener {
             case "LogOff":
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
-                    introSong.interrupt();
+                    if(introSong != null) introSong.interrupt();
                     LoginView v = new LoginView();
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
@@ -70,7 +70,7 @@ public class ConfigurationController implements ActionListener {
                 break;
 
             case "KeyboardConfiguration":
-                introSong.setVolume(-40);
+                if(introSong != null) introSong.setVolume(-40);
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
                     KeyboardConfigurationController c = new KeyboardConfigurationController();
@@ -81,10 +81,11 @@ public class ConfigurationController implements ActionListener {
                 break;
 
             case "DeleteAccount":
+                m.sendAction("UPLOAD/deleteAcc=" + m.getClient().getLogin());
                 //delete current user account and data
                 SwingUtilities.invokeLater(() -> {
                     v.setVisible(false);
-                    introSong.interrupt();
+                    if(introSong != null) introSong.interrupt();
                     LoginView v = new LoginView();
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);

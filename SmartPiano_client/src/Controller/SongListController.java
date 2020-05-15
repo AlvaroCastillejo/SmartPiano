@@ -44,7 +44,7 @@ public class SongListController implements ActionListener {
                 //if I was in the menu go back to menu, else, go back to friendView
                 if (backToMenu) {
                     v.setVisible(false);
-                    introSong.setVolume(1.0f);
+                    if(introSong != null) introSong.setVolume(1.0f);
                     SwingUtilities.invokeLater(() -> {
                         MainMenuView v = new MainMenuView();
                         MenuController c = new MenuController(v, introSong);
@@ -85,7 +85,7 @@ public class SongListController implements ActionListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                playSong(notes);
+                playSong(notes, "noll");
                 /*v.setVisible(false);
                 //Stop the background song.
                 introSong.stopTheCurrent();
@@ -108,22 +108,23 @@ public class SongListController implements ActionListener {
                 break;
             case "PLAY":
                 v.setVisible(false);
+                //introSong.stopTheCurrent();
                 m.sendAction("DOWNLOAD/requestFileByName="+action);
                 break;
         }
     }
 
-    public void playSong(LinkedList<Note> notes){
+    public void playSong(LinkedList<Note> notes, String songName){
         v.setVisible(false);
         //Stop the background song.
-        introSong.stopTheCurrent();
+        if(introSong != null) introSong.stopTheCurrent();
         //Shows the Piano view.
         LinkedList<Note> finalNotes = notes;
         SwingUtilities.invokeLater(() -> {
             PianoController c = new PianoController();
             Song toPlay = new Song(finalNotes, c);
             c.setSong(toPlay);
-            Piano v = new Piano(c, toPlay);
+            Piano v = new Piano(c, toPlay, songName);
             v.isSongPiano();
             PianoManager m = new PianoManager();
             m.registerController(c);

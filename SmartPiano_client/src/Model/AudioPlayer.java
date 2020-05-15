@@ -8,7 +8,7 @@ import java.io.IOException;
 public class AudioPlayer extends Thread {
     private String fileName;
     private FloatControl volume;
-
+    private Clip play;
     /**
      * The class constructor.
      * @param fileName The name of the file to reproduce.
@@ -21,7 +21,8 @@ public class AudioPlayer extends Thread {
      * Stop the song.
      */
     public void stopTheCurrent(){
-        this.interrupt();
+        play.stop();
+        //this.interrupt();
     }
 
     /**
@@ -29,7 +30,7 @@ public class AudioPlayer extends Thread {
      */
     @Override
     public void run(){
-        Clip play = null;
+        play = null;
         try {
             String f = new File("").getAbsolutePath().concat("\\SmartPiano_client\\src\\Model\\Assets\\IntroMusic\\" + fileName);
 
@@ -56,11 +57,17 @@ public class AudioPlayer extends Thread {
         try{
             Thread.sleep(10000);
         } catch (InterruptedException e) {
+            play.close();
+            play.stop();
+            volume.setValue(-40f);
+            stopTheCurrent();
             e.printStackTrace();
         }
     }
 
     public void setVolume(float db){
-        volume.setValue(db);
+        try{
+            volume.setValue(db);
+        } catch (NullPointerException ignore){}
     }
 }

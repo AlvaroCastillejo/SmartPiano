@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 public class SongToSend implements Serializable {
+    private final String songName;
     private LinkedList<Note> notes;
-    public SongToSend(File file) {
+
+    public SongToSend(File file, String songName) {
+        this.songName = songName;
         notes = new LinkedList<>();
 
         try {
@@ -20,5 +23,9 @@ public class SongToSend implements Serializable {
 
     public LinkedList<Note> getNotes() {
         return notes;
+    }
+
+    public String getSongName() {
+        return songName;
     }
 }

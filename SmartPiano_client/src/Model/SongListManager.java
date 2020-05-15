@@ -34,7 +34,7 @@ public class SongListManager {
         client.sendAction(s);
     }
 
-    public void playSong(LinkedList<Note> notes) {
-        this.c.playSong(notes);
+    public void playSong(LinkedList<Note> notes, String songName) {
+        this.c.playSong(notes, songName);
     }
 }

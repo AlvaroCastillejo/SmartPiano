@@ -50,7 +50,7 @@ public class Piano extends JFrame {
      * @param a The controller for the Piano.
      * @param toPlay The song to play if needed.
      */
-    public Piano(PianoController a, Song toPlay) {
+    public Piano(PianoController a, Song toPlay, String songName) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
 
@@ -87,6 +87,9 @@ public class Piano extends JFrame {
 
         keyBoard.setSize(840,300);
         keyBoard.setLocation(0,550);
+
+        JLabel songNameLabel = new JLabel(songName);
+        songNameLabel.setBounds(5, 5, 840, 15);
 
         //Beautifiers.
         JPanel horizontalDivider = new JPanel();
@@ -144,6 +147,7 @@ public class Piano extends JFrame {
         verticalDivider7.setLocation(0, 0);
         verticalDivider7.setBackground(new Color(149, 149, 149));
 
+        getContentPane().add(songNameLabel);
         getContentPane().add(keyBoard);
         getContentPane().add(redPad);
         getContentPane().add(horizontalDivider);

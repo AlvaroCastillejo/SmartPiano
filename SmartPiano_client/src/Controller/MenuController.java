@@ -30,7 +30,7 @@ public class MenuController implements ActionListener {
         introSong = audioPlayer;
         try {
             introSong.start();
-        } catch (IllegalThreadStateException ignore){}
+        } catch (IllegalThreadStateException | NullPointerException ignore){}
     }
 
     /**
@@ -44,12 +44,12 @@ public class MenuController implements ActionListener {
             case "PlayPiano":
                 v.setVisible(false);
                 //Stop the background song.
-                introSong.stopTheCurrent();
+                if(introSong != null) introSong.stopTheCurrent();
                 //Shows the Piano view.
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     Song toPlay = new Song(null, c);
-                    Piano v = new Piano(c, toPlay);
+                    Piano v = new Piano(c, toPlay, "Free Play");
                     PianoManager m = new PianoManager();
                     m.registerController(c);
                     m.setClient(this.m.getClient());
@@ -60,7 +60,7 @@ public class MenuController implements ActionListener {
                 break;
             case "Configuration":
                 v.setVisible(false);
-                introSong.setVolume(-10f);
+                if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
                     ConfigurationView v = new ConfigurationView();
@@ -75,13 +75,13 @@ public class MenuController implements ActionListener {
             case "RecordPiano":
                 v.setVisible(false);
                 //Stop the background song.
-                introSong.stopTheCurrent();
+                if(introSong != null) introSong.stopTheCurrent();
                 //Shows the Piano view.
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     c.isRecordingPiano();
                     Song toPlay = new Song(null, c);
-                    Piano v = new Piano(c, toPlay);
+                    Piano v = new Piano(c, toPlay, "Recording");
                     PianoManager m = new PianoManager();
                     m.registerController(c);
                     m.setClient(this.m.getClient());
@@ -95,7 +95,7 @@ public class MenuController implements ActionListener {
             case "ShowSongList":
                 this.backToMenu = true;
                 v.setVisible(false);
-                introSong.setVolume(-10f);
+                if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
 
                 ArrayList<Song_database> songList = fillSongList();

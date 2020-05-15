@@ -61,7 +61,7 @@ public class FriendController implements ActionListener {
                 //show the <user_login> SongListView
                 boolean backToMenu = false;
                 v.setVisible(false);
-                introSong.setVolume(-10f);
+                if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
                     SongListController c = new SongListController(backToMenu, introSong);
@@ -81,7 +81,7 @@ public class FriendController implements ActionListener {
             case "SELECT":
                 backToMenu = false;
                 v.setVisible(false);
-                introSong.setVolume(-10f);
+                if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 /*SwingUtilities.invokeLater(() -> {
                     SongListController c = new SongListController(backToMenu, introSong);
@@ -135,5 +135,9 @@ public class FriendController implements ActionListener {
         } else {
             v.addedStatus(s, "red");
         }
+    }
+
+    public void updateUI(ArrayList<Friend> friends) {
+        v.updateUI(friends);
     }
 }

@@ -159,4 +159,11 @@ public class SQLOperations {
 
         return "null";
     }
+
+    public static void deleteAccount(String subAction) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "delete from User where username like '"+ subAction +"';";
+        conn.insertQuery(query);
+    }
 }

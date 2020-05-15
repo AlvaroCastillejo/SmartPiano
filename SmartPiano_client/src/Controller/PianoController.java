@@ -252,7 +252,7 @@ public class PianoController implements ActionListener, KeyListener {
                 v.setVisible(false);
                 SwingUtilities.invokeLater(() -> {
                     MainMenuView v = new MainMenuView();
-                    MenuController c = new MenuController(v, new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav"));
+                    MenuController c = new MenuController(v, null); //new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav")
                     MenuManager m = new MenuManager(c, this.m.getClient());
                     c.registerManager(m);
                     v.registerController(c);

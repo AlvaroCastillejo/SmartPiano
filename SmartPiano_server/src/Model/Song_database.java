@@ -28,6 +28,16 @@ public class Song_database implements Serializable {
         this.song = new File(f.concat("\\SmartPiano_server\\src\\Model\\Assets\\Songs\\" + song_name));
     }
 
+    public Song_database() {
+        this.song_id = -1;
+        this.song_name = "";
+        this.author_name = "";
+        this.album_id = "";
+        this.num_reproductions = -1;
+        this.song_url = "";
+        this.privacy = "";
+    }
+
     public int getSong_id() {
         return song_id;
     }
