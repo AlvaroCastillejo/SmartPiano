@@ -1,0 +1,156 @@
+{
+  "keyNote": [
+    {
+      "note": "w/0",
+      "keyBoard": 0
+    },
+    {
+      "note": "b/0",
+      "keyBoard": 49
+    },
+    {
+      "note": "w/1",
+      "keyBoard": 81
+    },
+    {
+      "note": "b/1",
+      "keyBoard": 50
+    },
+    {
+      "note": "w/2",
+      "keyBoard": 87
+    },
+    {
+      "note": "w/3",
+      "keyBoard": 69
+    },
+    {
+      "note": "b/3",
+      "keyBoard": 52
+    },
+    {
+      "note": "w/4",
+      "keyBoard": 82
+    },
+    {
+      "note": "b/4",
+      "keyBoard": 53
+    },
+    {
+      "note": "w/5",
+      "keyBoard": 84
+    },
+    {
+      "note": "b/5",
+      "keyBoard": 54
+    },
+    {
+      "note": "w/6",
+      "keyBoard": 89
+    },
+    {
+      "note": "w/7",
+      "keyBoard": 16
+    },
+    {
+      "note": "b/7",
+      "keyBoard": 20
+    },
+    {
+      "note": "w/8",
+      "keyBoard": 153
+    },
+    {
+      "note": "b/8",
+      "keyBoard": 65
+    },
+    {
+      "note": "w/9",
+      "keyBoard": 90
+    },
+    {
+      "note": "w/10",
+      "keyBoard": 88
+    },
+    {
+      "note": "b/10",
+      "keyBoard": 68
+    },
+    {
+      "note": "w/11",
+      "keyBoard": 67
+    },
+    {
+      "note": "b/11",
+      "keyBoard": 70
+    },
+    {
+      "note": "w/12",
+      "keyBoard": 86
+    },
+    {
+      "note": "b/12",
+      "keyBoard": 71
+    },
+    {
+      "note": "w/13",
+      "keyBoard": 32
+    },
+    {
+      "note": "w/14",
+      "keyBoard": 66
+    },
+    {
+      "note": "b/14",
+      "keyBoard": 72
+    },
+    {
+      "note": "w/15",
+      "keyBoard": 78
+    },
+    {
+      "note": "b/15",
+      "keyBoard": 74
+    },
+    {
+      "note": "w/16",
+      "keyBoard": 77
+    },
+    {
+      "note": "w/17",
+      "keyBoard": 44
+    },
+    {
+      "note": "b/17",
+      "keyBoard": 76
+    },
+    {
+      "note": "w/18",
+      "keyBoard": 46
+    },
+    {
+      "note": "b/18",
+      "keyBoard": 80
+    },
+    {
+      "note": "w/19",
+      "keyBoard": 45
+    },
+    {
+      "note": "b/19",
+      "keyBoard": 129
+    },
+    {
+      "note": "w/20",
+      "keyBoard": 525
+    },
+    {
+      "note": "goBack",
+      "keyBoard": 8
+    },
+    {
+      "note": "rec",
+      "keyBoard": 10
+    }
+  ]
+}

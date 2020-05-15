@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.AudioPlayer;
-import Model.ConfigurationManager;
-import Model.LoginManager;
-import Model.MenuManager;
+import Model.*;
 import View.ConfigurationView;
 import View.KeyboardConfigurationView;
 import View.LoginView;
@@ -73,9 +70,13 @@ public class ConfigurationController implements ActionListener {
                 if(introSong != null) introSong.setVolume(-40);
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
-                    KeyboardConfigurationController c = new KeyboardConfigurationController();
+                    KeyboardConfigurationController c = new KeyboardConfigurationController(introSong);
                     KeyboardConfigurationView m = new KeyboardConfigurationView(c);
-                    c.setView(m,introSong);
+                    KeyboardConfigurationManager k = new KeyboardConfigurationManager(c);
+                    c.registerView(m);
+                    v.registerController(c);
+                    c.registerManager(k);
+                    k.setClient(this.m.getClient());
                     m.setVisible(true);
                 });
                 break;

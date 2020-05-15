@@ -3,6 +3,6 @@
   "databaseIP": "localhost",
   "databaseName": "SmartPiano",
   "databaseUser": "root",
-  "databasePassword": "admin",
+  "databasePassword": "1234",
   "clientPort": 12345
 }

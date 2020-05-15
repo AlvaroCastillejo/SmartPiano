@@ -12,9 +12,9 @@ public class Configuration {
     private static String recKeyName;
     private static String goBackKeyName;
 
-    public Configuration(){
-        initializeKeyBoardKeyConfiguration();
-        initializeKeyCode_keyName();
+    public Configuration(KeyNotes keyNotes){
+        initializeKeyBoardKeyConfiguration(keyNotes);
+        initializeKeyCode_keyName(keyNotes);
         recKeyName = "intro";
         goBackKeyName = "return";
     }
@@ -31,7 +31,13 @@ public class Configuration {
         this.recKeyName = "";
     }
 
-    private void initializeKeyBoardKeyConfiguration() {
+    private void initializeKeyBoardKeyConfiguration(KeyNotes keyNotes) {
+
+        for (KeyNote keyNote: keyNotes.getKeyNote()) {
+            keyBoardKeyConfiguration.put(keyNote.getKeyBoard(), keyNote.getNote());
+        }
+
+        /*
         keyBoardKeyConfiguration.put(0, "w/0");
         keyBoardKeyConfiguration.put(49, "b/0");
         keyBoardKeyConfiguration.put(81, "w/1");
@@ -70,9 +76,16 @@ public class Configuration {
         keyBoardKeyConfiguration.put(525, "w/20");
         keyBoardKeyConfiguration.put(10, "rec");
         keyBoardKeyConfiguration.put(8, "goBack");
+
+         */
     }
 
-    private void initializeKeyCode_keyName(){
+    private void initializeKeyCode_keyName(KeyNotes keyNotes){
+        for (KeyNote keyNote: keyNotes.getKeyNote()) {
+            keyCode_keyName.put(keyNote.getNote(), keyNote.getKeyBoard());
+        }
+
+        /*
         keyCode_keyName.put("w/0", 0);
         keyCode_keyName.put("b/0", 49);
         keyCode_keyName.put("w/1", 81);
@@ -110,7 +123,36 @@ public class Configuration {
         keyCode_keyName.put("b/19",129);
         keyCode_keyName.put("w/20",525);
         keyCode_keyName.put("rec", 13);
+
+         */
     }
+
+
+    public static int bindKey(String keyToChange, int newKey) {
+        /*
+        keyBoardKeyConfiguration -> 8 "back"
+        keyBoardKeyConfiguration -> 10 "rec"
+
+        keyCode_keyName -> "back" 8
+        keyCode_keyName -> "rec" 10
+
+        cambio el rec por el back
+        */
+
+        if(keyBoardKeyConfiguration.get(newKey) != null){
+            return 1;
+        }
+
+
+        keyBoardKeyConfiguration.remove(keyCode_keyName.get(keyToChange));
+        keyBoardKeyConfiguration.put(newKey, keyToChange);
+
+        keyCode_keyName.remove(keyToChange);
+        keyCode_keyName.put(keyToChange, newKey);
+
+        return 0;
+    }
+
 
     public static String getKeyBinding(int keyCodeFromKeyEvent) {
         return keyBoardKeyConfiguration.get(keyCodeFromKeyEvent);
@@ -119,4 +161,5 @@ public class Configuration {
     public static int getKeyNameFromKeyEventCode(String name){
         return keyCode_keyName.get(name);
     }
+
 }
