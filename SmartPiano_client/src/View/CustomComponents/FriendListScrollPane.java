@@ -48,7 +48,7 @@ public class FriendListScrollPane extends JPanel {
             author.setVerticalAlignment(JLabel.CENTER);
             auxPanel.add(author);
 
-            JButton jbSelectFriend = new JButton("->");
+            JButton jbSelectFriend = new JButton("Songs");
             jbSelectFriend.addActionListener(controller);
             jbSelectFriend.setActionCommand("SELECT/".concat(t.getName()));
             buttonMap.put(t.getId(), jbSelectFriend);

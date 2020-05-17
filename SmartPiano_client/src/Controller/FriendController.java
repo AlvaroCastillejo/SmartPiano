@@ -75,8 +75,9 @@ public class FriendController implements ActionListener {
                     v.setVisible(true);
                 });
                 break;
-            case "DeleteFriend":
+            case "DELETE":
                 //delete the selected friend, update friendView and don't show that friend in the table
+                m.sendAction("UPLOAD/friendDeletion=" + action);
                 break;
             case "SELECT":
                 backToMenu = false;
@@ -139,5 +140,13 @@ public class FriendController implements ActionListener {
 
     public void updateUI(ArrayList<Friend> friends) {
         v.updateUI(friends);
+    }
+
+    public void sendResultFriendDeleted(boolean deleted, String s) {
+        if(deleted){
+            v.deletedStatus(s, "green");
+        } else {
+            v.deletedStatus(s, "red");
+        }
     }
 }

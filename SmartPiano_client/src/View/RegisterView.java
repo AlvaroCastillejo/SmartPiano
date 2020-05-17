@@ -15,6 +15,7 @@ public class RegisterView extends JFrame {
     private JTextField jtUsername;
     private JTextField jtMail;
     private JPasswordField jpPassword;
+    private JPasswordField jpRepeatPassword;
     private JLabel jlError;
 
     private int offset;
@@ -35,11 +36,11 @@ public class RegisterView extends JFrame {
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
         String f = new File("").getAbsolutePath();
-        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\registerForm2.png"));
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\registerForm3.png"));
 
         jbRegister = new JButton();
         setButtonInvisible(jbRegister);
-        jbRegister.setBounds(100, 310+offset, 285, 45);
+        jbRegister.setBounds(100, 314+offset, 285, 45);
         jpBackground.add(jbRegister);
 
         jbLogin = new JButton();
@@ -48,22 +49,28 @@ public class RegisterView extends JFrame {
         jpBackground.add(jbLogin);
 
         jtUsername = new JTextField();
-        jtUsername.setBounds(154, 130+offset, 233, 45);
+        jtUsername.setBounds(154, 98+offset, 233, 45);
         jtUsername.setOpaque(false);
         jtUsername.setBorder(null);
         jpBackground.add(jtUsername);
 
         jtMail = new JTextField();
-        jtMail.setBounds(154, 190+offset, 233, 45);
+        jtMail.setBounds(154, 148+offset, 233, 45);
         jtMail.setOpaque(false);
         jtMail.setBorder(null);
         jpBackground.add(jtMail);
 
         jpPassword = new JPasswordField();
-        jpPassword.setBounds(154, 250+offset, 233, 45);
+        jpPassword.setBounds(154, 198+offset, 233, 45);
         jpPassword.setOpaque(false);
         jpPassword.setBorder(null);
         jpBackground.add(jpPassword);
+
+        jpRepeatPassword = new JPasswordField();
+        jpRepeatPassword.setBounds(154, 248+offset, 233, 45);
+        jpRepeatPassword.setOpaque(false);
+        jpRepeatPassword.setBorder(null);
+        jpBackground.add(jpRepeatPassword);
 
         jlError = new JLabel();
         //JButton jbTest = new JButton();
@@ -104,5 +111,11 @@ public class RegisterView extends JFrame {
 
     public void showError(String error) {
         jlError.setText(error);
+        jpBackground.repaint();
+        repaint();
+    }
+
+    public String getRepeatPassword() {
+        return String.valueOf(jpRepeatPassword.getPassword());
     }
 }

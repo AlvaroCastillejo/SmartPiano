@@ -1,9 +1,6 @@
 package Model.Database;
 
-import Model.Friend;
-import Model.SavedSong;
-import Model.ServerConfiguration;
-import Model.User;
+import Model.*;
 import Model.Utils.JsonServerUtils;
 
 import java.sql.ResultSet;
@@ -165,5 +162,75 @@ public class SQLOperations {
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         String query = "delete from User where username like '"+ subAction +"';";
         conn.insertQuery(query);
+    }
+
+    /**
+     * Does a query in order to get the list of songs shown in the client's SongListView.
+     * @param user
+     * @return userSongList
+     */
+    public static ArrayList<Song_database> getSongsFromUser(String user) {
+        ArrayList<Song_database> userSongList = new ArrayList<>();
+
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "SELECT song_id, song_name, author_name, album_name, num_reproductions, song_url, privacy FROM Song WHERE author_name LIKE '" + user + "' or privacy LIKE 'Public';";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+                int song_id = rs.getInt(1);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                String album_id = rs.getString(4);
+                int num_reproductions = rs.getInt(5);
+                String song_url = rs.getString(6);
+                String privacy = rs.getString(7);
+                userSongList.add(new Song_database(song_id,song_name,author_name,album_id,num_reproductions,song_url,privacy));
+            }
+            //rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userSongList;
+    }
+
+    /**
+     * Does a query in order to get the list of songs shown in the client friend's SongListView.
+     * @param friendUsername
+     * @return friendSongList
+     */
+    public static ArrayList<Song_database> getSongsFromFriend(String friendUsername) {
+        ArrayList<Song_database> friendSongList = new ArrayList<>();
+
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "SELECT song_id, song_name, author_name, album_name, num_reproductions, song_url, privacy FROM Song WHERE author_name LIKE '" + friendUsername + "';";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+
+                int song_id = rs.getInt(1);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                String album_id = rs.getString(4);
+                int num_reproductions = rs.getInt(5);
+                String song_url = rs.getString(6);
+                String privacy = rs.getString(7);
+                friendSongList.add(new Song_database(song_id,song_name,author_name,album_id,num_reproductions,song_url,privacy));
+            }
+            //rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return friendSongList;
+    }
+
+    public static void removeFriendFrom(String friendCode, String userCode) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "delete from Friend where usernameUser like '"+ userCode +"' and usernameFriend like '"+ friendCode +"'; ";
+        conn.deleteQuery(query);
     }
 }

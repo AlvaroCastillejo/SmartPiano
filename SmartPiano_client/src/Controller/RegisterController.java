@@ -85,7 +85,7 @@ public class RegisterController implements ActionListener, KeyListener {
      * @return A string that contains the credentials separated by "/".
      */
     public String getRegisterCredentials() {
-        return v.getUsername().concat("/" + (v.getMail().concat("/" + v.getPassword())));
+        return v.getUsername().concat("/" + (v.getMail().concat("/" + v.getPassword().concat("/" + v.getRepeatPassword()))));
     }
 
     /**

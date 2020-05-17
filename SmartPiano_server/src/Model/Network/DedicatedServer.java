@@ -75,6 +75,10 @@ public class DedicatedServer extends Thread {
                                 sendAction("SEND_INFO/getRegisterUserCredentials");
                                 String info = dis.readUTF();
                                 String[] credentials = info.split("/");
+                                if(!credentials[2].equals(credentials[3])){
+                                    sendAction("REGISTER/failed=3");
+                                    break;
+                                }
                                 User user = new User(credentials[0], credentials[1], credentials[2]);
                                 int status=SQLOperations.userAlreadyExists(user);
                                 switch (status){
@@ -110,6 +114,19 @@ public class DedicatedServer extends Thread {
                                     SongVisualization s = new SongVisualization();
                                     ArrayList<Song_database> songList = new ArrayList<>();
                                     songList = s.ShowSongListFrom(subAction);
+                                    SongListToSend toSend = new SongListToSend(songList);
+
+                                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                                    oos.writeObject(toSend);
+                                }
+                                break;
+                            case "publicSongList":
+                                sendAction("SEND_INFO/sendingSongListFromFromServerRequest");
+                                confirmation = dis.readUTF();
+                                if(confirmation.equals("accept")){
+                                    //SongVisualization s = new SongVisualization();
+                                    ArrayList<Song_database> songList = new ArrayList<>();
+                                    songList = SQLOperations.getSongsFromUser(subAction);
                                     SongListToSend toSend = new SongListToSend(songList);
 
                                     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -193,6 +210,13 @@ public class DedicatedServer extends Thread {
                                 }
                                 //Database stuff
                                 //sendAction("DOWNLOAD/information/friendRequest/accepted");
+                                break;
+                            case "friendDeletion":
+                                friendCode = subAction;
+                                String userCode = this.user.getUsername();
+                                System.out.println("Trying to delete " + friendCode + " from " + userCode);
+                                SQLOperations.removeFriendFrom(friendCode, userCode);
+                                sendAction("RECEIVE_INFO/friendDeleted=true");
                                 break;
                             case "deleteAcc":
                                 SQLOperations.deleteAccount(subAction);

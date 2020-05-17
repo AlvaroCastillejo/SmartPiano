@@ -53,4 +53,12 @@ public class FriendManager {
     public void updateUI(ArrayList<Friend> friends) {
         c.updateUI(friends);
     }
+
+    public void sendResultFriendDeleted(String s) {
+        String[] result = s.split("/");
+        if(result[0].equals("true")){
+            c.sendResultFriendDeleted(true, "Friend deleted successfully!");
+            client.sendAction("DOWNLOAD/friendListForUpdate");
+        }
+    }
 }

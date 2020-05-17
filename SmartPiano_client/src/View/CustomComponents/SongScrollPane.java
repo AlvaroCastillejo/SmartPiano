@@ -48,6 +48,9 @@ public class SongScrollPane extends JPanel {
             author.setVerticalAlignment(JLabel.CENTER);
             auxPanel.add(author);
 
+            JPanel empty = new JPanel();
+            auxPanel.add(empty);
+
             JButton jbPlay = new JButton("Play");
             jbPlay.addActionListener(controller);
             jbPlay.setActionCommand("PLAY/".concat(String.valueOf(t.getSong_name())));
@@ -56,14 +59,13 @@ public class SongScrollPane extends JPanel {
             buttonMap.put(String.valueOf(t.getSong_id()), jbPlay);
             auxPanel.add(jbPlay);
 
-            JButton jbDelete = new JButton("Delete");
-            jbDelete.addActionListener(controller);
-            jbDelete.setActionCommand("DELETE/".concat(String.valueOf(t.getSong_id())));
-            jbDelete.setHorizontalAlignment(JLabel.CENTER);
-            jbDelete.setVerticalAlignment(JLabel.CENTER);
-            buttonMap.put(String.valueOf(t.getSong_id()), jbDelete);
-
-            auxPanel.add(jbDelete);
+            //JButton jbDelete = new JButton("Delete");
+            //jbDelete.addActionListener(controller);
+            //jbDelete.setActionCommand("DELETE/".concat(String.valueOf(t.getSong_id())));
+            //jbDelete.setHorizontalAlignment(JLabel.CENTER);
+            //jbDelete.setVerticalAlignment(JLabel.CENTER);
+            //buttonMap.put(String.valueOf(t.getSong_id()), jbDelete);
+            //auxPanel.add(jbDelete);
 
             jpLower.add(auxPanel);
         }

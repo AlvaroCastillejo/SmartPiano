@@ -88,8 +88,9 @@ public class Piano extends JFrame {
         keyBoard.setSize(840,300);
         keyBoard.setLocation(0,550);
 
-        JLabel songNameLabel = new JLabel(songName);
+        JLabel songNameLabel = new JLabel("Playing: " + songName);
         songNameLabel.setBounds(5, 5, 840, 15);
+        songNameLabel.setForeground(Color.WHITE);
 
         //Beautifiers.
         JPanel horizontalDivider = new JPanel();
@@ -524,7 +525,7 @@ public class Piano extends JFrame {
             public void run() {
                 for(int i = 0; i < originalCountdown; i++){
                     JLabel jlCountdown = new JLabel(String.valueOf(countdownThread[0]));
-                    jlCountdown.setBounds(350 ,90, 600, 300);
+                    jlCountdown.setBounds(350 ,200, 600, 300);
                     jlCountdown.setFont(new Font("Tahoma", Font.BOLD, 200));
                     getContentPane().add(jlCountdown);
                     repaint();

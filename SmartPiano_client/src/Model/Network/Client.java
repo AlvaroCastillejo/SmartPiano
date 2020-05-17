@@ -164,6 +164,9 @@ public class Client extends Thread {
                             case "friendAdded=false#notExist":
                                 friendManager.sendResultFriendAdded("false/notExist");
                                 break;
+                            case "friendDeleted=true":
+                                friendManager.sendResultFriendDeleted("true/ignore");
+                                break;
                         }
                         break;
                     case "LOGIN":
@@ -184,11 +187,15 @@ public class Client extends Thread {
                                 registerManager.registered(true);
                                 break;
                             case "failed=1":
-                                registerManager.showError("This user already exists");
+                                registerManager.showError("This user already exists!");
                                 registerManager.registered(false);
                                 break;
                             case "failed=2":
-                                registerManager.showError("This mail already exists");
+                                registerManager.showError("This mail already exists!");
+                                registerManager.registered(false);
+                                break;
+                            case "failed=3":
+                                registerManager.showError("Passwords don't match!");
                                 registerManager.registered(false);
                                 break;
                         }

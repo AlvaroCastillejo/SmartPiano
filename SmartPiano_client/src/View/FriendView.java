@@ -4,6 +4,7 @@ import Controller.FriendController;
 import Model.Friend;
 import View.CustomComponents.FriendListScrollPane;
 import View.CustomComponents.JPanelBackground;
+import View.CustomComponents.JTextFieldHintUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +53,8 @@ public class FriendView extends JFrame {
         jbBack.setBounds(40, 45+offset, 75, 45);
         jpBackground.add(jbBack);
 
-        jtFriendCode = new JTextField("type new friends' code..."); //to type the friend code
+        jtFriendCode = new JTextField(); //to type the friend code
+        jtFriendCode.setUI(new JTextFieldHintUI("Type friends' name...", Color.gray));
         jtFriendCode.setBounds(120, 130+offset, 150, 45);
         jtFriendCode.setOpaque(false);
         jtFriendCode.setBorder(null);
@@ -135,5 +137,12 @@ public class FriendView extends JFrame {
         Timer h = new Timer(delay, taskPerformer);
         h.setRepeats(false);
         h.start();*/
+    }
+
+    public void deletedStatus(String message, String color) {
+        jlStatus.setText(message);
+        if(color.equals("green")) jlStatus.setForeground(Color.GREEN);
+        else jlStatus.setForeground(Color.RED);
+        repaint();
     }
 }

@@ -99,7 +99,8 @@ public class MenuController implements ActionListener {
                 //Shows the Configuration view.
 
                 ArrayList<Song_database> songList = fillSongList();
-                m.sendAction("DOWNLOAD/userSongList=" + m.getClient().getLogin());
+                //m.sendAction("DOWNLOAD/userSongList=" + m.getClient().getLogin());
+                m.sendAction("DOWNLOAD/publicSongList="+ m.getClient().getLogin());
                 break;
             case "Friends":
                 v.setVisible(false);
