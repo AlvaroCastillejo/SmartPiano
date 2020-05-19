@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //A class that represents a song to be played in the piano.
 public class Song extends Thread {

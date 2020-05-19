@@ -1,9 +1,16 @@
 package Model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class User {
     private String username;
     private String mail;
     private String password;
+    private long minutesPlayed;
+    private long startReproduce;
+    private long endReproduce;
+
 
     public User(String username, String password) {
         this.username = username;
@@ -38,5 +45,19 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void registerStartReproduction() {
+        startReproduce = System.currentTimeMillis();
+
+    }
+
+    public void registerEndReproduction() {
+        endReproduce = System.currentTimeMillis();
+        minutesPlayed = (endReproduce - startReproduce)/60000;
+    }
+
+    public float getMinutes() {
+        return minutesPlayed;
     }
 }

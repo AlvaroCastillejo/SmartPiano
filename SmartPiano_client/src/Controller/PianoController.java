@@ -109,6 +109,7 @@ public class PianoController implements ActionListener, KeyListener {
                 }
                 break;
             case "goBack":
+                m.sendAction("UPLOAD/endReproduction");
                 if (v.getIsSongPlayer()){
                     v.setAutoPlay(false);
                 }

@@ -42,6 +42,7 @@ public class SongListController implements ActionListener {
         switch (command) {
             case "Back":
                 //if I was in the menu go back to menu, else, go back to friendView
+
                 if (backToMenu) {
                     v.setVisible(false);
                     if(introSong != null) introSong.setVolume(1.0f);
@@ -75,6 +76,7 @@ public class SongListController implements ActionListener {
                 //play the selected song when play song button is pressed
                 break;
             case "PlaySong":
+
                 File midiFile = new FileChooser().FileChooser();
 
                 LinkedList<Note> notes = null;

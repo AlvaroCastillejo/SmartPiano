@@ -5,7 +5,10 @@ import Model.Utils.JsonServerUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SQLOperations {
     public static void ImportaUsuari(String name, String pass, String mail) throws SQLException {
@@ -232,5 +235,15 @@ public class SQLOperations {
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         String query = "delete from Friend where usernameUser like '"+ userCode +"' and usernameFriend like '"+ friendCode +"'; ";
         conn.deleteQuery(query);
+    }
+
+    public static void addMinutesPlayed(User user) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Calendar calobj = Calendar.getInstance();
+
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "INSERT INTO ReproductionsGraph(username,reproduction_date,minutes) VALUES('"+user.getUsername()+"','"+df.format(calobj.getTime())+"',"+(user.getMinutes())+");";
+        conn.insertQuery(query);
     }
 }
