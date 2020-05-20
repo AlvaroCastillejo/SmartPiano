@@ -13,9 +13,7 @@ public class KeyNote {
     @Expose
     private Integer keyBoard;
 
-    public String getNote() {
-        return note;
-    }
+    public String getNote() { return note; }
 
     public void setNote(String note) {
         this.note = note;

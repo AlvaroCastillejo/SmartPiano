@@ -5,6 +5,7 @@ import Model.Configuration;
 import Model.ConfigurationManager;
 import Model.KeyboardConfigurationManager;
 import View.*;
+import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -74,6 +75,9 @@ public class KeyboardConfigurationController implements ActionListener, KeyListe
         }
         switch (command) {
             case "goBack":
+                //Save the new KeyboardConfiguration
+                Configuration.saveKeyboardConfiguration();
+
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
                     ConfigurationView v = new ConfigurationView();

@@ -1,6 +1,14 @@
 package Model;
 
+import Model.Utils.JsonUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +16,13 @@ import java.util.Map;
 public class Configuration {
     private static final Map<Integer, String> keyBoardKeyConfiguration = new HashMap<>();
     private static final Map<String, Integer> keyCode_keyName = new HashMap<>();
+    private static final KeyNotes keyNotes = JsonUtils.getKeyNotes("keyBoardConfig");
+
 
     private static String recKeyName;
     private static String goBackKeyName;
 
-    public Configuration(KeyNotes keyNotes){
+    public Configuration(){
         initializeKeyBoardKeyConfiguration(keyNotes);
         initializeKeyCode_keyName(keyNotes);
         recKeyName = "intro";
@@ -152,6 +162,34 @@ public class Configuration {
 
         return 0;
     }
+
+
+    public static void saveKeyboardConfiguration () {
+
+        JsonArray listNotes = new JsonArray();
+        JsonObject container = new JsonObject();
+
+
+        for (KeyNote keyNote: keyNotes.getKeyNote()) {
+            JsonObject note = new JsonObject();
+            note.addProperty("note", keyNote.getNote());
+            note.addProperty("keyBoard", keyCode_keyName.get(keyNote.getNote()));
+            listNotes.add(note);
+        }
+
+        container.add("keyNote", listNotes);
+
+        //Write JSON file
+        String f = new File("").getAbsolutePath();
+        try (FileWriter file = new FileWriter(f.concat  ("\\SmartPiano_client\\src\\keyBoardConfig.json"))) {
+            file.write(container.toString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public static String getKeyBinding(int keyCodeFromKeyEvent) {
