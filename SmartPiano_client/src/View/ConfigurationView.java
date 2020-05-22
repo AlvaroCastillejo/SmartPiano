@@ -15,10 +15,11 @@ public class ConfigurationView extends JFrame {
     private JButton jbDeleteAccount;
     private int offset;
 
-    public ConfigurationView () {
+    public ConfigurationView (Point locationOnScreen) {
         setTitle("User Configuration");
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

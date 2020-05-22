@@ -5,6 +5,7 @@ import Model.AudioPlayer;
 import View.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class FriendController implements ActionListener {
     private AudioPlayer introSong;
     private FriendView v;
     private FriendManager m;
+    private Point locationOnScreen;
 
     /**
      * Constructor for the controller. It initializes the controller.
@@ -38,9 +40,10 @@ public class FriendController implements ActionListener {
         System.out.println(command);
         switch (command) {
             case "Back":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
-                    MainMenuView v = new MainMenuView();
+                    MainMenuView v = new MainMenuView(locationOnScreen);
                     MenuController c = new MenuController(v, introSong);
                     MenuManager m = new MenuManager(c, this.m.getClient());
                     m.getClient().assignMenuManager(m);
@@ -60,13 +63,14 @@ public class FriendController implements ActionListener {
             case "ShowSongList":
                 //show the <user_login> SongListView
                 boolean backToMenu = false;
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
                     SongListController c = new SongListController(backToMenu, introSong);
                     ArrayList<Song_database> songList = fillSongList();
-                    SongListView v = new SongListView(songList, c);
+                    SongListView v = new SongListView(songList, c, locationOnScreen);
                     c.registerView(v);
                     SongListManager m = new SongListManager(c, this.m.getClient());
                     this.m.getClient().assignSongListManager(m);

@@ -22,12 +22,13 @@ public class SongListView extends JFrame {
 
     private SongListController controller;
 
-    public SongListView (ArrayList<Song_database> songList, SongListController controller) {
+    public SongListView (ArrayList<Song_database> songList, SongListController controller, Point locationOnScreen) {
         this.controller = controller;
 
         setTitle("Song list");
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

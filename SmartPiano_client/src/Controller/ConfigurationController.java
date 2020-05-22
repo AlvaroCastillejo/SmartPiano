@@ -21,6 +21,7 @@ public class ConfigurationController implements ActionListener {
     private ConfigurationView v;
     private ConfigurationManager m;
 
+    private Point locationOnScreen;
     /**
      * Constructor for the controller. It initializes the controller.
      * @param v The view to control.
@@ -40,10 +41,11 @@ public class ConfigurationController implements ActionListener {
         String command = actionEvent.getActionCommand();
         switch (command) {
             case "Back":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 if(introSong != null) introSong.setVolume(1.0f);
                 SwingUtilities.invokeLater( () -> {
-                    MainMenuView v = new MainMenuView();
+                    MainMenuView v = new MainMenuView(locationOnScreen);
                     MenuController c = new MenuController(v, introSong);
                     MenuManager m = new MenuManager(c, this.m.getClient());
                     c.registerManager(m);
@@ -54,9 +56,10 @@ public class ConfigurationController implements ActionListener {
 
             case "LogOff":
                 SwingUtilities.invokeLater(() -> {
+                    this.locationOnScreen = this.v.getLocationOnScreen();
                     v.setVisible(false);
                     if(introSong != null) introSong.interrupt();
-                    LoginView v = new LoginView();
+                    LoginView v = new LoginView(locationOnScreen);
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
                     c.registerManager(m);
@@ -68,10 +71,11 @@ public class ConfigurationController implements ActionListener {
 
             case "KeyboardConfiguration":
                 if(introSong != null) introSong.setVolume(-40);
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
                     KeyboardConfigurationController c = new KeyboardConfigurationController(introSong);
-                    KeyboardConfigurationView m = new KeyboardConfigurationView(c);
+                    KeyboardConfigurationView m = new KeyboardConfigurationView(c, locationOnScreen);
                     KeyboardConfigurationManager k = new KeyboardConfigurationManager(c);
                     c.registerView(m);
                     v.registerController(c);
@@ -85,9 +89,10 @@ public class ConfigurationController implements ActionListener {
                 m.sendAction("UPLOAD/deleteAcc=" + m.getClient().getLogin());
                 //delete current user account and data
                 SwingUtilities.invokeLater(() -> {
+                    this.locationOnScreen = this.v.getLocationOnScreen();
                     v.setVisible(false);
                     if(introSong != null) introSong.interrupt();
-                    LoginView v = new LoginView();
+                    LoginView v = new LoginView(locationOnScreen);
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
                     c.registerManager(m);

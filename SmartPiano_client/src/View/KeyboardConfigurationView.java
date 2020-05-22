@@ -26,7 +26,7 @@ public class KeyboardConfigurationView extends JFrame {
     private JLabel goBackInstruction;
     private JLabel tmpInstruction;
 
-    public KeyboardConfigurationView(KeyboardConfigurationController k) {
+    public KeyboardConfigurationView(KeyboardConfigurationController k, Point locationOnScreen) {
         this.keyboardController = k;
 
         keyboardMap = new HashMap<>();
@@ -34,6 +34,7 @@ public class KeyboardConfigurationView extends JFrame {
         setTitle("Edit Keys");
         setSize(856, 500);
         setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
         setResizable(false);

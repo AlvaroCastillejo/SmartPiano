@@ -4,6 +4,7 @@ import Model.*;
 import View.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,6 +17,8 @@ public class SongListController implements ActionListener {
     private boolean backToMenu;
 
     private SongListManager m;
+    private Point locationOnScreen;
+
     /**
      * Constructor for the controller. It initializes the controller.
      * @param introSong The background song that was playing in the MainMenu.
@@ -44,10 +47,11 @@ public class SongListController implements ActionListener {
                 //if I was in the menu go back to menu, else, go back to friendView
 
                 if (backToMenu) {
+                    this.locationOnScreen = this.v.getLocationOnScreen();
                     v.setVisible(false);
                     if(introSong != null) introSong.setVolume(1.0f);
                     SwingUtilities.invokeLater(() -> {
-                        MainMenuView v = new MainMenuView();
+                        MainMenuView v = new MainMenuView(locationOnScreen);
                         MenuController c = new MenuController(v, introSong);
                         MenuManager m = new MenuManager(c,this.m.getClient());
                         c.registerManager(m);
@@ -109,6 +113,7 @@ public class SongListController implements ActionListener {
                 });*/
                 break;
             case "PLAY":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 //introSong.stopTheCurrent();
                 m.sendAction("DOWNLOAD/requestFileByName="+action);
@@ -117,6 +122,7 @@ public class SongListController implements ActionListener {
     }
 
     public void playSong(LinkedList<Note> notes, String songName){
+        //this.locationOnScreen = this.v.getLocationOnScreen();
         v.setVisible(false);
         //Stop the background song.
         if(introSong != null) introSong.stopTheCurrent();
@@ -126,7 +132,7 @@ public class SongListController implements ActionListener {
             PianoController c = new PianoController();
             Song toPlay = new Song(finalNotes, c);
             c.setSong(toPlay);
-            Piano v = new Piano(c, toPlay, songName);
+            Piano v = new Piano(c, toPlay, songName, locationOnScreen);
             v.isSongPiano();
             PianoManager m = new PianoManager();
             m.registerController(c);

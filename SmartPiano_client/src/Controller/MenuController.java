@@ -7,6 +7,7 @@ import com.sun.tools.javac.Main;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,6 +20,7 @@ public class MenuController implements ActionListener {
     private AudioPlayer introSong;
     private MenuManager m;
     private boolean backToMenu;
+    private Point locationOnScreen;
 
     /**
      * Constructor for the class. Plays a background song.
@@ -42,6 +44,7 @@ public class MenuController implements ActionListener {
         String command = actionEvent.getActionCommand();
         switch (command){
             case "PlayPiano":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 //Stop the background song.
                 if(introSong != null) introSong.stopTheCurrent();
@@ -49,7 +52,7 @@ public class MenuController implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     PianoController c = new PianoController();
                     Song toPlay = new Song(null, c);
-                    Piano v = new Piano(c, toPlay, "Free Play");
+                    Piano v = new Piano(c, toPlay, "Free Play", locationOnScreen);
                     PianoManager m = new PianoManager();
                     m.registerController(c);
                     m.setClient(this.m.getClient());
@@ -59,11 +62,12 @@ public class MenuController implements ActionListener {
                 });
                 break;
             case "Configuration":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
                 SwingUtilities.invokeLater(() -> {
-                    ConfigurationView v = new ConfigurationView();
+                    ConfigurationView v = new ConfigurationView(locationOnScreen);
                     ConfigurationController c = new ConfigurationController(v, introSong);
                     ConfigurationManager m = new ConfigurationManager();
                     m.setClient(this.m.getClient());
@@ -73,6 +77,7 @@ public class MenuController implements ActionListener {
                 });
                 break;
             case "RecordPiano":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 //Stop the background song.
                 if(introSong != null) introSong.stopTheCurrent();
@@ -81,7 +86,7 @@ public class MenuController implements ActionListener {
                     PianoController c = new PianoController();
                     c.isRecordingPiano();
                     Song toPlay = new Song(null, c);
-                    Piano v = new Piano(c, toPlay, "Recording");
+                    Piano v = new Piano(c, toPlay, "Recording", locationOnScreen);
                     PianoManager m = new PianoManager();
                     m.registerController(c);
                     m.setClient(this.m.getClient());
@@ -94,15 +99,15 @@ public class MenuController implements ActionListener {
 
             case "ShowSongList":
                 this.backToMenu = true;
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 if(introSong != null) introSong.setVolume(-10f);
                 //Shows the Configuration view.
 
-                ArrayList<Song_database> songList = fillSongList();
-                //m.sendAction("DOWNLOAD/userSongList=" + m.getClient().getLogin());
                 m.sendAction("DOWNLOAD/publicSongList="+ m.getClient().getLogin());
                 break;
             case "Friends":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 m.sendAction("ASKFOR/friendList");
                 //Shows the Friends view.
@@ -113,7 +118,7 @@ public class MenuController implements ActionListener {
     public void showSongList(ArrayList<Song_database> songList){
         SwingUtilities.invokeLater(() -> {
             SongListController c = new SongListController(backToMenu, introSong);
-            SongListView v = new SongListView(songList, c);
+            SongListView v = new SongListView(songList, c, locationOnScreen);
             c.registerView(v);
             SongListManager m = new SongListManager(c,this.m.getClient());
             this.m.getClient().assignSongListManager(m);
@@ -121,57 +126,6 @@ public class MenuController implements ActionListener {
             v.registerController(c);
             v.setVisible(true);
         });
-    }
-
-    private ArrayList<Song_database> fillSongList() {
-        ArrayList<Song_database> toReturn = new ArrayList<>();
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        toReturn.add(new Song_database(0,"Tusa", "admin", "4", 23, "", "public"));
-        return toReturn;
-    }
-
-    private ArrayList<Friend> fillFriendList() {
-        ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "PEDRO"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-        friends.add(new Friend("0", "Alvaro"));
-
-        return friends;
     }
 
     public void registerManager(MenuManager m) {
@@ -182,7 +136,7 @@ public class MenuController implements ActionListener {
         SwingUtilities.invokeLater(() -> {
             ArrayList<Friend> list = friendList.getFriendList();
             FriendController c = new FriendController(introSong);
-            FriendView v = new FriendView(list, c);
+            FriendView v = new FriendView(list, c, locationOnScreen);
             FriendManager m = new FriendManager(c,this.m.getClient());
             m.getClient().assignFriendManager(m);
             c.registerManager(m);

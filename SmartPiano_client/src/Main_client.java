@@ -6,12 +6,14 @@ import Model.Utils.JsonUtils;
 import View.LoginView;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main_client {
     public static void main(String[] args) {
         Configuration config = new Configuration();
         SwingUtilities.invokeLater(() -> {
-            LoginView v = new LoginView();
+            Point locationOnScreen = null;
+            LoginView v = new LoginView(locationOnScreen);
             LoginController c = new LoginController(v);
             LoginManager m = new LoginManager(c);
             c.registerManager(m);

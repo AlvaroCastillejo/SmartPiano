@@ -8,6 +8,7 @@ import View.*;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,6 +25,7 @@ public class KeyboardConfigurationController implements ActionListener, KeyListe
 
 
     private String note;
+    private Point locationOnScreen;
 
     public ActionListener getActionListeners(int i) { return actionListeners[i]; }
 
@@ -75,12 +77,13 @@ public class KeyboardConfigurationController implements ActionListener, KeyListe
         }
         switch (command) {
             case "goBack":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 //Save the new KeyboardConfiguration
                 Configuration.saveKeyboardConfiguration();
 
                 v.setVisible(false);
                 SwingUtilities.invokeLater( () -> {
-                    ConfigurationView v = new ConfigurationView();
+                    ConfigurationView v = new ConfigurationView(locationOnScreen);
                     ConfigurationController c = new ConfigurationController(v, introSong);
                     ConfigurationManager m = new ConfigurationManager();
                     m.setClient(manager.getClient());

@@ -198,6 +198,14 @@ public class Client extends Thread {
                                 registerManager.showError("Passwords don't match!");
                                 registerManager.registered(false);
                                 break;
+                            case "failed=4":
+                                registerManager.showError("Invalid email!");
+                                registerManager.registered(false);
+                                break;
+                            case "failed=5":
+                                registerManager.showError("Invalid username! Some characters are not allowed.");
+                                registerManager.registered(false);
+                                break;
                         }
                     case "SaveSong":
                         switch (action){

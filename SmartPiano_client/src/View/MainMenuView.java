@@ -21,10 +21,11 @@ public class MainMenuView extends JFrame {
 
     private int offset;
 
-    public MainMenuView(){
+    public MainMenuView(Point locationOnScreen){
         setTitle("Menu");
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

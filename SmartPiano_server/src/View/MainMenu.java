@@ -6,6 +6,7 @@ import Model.Song_database;
 import View.CustomComponents.SongScrollPane;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.sql.SQLException;
@@ -76,6 +77,7 @@ public class MainMenu extends JFrame {
             }
         }
 
+
         String[] columnNames = {"Id", "Title", "Author", "Album", "Nº Reproductions"};
         Object[][] data = {
                 {topSongList.get(0).getSong_id(), topSongList.get(0).getSong_name(), topSongList.get(0).getAuthor_name(), topSongList.get(0).getAlbum_id(), topSongList.get(0).getNum_reproductions()},
@@ -85,15 +87,33 @@ public class MainMenu extends JFrame {
                 {topSongList.get(4).getSong_id(), topSongList.get(4).getSong_name(), topSongList.get(4).getAuthor_name(), topSongList.get(4).getAlbum_id(), topSongList.get(4).getNum_reproductions()}
         };
 
-        JTable table = new JTable(data, columnNames);
+        JTable table = createJTable(columnNames, data);
+
+        //JTable table = new JTable(data, columnNames);
         table.setBounds(0, 20, 800, 600);
         JTableHeader h = table.getTableHeader();
         h.setBounds(0, 0, 800, 20);
+
+        //table.setModel(new DefaultTableModel());
 
         generalPanel.add(table);
         generalPanel.add(h);
 
         return generalPanel;
+    }
+
+    private JTable createJTable(String[] header, Object[][] rows){
+        JTable table = new JTable();
+        DefaultTableModel tablemodel = (DefaultTableModel) table.getModel();
+        tablemodel.setRowCount(0);
+        for (String col : header) {
+            tablemodel.addColumn(col);
+        }
+        for (Object[] row : rows) {
+            tablemodel.addRow(row);
+        }
+        table.setModel(tablemodel);
+        return table;
     }
 
     private JPanel createGraphicsPane() {
@@ -161,9 +181,9 @@ public class MainMenu extends JFrame {
         getContentPane().removeAll();
         tabs.removeAll();
 
-        tabs.add(panel1);
-        tabs.add(panel2);
-        tabs.add(panel3);
+        tabs.addTab("Manage Songs", panel1);
+        tabs.addTab("Graphics", panel2);
+        tabs.addTab("Top 5", panel3);
 
         getContentPane().add(tabs);
 

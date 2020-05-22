@@ -84,4 +84,15 @@ public class Song_database implements Serializable {
         this.num_reproductions = num_reproductions;
     }
 
+    public void deleteFile() {
+        String path = song.getAbsolutePath();
+        path = path.concat(".mid");
+        System.out.println(path);
+        File f = new File(path);
+        if(f.delete()){
+            System.out.println("Deleted");
+        } else {
+            System.out.println("Not deleted");
+        }
+    }
 }

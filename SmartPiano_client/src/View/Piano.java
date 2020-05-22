@@ -50,7 +50,7 @@ public class Piano extends JFrame {
      * @param a The controller for the Piano.
      * @param toPlay The song to play if needed.
      */
-    public Piano(PianoController a, Song toPlay, String songName) {
+    public Piano(PianoController a, Song toPlay, String songName, Point locationOnScreen) {
         this.pianoController = a;
         keyboardMap = new HashMap<>();
 
@@ -63,7 +63,8 @@ public class Piano extends JFrame {
         this.wantsAutoplay = true;
 
         setSize(856, 800);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
         setResizable(false);
@@ -306,7 +307,7 @@ public class Piano extends JFrame {
             }
         });
 
-        //Register in the map tha falling note.
+        //Register in the map the falling note.
         fallingNotes.put(fallingNote.getNoteName(), playing);
         playing.start();
     }
@@ -572,5 +573,51 @@ public class Piano extends JFrame {
         wantsAutoplay = b;
         jtBtoggleAutoplay.setText("autoplay: " + wantsAutoplay);
         repaint();
+    }
+
+    public void startTimeLine(long duration) {
+        long timeSpeed = (duration*20)/8734;
+        System.out.println(timeSpeed);
+        timeSpeed *= 5000;
+        long finalTimeSpeed = timeSpeed;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int x = 0;
+                boolean isRunning = true;
+                while (isRunning){
+                    try {
+                        RoundedPanel note = new RoundedPanel();
+                        note.setSize(x,5);
+                        note.setLocation(0,18);
+                        //Assign different colours if the note is sustained or not. (b/... -> sustained(black) || (w/... -> not sustained(white)))
+
+                        note.setBackground(new Color(55, 192, 42));
+
+                        getContentPane().add(note);
+                        getContentPane().repaint();
+                        //Determines the speed of the ascending notes. 10ms means 5s to get to the top. Ascends 1 pixel for each 10ms.
+                        Thread.sleep(finalTimeSpeed);
+                        getContentPane().remove(note);
+                        x++;
+
+                        //If the bottom of the note reaches the top stop the Thread as it is not visible no more. This way we save computational cost.
+                        if(onEnd(note)){
+                            isRunning = false;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            private boolean onEnd(RoundedPanel note) {
+                if(note.getSize().getWidth() >= 856){
+                    return true;
+                }
+                return false;
+            }
+        });
+        thread.start();
     }
 }

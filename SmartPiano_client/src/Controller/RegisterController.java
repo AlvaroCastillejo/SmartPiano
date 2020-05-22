@@ -7,6 +7,7 @@ import View.LoginView;
 import View.RegisterView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -47,8 +48,9 @@ public class RegisterController implements ActionListener, KeyListener {
             //Wants to login.
             case "REGISTER/login":
                 SwingUtilities.invokeLater(() -> {
+                    Point locationOnScreen = this.v.getLocationOnScreen();
                     v.setVisible(false);
-                    LoginView v = new LoginView();
+                    LoginView v = new LoginView(locationOnScreen);
                     LoginController c = new LoginController(v);
                     LoginManager m = new LoginManager(c);
                     c.registerManager(m);
@@ -67,9 +69,10 @@ public class RegisterController implements ActionListener, KeyListener {
      */
     public void registered(boolean b) {
         if (b){
+            Point locationOnScreen = this.v.getLocationOnScreen();
             v.setVisible(false);
             SwingUtilities.invokeLater(() -> {
-                LoginView v = new LoginView();
+                LoginView v = new LoginView(locationOnScreen);
                 LoginController c = new LoginController(v);
                 LoginManager m = new LoginManager(c);
                 c.registerManager(m);

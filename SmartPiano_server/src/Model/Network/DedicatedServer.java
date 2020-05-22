@@ -55,12 +55,20 @@ public class DedicatedServer extends Thread {
                                 String info = dis.readUTF();
                                 String[] credentials = info.split("/");
                                 User user = new User(credentials[0], credentials[1]);
+                                if(credentials[0].contains("=") || credentials[0].contains("/") || credentials[0].contains("'")){
+                                    sendAction("LOGIN/failed");
+                                    break;
+                                }
                                 int status=SQLOperations.findUser(user);
                                 switch (status){
                                     case 0:
                                         sendAction("LOGIN/logged");
+                                        if (user.getUsername().contains("@")) {
+                                            user.setUsername(SQLOperations.getUsernameFromEmail(user.getUsername()));
+                                        }
                                         server.registerConnectedUser(user, this.id);
                                         this.user = user;
+
                                         break;
                                     case 1:
                                         sendAction("LOGIN/failed");
@@ -77,6 +85,22 @@ public class DedicatedServer extends Thread {
                                 String[] credentials = info.split("/");
                                 if(!credentials[2].equals(credentials[3])){
                                     sendAction("REGISTER/failed=3");
+                                    break;
+                                }
+                                if(!credentials[1].contains("@")){
+                                    sendAction("REGISTER/failed=4");
+                                    break;
+                                }
+                                if(credentials[0].contains("@") || credentials[0].contains("/") || credentials[0].contains("=") || credentials[0].contains("'")){
+                                    sendAction("REGISTER/failed=5");
+                                    break;
+                                }
+                                if(credentials[1].contains("/") || credentials[1].contains("=") || credentials[1].contains("'")){
+                                    sendAction("REGISTER/failed=5");
+                                    break;
+                                }
+                                if(credentials[2].contains("@") || credentials[2].contains("/") || credentials[2].contains("=") || credentials[2].contains("'")){
+                                    sendAction("REGISTER/failed=5");
                                     break;
                                 }
                                 User user = new User(credentials[0], credentials[1], credentials[2]);
@@ -216,12 +240,27 @@ public class DedicatedServer extends Thread {
                             case "friendDeletion":
                                 friendCode = subAction;
                                 String userCode = this.user.getUsername();
+                                if(friendCode.contains("@")){
+                                    friendCode = SQLOperations.getUsernameFromEmail(friendCode);
+                                }
                                 System.out.println("Trying to delete " + friendCode + " from " + userCode);
                                 SQLOperations.removeFriendFrom(friendCode, userCode);
                                 sendAction("RECEIVE_INFO/friendDeleted=true");
                                 break;
                             case "deleteAcc":
-                                SQLOperations.deleteAccount(subAction);
+                                if (subAction.contains("@")) {
+                                    subAction = (SQLOperations.getUsernameFromEmail(user.getUsername()));
+                                }
+
+                                SongVisualization s = new SongVisualization();
+                                ArrayList<Song_database> songList = new ArrayList<>();
+                                songList = s.ShowSongListFrom(this.user.getUsername());
+
+                                for(Song_database i : songList){
+                                    i.deleteFile();
+                                }
+
+                                SQLOperations.deleteAccount(this.user.getUsername());
                                 break;
                             case "endReproduction":
                                 user.registerEndReproduction();

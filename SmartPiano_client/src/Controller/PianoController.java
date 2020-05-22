@@ -8,6 +8,7 @@ import View.SaveSongView;
 
 import javax.sound.midi.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,7 @@ public class PianoController implements ActionListener, KeyListener {
     long initialTime;
     private boolean autoplay;
     private SavedSong savedSong;
+    private Point locationOnScreen;
 
     /**
      * An empty constructor.
@@ -250,9 +252,10 @@ public class PianoController implements ActionListener, KeyListener {
             case "rec":
                 break;
             case "goBack":
+                this.locationOnScreen = this.v.getLocationOnScreen();
                 v.setVisible(false);
                 SwingUtilities.invokeLater(() -> {
-                    MainMenuView v = new MainMenuView();
+                    MainMenuView v = new MainMenuView(locationOnScreen);
                     MenuController c = new MenuController(v, null); //new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav")
                     MenuManager m = new MenuManager(c, this.m.getClient());
                     c.registerManager(m);
@@ -370,5 +373,9 @@ public class PianoController implements ActionListener, KeyListener {
 
     public SavedSong getSavedSong() {
         return this.savedSong;
+    }
+
+    public void startTimeLine(long duration) {
+        v.startTimeLine(duration);
     }
 }

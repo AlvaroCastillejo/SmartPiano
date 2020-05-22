@@ -9,12 +9,14 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.spi.AbstractResourceBundleProvider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //A class that represents a song to be played in the piano.
 public class Song extends Thread {
     private static final int COUNTDOWN = 5;
+    private long duration;
     private LinkedList<Note> notes;
     private PianoController piano;
 
@@ -50,7 +52,10 @@ public class Song extends Thread {
         this.notes = notes;
         this.piano = c;
         this.threadedNotes = new LinkedList<>();
-        //Crear tantos threads como notas tengan que caer.
+        if(notes == null) return;
+        this.duration = notes.getLast().getTime_off() - notes.getFirst().getTime_on();
+        this.duration += COUNTDOWN*1000;
+        System.out.println(duration);
     }
 
     @Override
@@ -69,7 +74,7 @@ public class Song extends Thread {
         }
 
         piano.startCount(COUNTDOWN);
-
+        piano.startTimeLine(this.duration);
         try {
             gate.await();
         } catch (InterruptedException | BrokenBarrierException e) {

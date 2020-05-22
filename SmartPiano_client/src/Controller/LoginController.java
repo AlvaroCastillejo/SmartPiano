@@ -11,6 +11,7 @@ import View.RegisterView;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -46,8 +47,9 @@ public class LoginController implements ActionListener, KeyListener {
             //Wants to register.
             case "LOGIN/register":
                 SwingUtilities.invokeLater(() -> {
+                    Point locationOnScreen = this.v.getLocationOnScreen();
                     v.setVisible(false);
-                    RegisterView v = new RegisterView();
+                    RegisterView v = new RegisterView(locationOnScreen);
                     RegisterController c = new RegisterController(v, client);
                     RegisterManager rm = new RegisterManager(c);
                     c.assignRegisterManager(rm);
@@ -76,10 +78,11 @@ public class LoginController implements ActionListener, KeyListener {
      */
     public void logged(boolean logged) {
         if(logged){
+            Point locationOnScreen = this.v.getLocationOnScreen();
             v.setVisible(false);
             //Show main menu.
             SwingUtilities.invokeLater(() -> {
-                MainMenuView v = new MainMenuView();
+                MainMenuView v = new MainMenuView(locationOnScreen);
                 MenuController c = new MenuController(v, null); //new AudioPlayer("Ludovico-Einaudi-Nuvole-Bianche.wav")
                 MenuManager m = new MenuManager(c, client);
                 client.assignMenuManager(m);

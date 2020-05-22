@@ -19,10 +19,14 @@ public class LoginView extends JFrame {
 
     private int offset;
 
-    public LoginView(){
+    public LoginView(Point locationOnScreen){
         setTitle("Login");
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        if(locationOnScreen == null){
+            setLocationRelativeTo(null);
+        } else {
+            setLocation(locationOnScreen);
+        }
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

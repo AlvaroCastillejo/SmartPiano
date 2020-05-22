@@ -25,11 +25,12 @@ public class FriendView extends JFrame {
     private int offset;
     private FriendController controller;
 
-    public FriendView (ArrayList<Friend> friendList, FriendController controller) {
+    public FriendView (ArrayList<Friend> friendList, FriendController controller, Point locationOnScreen) {
         this.controller = controller;
         setTitle("Friends");
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
+        setLocation(locationOnScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

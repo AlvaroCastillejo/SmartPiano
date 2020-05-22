@@ -20,10 +20,11 @@ public class RegisterView extends JFrame {
 
     private int offset;
 
-    public RegisterView(){
+    public RegisterView(Point locationOnScreen){
         setTitle("Register");
+        setLocation(locationOnScreen);
         setSize(500, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 

@@ -58,14 +58,13 @@ public class SQLOperations {
 
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         conn.connect();
-        String query = "SELECT * FROM User WHERE username like '" + user.getUsername() + "'"+"AND password LIKE '"+ user.getPassword() + "'";
+        String query = "SELECT * FROM User WHERE (username like '" + user.getUsername() + "'"+"OR email like '" + user.getUsername() + "'" + ") AND password LIKE '"+ user.getPassword() + "'";
         ResultSet rs = conn.selectQuery(query);
         if (rs.isBeforeFirst()){
             return 0;
         }else{
             return 1;
         }
-
     }
 
     public static int addSong(SavedSong s) throws SQLException{
@@ -245,5 +244,20 @@ public class SQLOperations {
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         String query = "INSERT INTO ReproductionsGraph(username,reproduction_date,minutes) VALUES('"+user.getUsername()+"','"+df.format(calobj.getTime())+"',"+(user.getMinutes())+");";
         conn.insertQuery(query);
+    }
+
+    public static String getUsernameFromEmail(String username) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "select user.username from user where email like '" + username + "'";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+                String toReturn = rs.getString("username");
+                return toReturn;
+            }
+        } catch (SQLException ignore){}
+        return "null";
     }
 }
