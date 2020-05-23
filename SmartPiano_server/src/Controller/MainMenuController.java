@@ -13,6 +13,14 @@ public class MainMenuController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         System.out.println(actionEvent.getActionCommand());
+        String[] elements = actionEvent.getActionCommand().split("/");
+        String command = elements[0];
+        String action = elements[1];
+        switch (command){
+            case "DELETE":
+                m.deleteSong(action);
+                break;
+        }
     }
 
     public void registerManager(MainMenuManager m) {
@@ -23,7 +31,7 @@ public class MainMenuController implements ActionListener {
         this.v = v;
     }
 
-    public void refreshUI() {
-        v.refresh();
+    public void refreshUI(double[] hoursReproductions) {
+        v.refresh(hoursReproductions);
     }
 }

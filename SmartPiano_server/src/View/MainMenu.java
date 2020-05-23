@@ -3,14 +3,18 @@ package View;
 import Controller.MainMenuController;
 import Model.Database.SongVisualization;
 import Model.Song_database;
-import View.CustomComponents.SongScrollPane;
+import View.CustomComponents.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MainMenu extends JFrame {
 
@@ -19,6 +23,10 @@ public class MainMenu extends JFrame {
 
     private JPanel panel1, panel2, panel3;
     private JTabbedPane tabs;
+
+    private JPanel subPanel1, subPanel2;
+    private JTabbedPane subtabs;
+    private List<Double> graphPointValues;
 
     public MainMenu(MainMenuController a){
         this.controller = a;
@@ -44,7 +52,9 @@ public class MainMenu extends JFrame {
 
         //Create the panels and add them to the tabs.
         panel1 = createManageSongsPane();
-        panel2 = createGraphicsPane();
+        double[] hoursReproductions = new double[24];
+        Arrays.fill(hoursReproductions, 0);
+        panel2 = createGraphicsPane(hoursReproductions);
         panel3 = createTop5Pane();
 
         //Añadimos un nombre de la pestaña y el panel
@@ -116,12 +126,59 @@ public class MainMenu extends JFrame {
         return table;
     }
 
-    private JPanel createGraphicsPane() {
+    private JPanel createGraphicsPane(double[] hoursReproductions) {
         JPanel panel2 = new JPanel();
+        panel2.setLayout(null);
+
         //Componentes del panel2
-        JLabel et_p2 = new JLabel("Estas en el panel 2");
-        panel2.add(et_p2);
+        //Create the subtabs
+        subtabs = new JTabbedPane();
+        subtabs.setBounds(0,0,800,600);
+
+        //Create the panels and add them to the tabs.
+        subPanel1 = createAndShowGraph(true, hoursReproductions);
+        subPanel2 = createAndShowGraph(false, hoursReproductions);
+
+        //Añadimos un nombre de la pestaña y el panel
+        subtabs.addTab("Evolution of reproductions", subPanel1);
+        subtabs.addTab("Evolution of minutes played", subPanel2);
+
+        panel2.add(subtabs);
         return panel2;
+    }
+
+    private JPanel createAndShowGraph(boolean isReproductionsGraph, double[] hoursReproductions) {
+        JPanel subPanel = new JPanel();
+        List<Double> graphValues = new ArrayList<>();
+        Random random;
+        Double newValue;
+        if (isReproductionsGraph) {
+            random = new Random();
+            //newValue = reproductions
+        } else {
+            //newValue = minutes = controller.getNEwGraphPoint
+            random = new Random();
+        }
+
+        int maxDataPoints = 40;
+        int maxScore = 10;
+        LocalDateTime dateTime = LocalDateTime.now();
+        int currentHour = dateTime.getHour();
+        //aqui ja hauries de tenir els graph values anteriors a la current hour plens
+        // nomes hauries de fer un add del newValue
+        //graphValues.add(newValue);
+
+        for (int i = 0; i <= currentHour; i++) {
+            graphValues.add((double) hoursReproductions[i]);
+            //graphValues.add((double) i);
+        }
+
+        //GraphPane graphPane = new GraphPane(isReproductionsGraph, graphValues);
+        GraphPane graphPane = new GraphPane(isReproductionsGraph, graphValues);
+        graphPane.setPreferredSize(new Dimension(780, 490));
+
+        subPanel.add(graphPane);
+        return subPanel;
     }
 
     private JPanel createManageSongsPane() {
@@ -143,7 +200,7 @@ public class MainMenu extends JFrame {
         author.setVerticalAlignment(JLabel.CENTER);
         header.add(author);
 
-        JLabel nMinutes = new JLabel("Nº Minutes");
+        JLabel nMinutes = new JLabel("Album");
         nMinutes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         nMinutes.setHorizontalAlignment(JLabel.CENTER);
         nMinutes.setVerticalAlignment(JLabel.CENTER);
@@ -173,9 +230,9 @@ public class MainMenu extends JFrame {
         return panel1;
     }
 
-    public void refresh(){
+    public void refresh(double[] hoursReproductions){
         this.panel1 = createManageSongsPane();
-        this.panel2 = createGraphicsPane();
+        this.panel2 = createGraphicsPane(hoursReproductions);
         this.panel3 = createTop5Pane();
 
         getContentPane().removeAll();
@@ -185,9 +242,35 @@ public class MainMenu extends JFrame {
         tabs.addTab("Graphics", panel2);
         tabs.addTab("Top 5", panel3);
 
+        refreshGraph(hoursReproductions);
+
         getContentPane().add(tabs);
 
         getContentPane().repaint();
         getContentPane().revalidate();
+    }
+
+    public void refreshGraph(double[] hoursReproductions) {
+        this.subPanel1 = createAndShowGraph(true, hoursReproductions);
+        this.subPanel2 = createAndShowGraph(false, hoursReproductions);
+
+        panel2.removeAll();
+        subtabs.removeAll();
+
+        //Añadimos un nombre de la pestaña y el panel
+        subtabs.addTab("Evolution of reproductions", subPanel1);
+        subtabs.addTab("Evolution of minutes played", subPanel2);
+
+        panel2.add(subtabs);
+        panel2.repaint();
+        panel2.revalidate();
+    }
+
+    public void setGraphPointValues(List<Double> graphPointValues) {
+        this.graphPointValues = graphPointValues;
+    }
+
+    public List<Double> getGraphPointValues() {
+        return graphPointValues;
     }
 }

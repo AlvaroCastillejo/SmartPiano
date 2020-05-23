@@ -337,6 +337,7 @@ public class PianoController implements ActionListener, KeyListener {
         }
         this.savedSong= new SavedSong(songName,albumName,songPrivacy,m.getClient().getLogin(),f);
         this.m.sendAction("SAVESONG/saveSong");
+
         //write the MIDI sequence to a MIDI file
         //FileSaver fileSaver = new FileSaver(f);
     }

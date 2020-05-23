@@ -28,7 +28,7 @@ public class ConfigurationView extends JFrame {
         } else {
             offset = 0;
         }
-        
+
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
         String f = new File("").getAbsolutePath();

@@ -260,4 +260,21 @@ public class SQLOperations {
         } catch (SQLException ignore){}
         return "null";
     }
+
+    public static void updateReproduction(String nameSong){
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        conn.connect();
+
+        String query = " UPDATE Song SET num_reproductions=num_reproductions+1 WHERE song_name LIKE '" + nameSong + "';";
+        conn.updateQuery(query);
+    }
+
+    public static void deleteSong(String songID) {
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "delete from Song where song_id like '"+ songID +"';";
+        conn.deleteQuery(query);
+    }
 }

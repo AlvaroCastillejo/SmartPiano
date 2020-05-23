@@ -171,7 +171,8 @@ public class DedicatedServer extends Thread {
                                         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                                         oos.writeObject(songToSend);
                                         user.registerStartReproduction();
-                                        System.out.println("EMPIEZOOOO\n");
+
+                                        SQLOperations.updateReproduction(subAction);
                                         break;
                                 }
                                 break;
@@ -265,6 +266,7 @@ public class DedicatedServer extends Thread {
                             case "endReproduction":
                                 user.registerEndReproduction();
                                 SQLOperations.addMinutesPlayed(user);
+                                server.refreshUI();
                                 break;
                         }
                         break;

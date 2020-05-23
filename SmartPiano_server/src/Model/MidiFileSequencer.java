@@ -51,11 +51,15 @@ public class MidiFileSequencer {
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
 
-                        notes_on.get(noteName).setTime_off(event.getTick());
-                        notes.add(notes_on.get(noteName));
-                        notes_on.remove(noteName);
+                        try {
+                            notes_on.get(noteName).setTime_off(event.getTick());
+                            notes.add(notes_on.get(noteName));
+                            notes_on.remove(noteName);
 
-                        System.out.println("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+                            System.out.println("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+                        } catch (NullPointerException ignore){
+
+                        }
                     } else {
                         System.out.println("Command:" + sm.getCommand());
                     }

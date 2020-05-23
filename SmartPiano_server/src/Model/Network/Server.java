@@ -63,7 +63,7 @@ public class Server extends Thread {
     }
 
     public void refreshUI() {
-        this.m.refreshUI();
+        this.m.refreshUI(true);
     }
 
     public void registerConnectedUser(User user, int id) {
