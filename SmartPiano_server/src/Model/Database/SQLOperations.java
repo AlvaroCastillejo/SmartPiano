@@ -76,6 +76,11 @@ public class SQLOperations {
         return 0;
     }
 
+    /**
+     * Checks if a song name is stored in our database. If the return value is true, no song in our database has that name.
+     * @param songName Name of the song that we want to evaluate.
+     * @return A boolean that indicates the availability of the given song name. If the returned value is false, that song name can be used.
+     */
     public static boolean checkSongName(String songName) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -90,8 +95,6 @@ public class SQLOperations {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-
-        System.out.println("-----> final funcion\n");
         return false;
     }
 
@@ -125,9 +128,9 @@ public class SQLOperations {
         ResultSet rs = conn.selectQuery(query);
         try {
             if (rs.isBeforeFirst()) {
-                return true; //No other song has that name
+                return true;
             } else {
-                return false; //Song name already exists
+                return false;
             }
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -168,8 +171,8 @@ public class SQLOperations {
 
     /**
      * Does a query in order to get the list of songs shown in the client's SongListView.
-     * @param user
-     * @return userSongList
+     * @param user contains all the user information.
+     * @return userSongList List containing the song id, song name, author name, number of reproductions, the url and the privacy of all the public songs created by the given user.
      */
     public static ArrayList<Song_database> getSongsFromUser(String user) {
         ArrayList<Song_database> userSongList = new ArrayList<>();
@@ -246,6 +249,11 @@ public class SQLOperations {
         conn.insertQuery(query);
     }
 
+    /**
+     * Given the mail, this function returns the username linked to that mail.
+     * @param username String containing the email of the evaluated user.
+     * @return the username linked to that mail.
+     */
     public static String getUsernameFromEmail(String username) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -261,6 +269,10 @@ public class SQLOperations {
         return "null";
     }
 
+    /**
+     * Updates the reproduction count of a song in our database.
+     * @param nameSong name of the song we just played.
+     */
     public static void updateReproduction(String nameSong){
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 

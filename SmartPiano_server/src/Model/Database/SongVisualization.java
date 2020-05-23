@@ -112,6 +112,12 @@ public class SongVisualization extends JFrame {
         conn.updateQuery(query);
 
     }
+
+    /**
+     * Shows the whole song list .
+     * @return List containg all songs from our database.
+     * @throws SQLException
+     */
     public ArrayList<Song_database> ShowSongList () throws SQLException {
 
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
@@ -139,6 +145,11 @@ public class SongVisualization extends JFrame {
         return songTopList;
     }
 
+    /**
+     * Returns a lists of songs created by a specific author.
+     * @param subAction Username of the song list creator.
+     * @return list of songs created by the subAction user.
+     */
     public ArrayList<Song_database> ShowSongListFrom(String subAction) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 

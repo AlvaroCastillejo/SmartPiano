@@ -20,6 +20,10 @@ public class MainMenuManager {
         Arrays.fill(hoursReproductions, 0);
     }
 
+    /**
+     * Refresh the UI in order to show the changes.
+     * @param updateReproductions Tells if this refresh is supposed to update the reproductions value.
+     */
     public void refreshUI(boolean updateReproductions) {
         if(updateReproductions){
             Date date = new Date();
@@ -34,7 +38,6 @@ public class MainMenuManager {
 
     public void deleteSong(String songID) {
         SQLOperations.deleteSong(songID);
-
         this.refreshUI(false);
     }
 }
