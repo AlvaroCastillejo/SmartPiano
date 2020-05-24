@@ -81,6 +81,10 @@ public class RegisterView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
+    /**
+     * Sets a button invisible.
+     * @param button The button to set invisible.
+     */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);

@@ -23,6 +23,7 @@ public class SongVisualization extends JFrame {
         songTopList = new ArrayList<Song_database>();
 
     }
+
     public void ImportSongList () throws SQLException {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 
@@ -116,7 +117,7 @@ public class SongVisualization extends JFrame {
     /**
      * Shows the whole song list .
      * @return List containg all songs from our database.
-     * @throws SQLException
+     * @throws SQLException If the connection couldn't be done.
      */
     public ArrayList<Song_database> ShowSongList () throws SQLException {
 

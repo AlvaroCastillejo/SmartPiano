@@ -36,6 +36,9 @@ public class DedicatedServer extends Thread {
         }
     }
 
+    /**
+     * Method in charg of receiving petitions and processing them.
+     */
     @Override
     public void run(){
         try{
@@ -311,6 +314,10 @@ public class DedicatedServer extends Thread {
         }
     }
 
+    /**
+     * Method that writes the bytes of a song into an actual file.
+     * @param songName The name of the song.
+     */
     private void foo(String songName) {
         try{
             InputStream is= socket.getInputStream();

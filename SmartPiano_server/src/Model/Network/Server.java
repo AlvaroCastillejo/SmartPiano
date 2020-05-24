@@ -30,6 +30,9 @@ public class Server extends Thread {
         connectedUsers = new HashMap<>();
     }
 
+    /**
+     * Method that receives clients and creates dedicated servers for them.
+     */
     @Override
     public void run(){
 
@@ -62,6 +65,9 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Tells the manager to refresh the UI.
+     */
     public void refreshUI() {
         this.m.refreshUI(true);
     }

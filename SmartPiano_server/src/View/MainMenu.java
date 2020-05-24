@@ -65,6 +65,10 @@ public class MainMenu extends JFrame {
         getContentPane().add(tabs);
     }
 
+    /**
+     * Creates the panel containing the TOP 5 most popular songs.
+     * @return Returns the panel created.
+     */
     private JPanel createTop5Pane() {
         JPanel generalPanel = new JPanel();
 
@@ -112,6 +116,12 @@ public class MainMenu extends JFrame {
         return generalPanel;
     }
 
+    /**
+     * Creates the JTable conatining the TOP 5.
+     * @param header The header of the table.
+     * @param rows The rows of the table.
+     * @return The table created.
+     */
     private JTable createJTable(String[] header, Object[][] rows){
         JTable table = new JTable();
         DefaultTableModel tablemodel = (DefaultTableModel) table.getModel();
@@ -126,6 +136,11 @@ public class MainMenu extends JFrame {
         return table;
     }
 
+    /**
+     * Creates the Graphics panel.
+     * @param hoursReproductions The array that contains the information of the reproductions by hours.
+     * @return The panel generated.
+     */
     private JPanel createGraphicsPane(double[] hoursReproductions) {
         JPanel panel2 = new JPanel();
         panel2.setLayout(null);
@@ -147,6 +162,12 @@ public class MainMenu extends JFrame {
         return panel2;
     }
 
+    /**
+     * Creates teh graph.
+     * @param isReproductionsGraph Tells if the graph to generate is about the minutes played or the number of reproductions.
+     * @param hoursReproductions The array that contains the information of the reproductions by hours.
+     * @return The panel created.
+     */
     private JPanel createAndShowGraph(boolean isReproductionsGraph, double[] hoursReproductions) {
         JPanel subPanel = new JPanel();
         List<Double> graphValues = new ArrayList<>();
@@ -181,6 +202,10 @@ public class MainMenu extends JFrame {
         return subPanel;
     }
 
+    /**
+     * Creates the Manage songs pane.
+     * @return The panel created.
+     */
     private JPanel createManageSongsPane() {
         JPanel panel1 = new JPanel();
         panel1.setLayout(null);
@@ -230,6 +255,10 @@ public class MainMenu extends JFrame {
         return panel1;
     }
 
+    /**
+     * Refreshes the UI.
+     * @param hoursReproductions The array that contains the information of the reproductions by hours.
+     */
     public void refresh(double[] hoursReproductions){
         this.panel1 = createManageSongsPane();
         this.panel2 = createGraphicsPane(hoursReproductions);
@@ -250,6 +279,10 @@ public class MainMenu extends JFrame {
         getContentPane().revalidate();
     }
 
+    /**
+     * Method that updates the graphs.
+     * @param hoursReproductions The array that contains the information of the reproductions by hours.
+     */
     public void refreshGraph(double[] hoursReproductions) {
         this.subPanel1 = createAndShowGraph(true, hoursReproductions);
         this.subPanel2 = createAndShowGraph(false, hoursReproductions);

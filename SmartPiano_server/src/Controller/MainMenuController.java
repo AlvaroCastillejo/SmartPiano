@@ -31,6 +31,10 @@ public class MainMenuController implements ActionListener {
         this.v = v;
     }
 
+    /**
+     * Tells the view to update the UI with the updated reproductions.
+     * @param hoursReproductions The updated reproductions.
+     */
     public void refreshUI(double[] hoursReproductions) {
         v.refresh(hoursReproductions);
     }

@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SQLOperations {
+    /**
+     * Adds a user to the database.
+     * @param name Name of the user.
+     * @param pass Password of the user.
+     * @param mail Mail of the user.
+     * @throws SQLException When connection couldn't be done.
+     */
     public static void ImportaUsuari(String name, String pass, String mail) throws SQLException {
         System.out.println("entro DB??");
 
@@ -28,6 +35,11 @@ public class SQLOperations {
 
     }
 
+    /**
+     * Checks if the user given already exists in the database.
+     * @param user The user given.
+     * @return If exists.
+     */
     public static int userAlreadyExists(User user) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 
@@ -53,6 +65,12 @@ public class SQLOperations {
         return -1;
     }
 
+    /**
+     * Find a user in the database.
+     * @param user The user to search.
+     * @return The status of the search.
+     * @throws SQLException If the connection couldn't be done.
+     */
     public static int findUser(User user) throws SQLException {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
 
@@ -67,6 +85,12 @@ public class SQLOperations {
         }
     }
 
+    /**
+     * Adds a song to the database.
+     * @param s Song to add.
+     * @return Status.
+     * @throws SQLException If the connection couldn't be done.
+     */
     public static int addSong(SavedSong s) throws SQLException{
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -98,6 +122,11 @@ public class SQLOperations {
         return false;
     }
 
+    /**
+     * Gets the friends from a given user.
+     * @param user The given user.
+     * @return The list of friends found.
+     */
     public static ArrayList<Friend> getFriendsFrom(User user) {
         ArrayList<Friend> friendList = new ArrayList<>();
 
@@ -121,6 +150,12 @@ public class SQLOperations {
         return friendList;
     }
 
+    /**
+     * Checks if two given users are friends.
+     * @param user One user.
+     * @param friendCode The name of the other user.
+     * @return If they are friends or not.
+     */
     public static boolean alreadyFriends(User user, String friendCode) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -138,6 +173,11 @@ public class SQLOperations {
         return false;
     }
 
+    /**
+     * Adds a friend to a user.
+     * @param user The user to add the friend to.
+     * @param friendCode The name of the friend to add.
+     */
     public static void addFriend(User user, String friendCode) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -146,6 +186,11 @@ public class SQLOperations {
         conn.insertQuery(query);
     }
 
+    /**
+     * Gets the email given a username.
+     * @param friendCode Username.
+     * @return The email.
+     */
     private static String getUserEmail(String friendCode) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -162,6 +207,10 @@ public class SQLOperations {
         return "null";
     }
 
+    /**
+     * Deletes the account from the database.
+     * @param subAction The name of the user to delete the account.
+     */
     public static void deleteAccount(String subAction) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -200,11 +249,6 @@ public class SQLOperations {
         return userSongList;
     }
 
-    /**
-     * Does a query in order to get the list of songs shown in the client friend's SongListView.
-     * @param friendUsername
-     * @return friendSongList
-     */
     public static ArrayList<Song_database> getSongsFromFriend(String friendUsername) {
         ArrayList<Song_database> friendSongList = new ArrayList<>();
 
@@ -232,6 +276,11 @@ public class SQLOperations {
         return friendSongList;
     }
 
+    /**
+     * Deletes a friend from a user.
+     * @param friendCode The friend to delete.
+     * @param userCode From who.
+     */
     public static void removeFriendFrom(String friendCode, String userCode) {
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
@@ -239,6 +288,10 @@ public class SQLOperations {
         conn.deleteQuery(query);
     }
 
+    /**
+     * Add minutes played to the database.
+     * @param user The user that added them.
+     */
     public static void addMinutesPlayed(User user) {
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Calendar calobj = Calendar.getInstance();
@@ -271,7 +324,7 @@ public class SQLOperations {
 
     /**
      * Updates the reproduction count of a song in our database.
-     * @param nameSong name of the song we just played.
+     * @param nameSong name of the song the user just played.
      */
     public static void updateReproduction(String nameSong){
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
@@ -283,10 +336,39 @@ public class SQLOperations {
         conn.updateQuery(query);
     }
 
+    /**
+     * Deletes song from the database.
+     * @param songID The ID of the song to delete.
+     */
     public static void deleteSong(String songID) {
+        if(getUserFromSongID(songID).equals("server")){
+            return;
+        }
         ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
         ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
         String query = "delete from Song where song_id like '"+ songID +"';";
         conn.deleteQuery(query);
+    }
+
+    /**
+     * Gets the author name of a song.
+     * @param songID The song ID.
+     * @return The username of the author.
+     */
+    public static String getUserFromSongID(String songID){
+        ServerConfiguration sc = JsonServerUtils.getServerConfiguration("config");
+        ConectorDB conn = new ConectorDB(sc.getDatabaseUser(), sc.getDatabasePassword(), sc.getDatabaseName(), sc.getDatabasePort(), "jdbc:mysql://localhost");
+        String query = "select * from song where song_id = " + songID + "";
+        ResultSet rs = conn.selectQuery(query);
+
+        try{
+            while (rs.next()){
+                int song_id = rs.getInt(1);
+                String song_name = rs.getString(2);
+                String author_name = rs.getString(3);
+                return author_name;
+            }
+        } catch (SQLException ignore){}
+        return "null";
     }
 }

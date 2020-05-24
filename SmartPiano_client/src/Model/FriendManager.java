@@ -27,6 +27,10 @@ public class FriendManager {
         return client;
     }
 
+    /**
+     * Tells the friendListController what was the response on the petition.
+     * @param s The response.
+     */
     public void sendResultFriendAdded(String s) {
         String[] result = s.split("/");
         switch (result[1]){
@@ -50,10 +54,18 @@ public class FriendManager {
         client.sendAction(s);
     }
 
+    /**
+     * Tells the controller to update the view with the new friendList.
+     * @param friends The new friendList.
+     */
     public void updateUI(ArrayList<Friend> friends) {
         c.updateUI(friends);
     }
 
+    /**
+     * Tells the controller if the deletion was successful or not. If it was asks the client to download the updated friendList.
+     * @param s The status of the deletion.
+     */
     public void sendResultFriendDeleted(String s) {
         String[] result = s.split("/");
         if(result[0].equals("true")){

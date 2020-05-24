@@ -15,6 +15,12 @@ public class MidiFileSequencer {
     public static Map<String, Note> notes_on;
     public static Map<String, Note> notes_off;
 
+    /**
+     * Method that processes a MIDI file to get the notes.
+     * @param fileName The MIDI file.
+     * @return A linkedList with the extracted notes.
+     * @throws Exception If any error in the midi file sequence.
+     */
     public static LinkedList<Note> getNotes(String fileName) throws Exception {
         notes = new LinkedList<>();
         notes_on = new HashMap<>();

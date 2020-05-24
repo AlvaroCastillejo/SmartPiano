@@ -30,12 +30,6 @@ public class KeyboardConfigurationController implements ActionListener, KeyListe
     public ActionListener getActionListeners(int i) { return actionListeners[i]; }
 
 
-    /*/**
-     * Constructor for the controller. It initializes the controller.
-     * @param v The view to control.
-     * @param introSong The background song that was playing in the ConfigurationMenu.
-     */
-
     public KeyboardConfigurationController( AudioPlayer introSong) {
         this.introSong = introSong;
         alreadyPressed = false;
@@ -67,6 +61,10 @@ public class KeyboardConfigurationController implements ActionListener, KeyListe
 
     }
 
+    /**
+     * Register when a key of the keyboard is pressed.
+     * @param keyEvent The information about the key.
+     */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         String command = "";

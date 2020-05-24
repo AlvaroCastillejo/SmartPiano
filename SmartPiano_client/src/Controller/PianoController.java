@@ -61,9 +61,37 @@ public class PianoController implements ActionListener, KeyListener {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        //String command = actionEvent.getActionCommand();
-        //Play the corresponding sound.
-        //new KeyPressed(v, command).start();
+        String keyCode = actionEvent.getActionCommand();
+        if(isRecordingPiano){
+            if((sustainingKeys.get(keyCode) == null)){
+                v.ascend(keyCode);
+            }
+        }
+
+        //If it wasn't sustaining...
+        if(sustainingKeys.get(keyCode) == null){
+            //Add the note to the current sustaining notes.
+            sustainingKeys.put(keyCode, new KeyPressed(v, keyCode));
+            sustainingKeys.get(keyCode).start();
+            v.pressButton(keyCode);
+            if(isRecordingPiano && startedRecording){
+                notePressed(keyCode);
+            }
+        } else {
+            v.cropAscendingNote(keyCode);
+            //Cut off the sustaining.
+            try{
+                sustainingKeys.get(keyCode).setSustaining(false);
+            } catch (NullPointerException e){
+                System.out.println();
+            }
+            //Remove it from the current sustaining notes.
+            sustainingKeys.remove(keyCode);
+            v.releaseButton(keyCode);
+            if(isRecordingPiano && startedRecording){
+                noteReleased(keyCode);
+            }
+        }
     }
 
     /**

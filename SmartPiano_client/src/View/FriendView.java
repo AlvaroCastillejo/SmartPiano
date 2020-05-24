@@ -74,6 +74,11 @@ public class FriendView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates the friendList from a given list.
+     * @param friendList The list of friends.
+     * @return The panel containing the list.
+     */
     public JPanel createFriendList(ArrayList<Friend> friendList) {
         JPanel toReturn = new JPanel();
         toReturn.setLayout(null);
@@ -86,6 +91,10 @@ public class FriendView extends JFrame {
         return toReturn;
     }
 
+    /**
+     * Updated the friend list with the new one.
+     * @param friendList The new friend list.
+     */
     public void updateUI(ArrayList<Friend> friendList){
         getContentPane().remove(listPanel);
         listPanel.removeAll();
@@ -110,7 +119,7 @@ public class FriendView extends JFrame {
 
     /**
      * Turns the JButton invisible.
-     * @param button
+     * @param button The button to make invisible.
      */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
@@ -123,23 +132,23 @@ public class FriendView extends JFrame {
         return jtFriendCode.getText();
     }
 
+    /**
+     * Tells the view the status of the friend addition.
+     * @param message The status.
+     * @param color The color of the status.
+     */
     public void addedStatus(String message, String color) {
         jlStatus.setText(message);
         if(color.equals("green")) jlStatus.setForeground(Color.GREEN);
         else jlStatus.setForeground(Color.RED);
         repaint();
-        /*int delay = 3000; //milliseconds
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jlStatus.setText("");
-                repaint();
-            }
-        };
-        Timer h = new Timer(delay, taskPerformer);
-        h.setRepeats(false);
-        h.start();*/
     }
 
+    /**
+     * Tells the view the status of the friend deletion.
+     * @param message The status.
+     * @param color The color of the status.
+     */
     public void deletedStatus(String message, String color) {
         jlStatus.setText(message);
         if(color.equals("green")) jlStatus.setForeground(Color.GREEN);

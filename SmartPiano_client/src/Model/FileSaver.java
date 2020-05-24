@@ -6,6 +6,10 @@ import java.io.File;
 
 public class FileSaver extends JFrame {
 
+    /**
+     * Shows a dialog window to save a file in the PC.
+     * @param f The file to save.
+     */
     public FileSaver(File f){
 
         LookAndFeel normal = UIManager.getLookAndFeel();

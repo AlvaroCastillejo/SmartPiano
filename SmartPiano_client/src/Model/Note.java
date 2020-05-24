@@ -60,6 +60,9 @@ public class Note extends Thread implements Serializable {
         this.gate = gate;
     }
 
+    /**
+     * When this thread is started the note will wait until it's his time to fall. Then it'll drop.
+     */
     @Override
     public void run(){
         try {

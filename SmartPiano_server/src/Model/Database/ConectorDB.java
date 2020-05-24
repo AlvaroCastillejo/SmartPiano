@@ -23,8 +23,6 @@ public class ConectorDB {
         ConectorDB.url += "?verifyServerCertificate=false&useSSL=true";
     }
 
-
-
     public boolean connect()  {
         try {
             Class.forName("com.mysql.jdbc.Connection");
@@ -45,7 +43,6 @@ public class ConectorDB {
         return false;
 
     }
-
 
     public void insertQuery(String query){
         try {

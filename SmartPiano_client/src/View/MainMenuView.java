@@ -39,7 +39,7 @@ public class MainMenuView extends JFrame {
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
         String f = new File("").getAbsolutePath();
-        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\menu.png"));
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\menuView.png"));
 
         //CREATE BUTTONS
         jbPlayPiano = new JButton(); //Play piano button
@@ -89,13 +89,14 @@ public class MainMenuView extends JFrame {
 
     }
 
+    /**
+     * Turns a button invisible.
+     * @param button The button to make invisible.
+     */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-
-
-
 }

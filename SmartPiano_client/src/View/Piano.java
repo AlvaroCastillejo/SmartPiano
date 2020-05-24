@@ -49,6 +49,8 @@ public class Piano extends JFrame {
      * The constructor for the Piano. It builds the simplest piano, without any information or control.
      * @param a The controller for the Piano.
      * @param toPlay The song to play if needed.
+     * @param songName The name of the song.
+     * @param locationOnScreen The last location on screen.
      */
     public Piano(PianoController a, Song toPlay, String songName, Point locationOnScreen) {
         this.pianoController = a;

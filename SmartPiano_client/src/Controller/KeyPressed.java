@@ -69,6 +69,14 @@ public class KeyPressed extends Thread{
         this.sustaining = sustaining;
     }
 
+    /**
+     * Simulates a fade in the audio clip.
+     * @param thread Where the sound clip is being played.
+     * @param volume The control for the volume of the clip.
+     * @param from Starting value.
+     * @param to Final value.
+     * @param milliseconds Time of the fade.
+     */
     public void shiftVolume(Thread thread, FloatControl volume, double from, double to, int milliseconds) {
         for(int i = 0; from > to; from--){
             volume.setValue(volume.getValue()-1);

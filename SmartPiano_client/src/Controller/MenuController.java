@@ -2,17 +2,17 @@ package Controller;
 
 
 import Model.*;
+import Model.Utils.Logic;
+import Model.Utils.Quicksort;
 import View.*;
-import com.sun.tools.javac.Main;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 //Controller for the MainMenu.
 public class MenuController implements ActionListener {
@@ -115,10 +115,26 @@ public class MenuController implements ActionListener {
         }
     }
 
+    /**
+     * MEthod that creates the songlist view.
+     * @param songList An ArrayList which contains all the songs found.
+     */
     public void showSongList(ArrayList<Song_database> songList){
+        Song_database[] a = new Song_database[songList.size()];
+        for (int i = 0; i < songList.size(); i++) {
+            a[i] = songList.get(i);
+        }
+
+        a = Quicksort.Quicksort(a, 0, a.length-1);
+        a = Logic.reverseSongList(a, a.length);
+
+        songList = new ArrayList<>();
+        songList.addAll(Arrays.asList(a));
+
+        ArrayList<Song_database> finalSongList = songList;
         SwingUtilities.invokeLater(() -> {
             SongListController c = new SongListController(backToMenu, introSong);
-            SongListView v = new SongListView(songList, c, locationOnScreen);
+            SongListView v = new SongListView(finalSongList, c, locationOnScreen);
             c.registerView(v);
             SongListManager m = new SongListManager(c,this.m.getClient());
             this.m.getClient().assignSongListManager(m);
@@ -132,6 +148,10 @@ public class MenuController implements ActionListener {
         this.m = m;
     }
 
+    /**
+     * Method that creates the friendlist view.
+     * @param friendList An ArrayList which contains all the friends found.
+     */
     public void sentFriendListToSend(FriendListToSend friendList) {
         SwingUtilities.invokeLater(() -> {
             ArrayList<Friend> list = friendList.getFriendList();

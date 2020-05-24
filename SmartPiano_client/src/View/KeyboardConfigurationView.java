@@ -166,7 +166,6 @@ public class KeyboardConfigurationView extends JFrame {
 
     }
 
-
     private JButton generateSustKey(int i){
         JButton sustKey = new JButton();
         sustKey.setBackground(Color.BLACK);
@@ -194,7 +193,7 @@ public class KeyboardConfigurationView extends JFrame {
 
     /**
      * Turns the JButton invisible.
-     * @param button
+     * @param button The button to turn invisible.
      */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
@@ -203,6 +202,10 @@ public class KeyboardConfigurationView extends JFrame {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+    /**
+     * Presses a button from the window.
+     * @param a The button to press.
+     */
     public void pressButton(String a){
         try{
             if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.DARK_GRAY);
@@ -210,7 +213,10 @@ public class KeyboardConfigurationView extends JFrame {
         } catch (NullPointerException ignore){}
     }
 
-
+    /**
+     * Releases a pressed button from the window.
+     * @param a The button to release.
+     */
     public void releaseButton(String a){
         try{
             if(a.startsWith("b")) ((JButton) keyboardMap.get(a)).setBackground(Color.BLACK);
@@ -218,6 +224,11 @@ public class KeyboardConfigurationView extends JFrame {
         } catch (NullPointerException ignore){}
     }
 
+    /**
+     * Displays information on the window.
+     * @param key The key selected.
+     * @param action The message.
+     */
     public void showInfoOn(String key, String action){
         switch (action){
             case "actionPerfomed":

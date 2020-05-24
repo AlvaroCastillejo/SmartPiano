@@ -134,6 +134,11 @@ public class FriendController implements ActionListener {
         this.v = v;
     }
 
+    /**
+     * Updates the status of the friend addition action.
+     * @param added If was successful or not.
+     * @param s The message.
+     */
     public void sendResultFriendAdded(boolean added, String s) {
         if(added){
             v.addedStatus(s, "green");

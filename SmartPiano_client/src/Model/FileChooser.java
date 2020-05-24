@@ -6,6 +6,10 @@ import java.io.File;
 
 public class FileChooser extends JFrame{
 
+    /**
+     * Shows a dialog window to choose a file from the PC.
+     * @return The file selected.
+     */
     public File FileChooser(){
 
         String filename = "";

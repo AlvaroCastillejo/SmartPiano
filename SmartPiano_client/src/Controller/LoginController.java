@@ -126,6 +126,10 @@ public class LoginController implements ActionListener, KeyListener {
 
     }
 
+    /**
+     * Registers when a key from the keyboard is pressed.
+     * @param keyEvent The information of the key pressed.
+     */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if(keyEvent.getKeyCode()==10){

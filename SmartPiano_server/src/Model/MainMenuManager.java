@@ -3,6 +3,7 @@ package Model;
 import Controller.MainMenuController;
 import Model.Database.SQLOperations;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,9 +15,7 @@ public class MainMenuManager {
     public MainMenuManager(MainMenuController c) {
         this.c = c;
         hoursReproductions = new double[24];
-        /*for(int i = 0; i < hoursReproductions.length; i++){
-            hoursReproductions[i] = i;
-        }*/
+
         Arrays.fill(hoursReproductions, 0);
     }
 
@@ -36,6 +35,10 @@ public class MainMenuManager {
         c.refreshUI(hoursReproductions);
     }
 
+    /**
+     * Deletes a song from the database and refreshed the UI.
+     * @param songID The song ID to delete.
+     */
     public void deleteSong(String songID) {
         SQLOperations.deleteSong(songID);
         this.refreshUI(false);

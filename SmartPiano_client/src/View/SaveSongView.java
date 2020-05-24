@@ -15,7 +15,6 @@ public class SaveSongView extends JFrame {
     private JComboBox<String> jcSongOptions;
     private JButton jbSaveSong;
 
-
     private int offset;
 
     public SaveSongView(){
@@ -73,7 +72,6 @@ public class SaveSongView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
-
     public void calltoAction(ActionListener a){
         jbSaveSong.addActionListener(a);
         jbSaveSong.setActionCommand("saveSong");
@@ -86,6 +84,9 @@ public class SaveSongView extends JFrame {
     }
     public String getPrivacy() { return jcSongOptions.getSelectedItem().toString();}
 
+    /**
+     * Tells the user if the name was already in use for another song.
+     */
     public void songNameAlreadyExists() {
         this.jtSongName.setBorder(BorderFactory.createLineBorder(Color.red));
     }

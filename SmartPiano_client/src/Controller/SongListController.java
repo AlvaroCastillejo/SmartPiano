@@ -21,6 +21,7 @@ public class SongListController implements ActionListener {
 
     /**
      * Constructor for the controller. It initializes the controller.
+     * @param backToMenu Tells if the view we had before was the menu or not.
      * @param introSong The background song that was playing in the MainMenu.
      */
     public SongListController(boolean backToMenu, AudioPlayer introSong) {
@@ -121,6 +122,11 @@ public class SongListController implements ActionListener {
         }
     }
 
+    /**
+     * Method that creates the piano view to play a song.
+     * @param notes The notes from the song.
+     * @param songName The name of the song.
+     */
     public void playSong(LinkedList<Note> notes, String songName){
         //this.locationOnScreen = this.v.getLocationOnScreen();
         v.setVisible(false);

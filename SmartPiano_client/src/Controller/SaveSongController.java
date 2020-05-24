@@ -52,6 +52,10 @@ public class SaveSongController implements ActionListener {
 
     }
 
+    /**
+     * Tells to the view if the name is already in use or not.
+     * @param b If the name is in use or not.
+     */
     private void processSongName(boolean b){
         if(b){
             v.songNameAlreadyExists();
@@ -61,7 +65,6 @@ public class SaveSongController implements ActionListener {
         }
     }
 
-    //
     public String getSongName(){return v.getSongName();}
 
     public void sendResultCheckSongName(boolean b) {

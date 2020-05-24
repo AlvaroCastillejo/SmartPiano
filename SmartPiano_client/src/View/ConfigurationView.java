@@ -70,6 +70,11 @@ public class ConfigurationView extends JFrame {
         jbDeleteAccount.addActionListener(al);
         jbDeleteAccount.setActionCommand("DeleteAccount");
     }
+
+    /**
+     * Makes a button invisible.
+     * @param button The button to make invisible.
+     */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);

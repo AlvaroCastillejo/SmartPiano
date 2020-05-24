@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import java.util.spi.AbstractResourceBundleProvider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,15 +19,11 @@ public class Song extends Thread {
     private LinkedList<Note> notes;
     private PianoController piano;
 
-    //***********
     private String songName;
     private String songId;
 
-    //***********
-
     private LinkedList<Note> threadedNotes;
 
-    //***********
     public String getSongName() {
         return songName;
     }
@@ -41,7 +36,6 @@ public class Song extends Thread {
         this.songName = name;
         this.songId = id;
     }
-    //***********
 
     /**
      * The class constructor. Plays the song by dropping the notes. Yet to be fully implemented.
@@ -58,6 +52,9 @@ public class Song extends Thread {
         System.out.println(duration);
     }
 
+    /**
+     * When a song is started it initializes all its notes and tell the to fall.
+     */
     @Override
     public void run(){
         int countdownMs = COUNTDOWN*1000;
@@ -83,6 +80,10 @@ public class Song extends Thread {
 
     }
 
+    /**
+     * Tells the pianoController to drop a note.
+     * @param note The note to drop.
+     */
     public void dropNote(Note note) {
         piano.drop(note);
     }

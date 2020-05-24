@@ -41,7 +41,7 @@ public class SongListView extends JFrame {
         jpBackground = new JPanelBackground();
         jpBackground.setLayout(null);
         String f = new File("").getAbsolutePath();
-        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\song-list.jpg"));
+        jpBackground.setBackground(f.concat("\\SmartPiano_client\\images\\songsView.png"));
 
         jbBack = new JButton(); //back to main menu or to friends
         setButtonInvisible(jbBack);
@@ -60,6 +60,11 @@ public class SongListView extends JFrame {
         getContentPane().add(jpBackground, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates the list with all the songs.
+     * @param songList The list of songs.
+     * @return The panel created.
+     */
     private JPanel createManageSongsPane(ArrayList<Song_database> songList) {
         JPanel panel1 = new JPanel();
         panel1.setLayout(null);
@@ -80,6 +85,10 @@ public class SongListView extends JFrame {
         jbPlaySong.setActionCommand("PlaySong");
     }
 
+    /**
+     * Sets the button invisible.
+     * @param button The button to set invisible.
+     */
     private void setButtonInvisible(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);

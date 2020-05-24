@@ -16,7 +16,6 @@ public class LoginView extends JFrame {
     private JPasswordField jpPassword;
     private JLabel jlError = new JLabel();
 
-
     private int offset;
 
     public LoginView(Point locationOnScreen){
@@ -93,6 +92,10 @@ public class LoginView extends JFrame {
         return String.valueOf(jpPassword.getPassword());
     }
 
+    /**
+     * Shows the error if any.
+     * @param error The error message.
+     */
     public void showErrorUser(String error) {
         jlError.setText(error);
     }
